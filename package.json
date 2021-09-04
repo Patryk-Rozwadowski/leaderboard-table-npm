@@ -1,0 +1,30 @@
+{
+  "name": "@patryk.rozwadowski/leaderboard",
+  "version": "1.0.0",
+  "description": "Simple leaderboard",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "start:dev": "tsc -w",
+    "prepublish": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Patryk-Rozwadowski/Leaderboard.git"
+  },
+  "keywords": [
+    "leaderboard",
+    "ranking",
+    "javascript",
+    "es6"
+  ],
+  "author": "Patryk Rozwadowski",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Patryk-Rozwadowski/Leaderboard/issues"
+  },
+  "homepage": "https://github.com/Patryk-Rozwadowski/Leaderboard#readme",
+  "devDependencies": {
+    "@types/node": "^16.7.10"
+  }
+}
