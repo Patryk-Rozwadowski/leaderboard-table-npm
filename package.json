@@ -6,7 +6,9 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "start:dev": "tsc -w",
-    "prepublish": "tsc"
+    "prepublish": "tsc && npm run test",
+    "prepare": "husky install",
+    "test": "echo \"TODO: implement tests\""
   },
   "repository": {
     "type": "git",
@@ -32,6 +34,7 @@
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-import": "^2.24.2",
     "prettier": "^2.3.2",
-    "typescript": "^4.4.2"
+    "typescript": "^4.4.2",
+    "husky": "^7.0.0"
   }
 }
