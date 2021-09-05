@@ -25,6 +25,7 @@
   },
   "homepage": "https://github.com/Patryk-Rozwadowski/Leaderboard#readme",
   "devDependencies": {
-    "@types/node": "^16.7.10"
+    "@types/node": "^16.7.10",
+    "prettier": "^2.3.2"
   }
 }
