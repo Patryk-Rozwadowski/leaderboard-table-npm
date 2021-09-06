@@ -16,18 +16,28 @@ const Leaderboard = function ({ rootContainer, data, options }: LeaderboardConfi
    let header: HTMLElement | string;
 
    function mount() {
+      const wrapper = document.createElement("div");
+      wrapper.classList.add("leaderboard");
+
       const headersText = ["Header First", "Header Second"];
       root = rootContainer;
 
+      const headersContainer = document.createElement("div");
+      headersContainer.classList.add("leaderboard__headers");
+
       const frag = document.createDocumentFragment();
       if (headerTags instanceof HTMLElement) return;
-
       headersText.map((header) => {
          const tag = document.createElement(headerTags);
          tag.textContent = header;
+         tag.classList.add("leaderboard__headers__text", "leaderboard__col");
          frag.appendChild(tag);
       });
-      root.appendChild(frag);
+
+      headersContainer.appendChild(frag);
+      wrapper.appendChild(headersContainer);
+
+      root.appendChild(wrapper);
    }
 
    function typeGuards() {
