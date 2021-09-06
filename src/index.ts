@@ -1,3 +1,4 @@
+import "./style.scss";
 interface LeaderboardConfig {
    rootContainer: HTMLElement;
    // TODO data types
@@ -12,9 +13,9 @@ const Leaderboard = function ({ rootContainer, data, options }: LeaderboardConfi
    const events = [];
    const { headerTags } = options;
    let root: HTMLElement;
+   let header: HTMLElement | string;
 
    function mount() {
-      let header: HTMLElement | string;
       const headersText = ["Header First", "Header Second"];
       root = rootContainer;
 

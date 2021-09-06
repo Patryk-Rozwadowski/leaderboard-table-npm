@@ -11,5 +11,10 @@
     "strict": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true
-  }
+  },
+  "baseUrl": "./src/index.ts",
+  "include": [
+    "./src/**/*",
+    "./tests/**/*"
+  ]
 }
