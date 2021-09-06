@@ -5,16 +5,14 @@ interface LeaderboardConfig {
    data: any;
    options: {
       headerTags: string | HTMLElement;
+      avatar: string;
    };
 }
 
-const Leaderboard = function ({ rootContainer, data, options }: LeaderboardConfig): void {
+const Leaderboard = function ({ rootContainer, data }: LeaderboardConfig): void {
    // TODO implement event system
    const events = [];
-   const { headerTags } = options;
    let root: HTMLElement;
-   let header: HTMLElement | string;
-
    function mount() {
       const wrapper = document.createElement("div");
       wrapper.classList.add("leaderboard");
@@ -26,12 +24,15 @@ const Leaderboard = function ({ rootContainer, data, options }: LeaderboardConfi
       headersContainer.classList.add("leaderboard__headers");
 
       const frag = document.createDocumentFragment();
-      if (headerTags instanceof HTMLElement) return;
-      headersText.map((header) => {
-         const tag = document.createElement(headerTags);
-         tag.textContent = header;
-         tag.classList.add("leaderboard__headers__text", "leaderboard__col");
-         frag.appendChild(tag);
+
+      // TODO handle headertags as HTMLElement
+      // if (headerTagType instanceof HTMLElement) return;
+
+      headersText.map((headerText) => {
+         const headerTag = document.createElement("h5");
+         headerTag.textContent = headerText;
+         headerTag.classList.add("leaderboard__headers__text", "leaderboard__col");
+         frag.appendChild(headerTag);
       });
 
       headersContainer.appendChild(frag);
