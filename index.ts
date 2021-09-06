@@ -1,24 +1,28 @@
 interface LeaderboardConfig {
    rootContainer: HTMLElement;
-
    // TODO data types
    data: any;
+   options: {
+      headerTags: string | HTMLElement;
+   };
 }
 
-const Leaderboard = function ({ rootContainer, data }: LeaderboardConfig): void {
+const Leaderboard = function ({ rootContainer, data, options }: LeaderboardConfig): void {
    // TODO implement event system
    const events = [];
+   const { headerTags } = options;
    let root: HTMLElement;
 
    function mount() {
+      let header: HTMLElement | string;
+      const headersText = ["Header First", "Header Second"];
       root = rootContainer;
+
       const frag = document.createDocumentFragment();
+      if (headerTags instanceof HTMLElement) return;
 
-      const headerTag = "h1";
-      const headers = ["Header First", "Header Second"];
-
-      headers.map((header) => {
-         let tag = document.createElement(headerTag);
+      headersText.map((header) => {
+         const tag = document.createElement(headerTags);
          tag.textContent = header;
          frag.appendChild(tag);
       });
