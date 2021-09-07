@@ -2,7 +2,12 @@ import "./style.scss";
 interface LeaderboardConfig {
    rootContainer: HTMLElement;
    // TODO data types
-   data: any;
+   data: [
+      {
+         place: number;
+         content: string;
+      }
+   ];
    options: {
       headerTags: string | HTMLElement;
       avatar: string;
@@ -13,11 +18,12 @@ const Leaderboard = function ({ rootContainer, data }: LeaderboardConfig): void 
    // TODO implement event system
    const events = [];
    let root: HTMLElement;
-   function mount() {
-      const wrapper = document.createElement("div");
-      wrapper.classList.add("leaderboard");
 
-      const headersText = ["Header First", "Header Second"];
+   function mount(): void {
+      const headersTextMOCK = ["Header First", "Header Second"];
+      const wrapper = document.createElement("div");
+
+      wrapper.classList.add("leaderboard");
       root = rootContainer;
 
       const headersContainer = document.createElement("div");
@@ -28,12 +34,14 @@ const Leaderboard = function ({ rootContainer, data }: LeaderboardConfig): void 
       // TODO handle headertags as HTMLElement
       // if (headerTagType instanceof HTMLElement) return;
 
-      headersText.map((headerText) => {
+      headersTextMOCK.map((headerText) => {
          const headerTag = document.createElement("h5");
          headerTag.textContent = headerText;
          headerTag.classList.add("leaderboard__headers__text", "leaderboard__col");
          frag.appendChild(headerTag);
       });
+
+      Object.entries((_: any, [key, val]: [any, any]) => {});
 
       headersContainer.appendChild(frag);
       wrapper.appendChild(headersContainer);
@@ -41,6 +49,7 @@ const Leaderboard = function ({ rootContainer, data }: LeaderboardConfig): void 
       root.appendChild(wrapper);
    }
 
+   // TODO change name
    function typeGuards() {
       if (
          typeof rootContainer === "undefined" ||
@@ -51,6 +60,8 @@ const Leaderboard = function ({ rootContainer, data }: LeaderboardConfig): void 
    }
 
    function init(): void {
+      console.log({ data });
+
       typeGuards();
       mount();
    }
