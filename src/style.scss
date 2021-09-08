@@ -1,3 +1,37 @@
+
+@mixin flex {
+  display: flex;
+}
+
+@mixin flex-center {
+  @include flex();
+  justify-content: center;
+  align-content: center;
+}
+
 .root {
-  background-color: red;
+  background-color: yellow;
+  border: 1px solid red;
+}
+.leaderboard {
+  background-color: yellowgreen;
+
+  &__headers {
+    display: flex;
+    flex-direction: row;
+
+    &__text {
+      font-size: 2em;
+    }
+  }
+
+  &__row {
+    @include flex-center();
+    flex-direction: row;
+  }
+
+  &__col {
+    @include flex-center();
+    flex-direction: column;
+  }
 }

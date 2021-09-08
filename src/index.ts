@@ -2,34 +2,54 @@ import "./style.scss";
 interface LeaderboardConfig {
    rootContainer: HTMLElement;
    // TODO data types
-   data: any;
+   data: [
+      {
+         place: number;
+         content: string;
+      }
+   ];
    options: {
       headerTags: string | HTMLElement;
+      avatar: string;
    };
 }
 
-const Leaderboard = function ({ rootContainer, data, options }: LeaderboardConfig): void {
+const Leaderboard = function ({ rootContainer, data }: LeaderboardConfig): void {
    // TODO implement event system
    const events = [];
-   const { headerTags } = options;
    let root: HTMLElement;
-   let header: HTMLElement | string;
 
-   function mount() {
-      const headersText = ["Header First", "Header Second"];
+   function mount(): void {
+      const headersTextMOCK = ["Header First", "Header Second"];
+      const wrapper = document.createElement("div");
+
+      wrapper.classList.add("leaderboard");
       root = rootContainer;
 
-      const frag = document.createDocumentFragment();
-      if (headerTags instanceof HTMLElement) return;
+      const headersContainer = document.createElement("div");
+      headersContainer.classList.add("leaderboard__headers");
 
-      headersText.map((header) => {
-         const tag = document.createElement(headerTags);
-         tag.textContent = header;
-         frag.appendChild(tag);
+      const frag = document.createDocumentFragment();
+
+      // TODO handle headertags as HTMLElement
+      // if (headerTagType instanceof HTMLElement) return;
+
+      headersTextMOCK.map((headerText) => {
+         const headerTag = document.createElement("h5");
+         headerTag.textContent = headerText;
+         headerTag.classList.add("leaderboard__headers__text", "leaderboard__col");
+         frag.appendChild(headerTag);
       });
-      root.appendChild(frag);
+
+      Object.entries((_: any, [key, val]: [any, any]) => {});
+
+      headersContainer.appendChild(frag);
+      wrapper.appendChild(headersContainer);
+
+      root.appendChild(wrapper);
    }
 
+   // TODO change name
    function typeGuards() {
       if (
          typeof rootContainer === "undefined" ||
@@ -40,6 +60,8 @@ const Leaderboard = function ({ rootContainer, data, options }: LeaderboardConfi
    }
 
    function init(): void {
+      console.log({ data });
+
       typeGuards();
       mount();
    }
