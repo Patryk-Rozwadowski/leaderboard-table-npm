@@ -1,4 +1,5 @@
 import "./style.scss";
+
 interface LeaderboardConfig {
    rootContainer: HTMLElement;
    // TODO data types
@@ -21,32 +22,43 @@ const Leaderboard = function ({ rootContainer, data }: LeaderboardConfig): void 
 
    function mount(): void {
       const headersTextMOCK = ["Header First", "Header Second"];
-      const wrapper = document.createElement("div");
-
-      wrapper.classList.add("leaderboard");
+      const leaderboardWrapper = document.createElement("div");
+      leaderboardWrapper.classList.add("leaderboard");
       root = rootContainer;
 
-      const headersContainer = document.createElement("div");
-      headersContainer.classList.add("leaderboard__headers");
+      const headerContainer = document.createElement("div");
+      headerContainer.classList.add("leaderboard__headers");
 
-      const frag = document.createDocumentFragment();
-
-      // TODO handle headertags as HTMLElement
-      // if (headerTagType instanceof HTMLElement) return;
+      const rowContainer = document.createElement("div");
+      rowContainer.classList.add("wrapper__row");
 
       headersTextMOCK.map((headerText) => {
          const headerTag = document.createElement("h5");
          headerTag.textContent = headerText;
          headerTag.classList.add("leaderboard__headers__text", "leaderboard__col");
-         frag.appendChild(headerTag);
+         headerContainer.appendChild(headerTag);
       });
 
-      Object.entries((_: any, [key, val]: [any, any]) => {});
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      Object.entries(data).map(([_, { content, place }]) => {
+         const wrapper = document.createElement("div");
+         wrapper.classList.add("leaderboard__row");
 
-      headersContainer.appendChild(frag);
-      wrapper.appendChild(headersContainer);
+         const placeText = document.createElement("p");
+         placeText.textContent = `${place}`;
 
-      root.appendChild(wrapper);
+         const contentText = document.createElement("p");
+         contentText.textContent = content;
+
+         wrapper.appendChild(contentText);
+         wrapper.appendChild(placeText);
+         rowContainer.appendChild(wrapper);
+      });
+
+      leaderboardWrapper.appendChild(headerContainer);
+      leaderboardWrapper.appendChild(rowContainer);
+
+      root.appendChild(leaderboardWrapper);
    }
 
    // TODO change name
@@ -62,7 +74,12 @@ const Leaderboard = function ({ rootContainer, data }: LeaderboardConfig): void 
    function init(): void {
       console.log({ data });
 
+      // FIRST PHASE
       typeGuards();
+
+      // PARSE DATA
+
+      // LAST PHASE
       mount();
    }
 

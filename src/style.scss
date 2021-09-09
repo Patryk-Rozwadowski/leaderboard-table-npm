@@ -35,3 +35,8 @@
     flex-direction: column;
   }
 }
+
+.wrapper__row {
+  @include flex();
+  flex-direction: column;
+}
