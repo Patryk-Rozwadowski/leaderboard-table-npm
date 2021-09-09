@@ -23,35 +23,37 @@ const Leaderboard = function ({ rootContainer, data }: LeaderboardConfig): void 
    function mount(): void {
       const headersTextMOCK = ["Header First", "Header Second"];
       const leaderboardWrapper = document.createElement("div");
-      leaderboardWrapper.classList.add("leaderboard");
+      leaderboardWrapper.classList.add("lb");
       root = rootContainer;
 
       const headerContainer = document.createElement("div");
-      headerContainer.classList.add("leaderboard__headers");
+      headerContainer.classList.add("lb_headers");
 
       const rowContainer = document.createElement("div");
-      rowContainer.classList.add("wrapper__row");
+      rowContainer.classList.add("lb_row_wrapper");
 
       headersTextMOCK.map((headerText) => {
          const headerTag = document.createElement("h5");
          headerTag.textContent = headerText;
-         headerTag.classList.add("leaderboard__headers__text", "leaderboard__col");
+         headerTag.classList.add("lb_headers_text", "lb_col");
          headerContainer.appendChild(headerTag);
       });
 
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      Object.entries(data).map(([_, { content, place }]) => {
+      Object.entries(data).map(([_, { place, content }]) => {
          const wrapper = document.createElement("div");
-         wrapper.classList.add("leaderboard__row");
+         wrapper.classList.add("lb_row");
 
-         const placeText = document.createElement("p");
-         placeText.textContent = `${place}`;
+         const placeNode = document.createElement("p");
+         placeNode.classList.add("lb_row_place");
+         placeNode.textContent = `${place}`;
 
-         const contentText = document.createElement("p");
-         contentText.textContent = content;
+         const contentNode = document.createElement("p");
+         contentNode.classList.add("lb_row_content");
+         contentNode.textContent = content;
 
-         wrapper.appendChild(contentText);
-         wrapper.appendChild(placeText);
+         wrapper.appendChild(placeNode);
+         wrapper.appendChild(contentNode);
          rowContainer.appendChild(wrapper);
       });
 

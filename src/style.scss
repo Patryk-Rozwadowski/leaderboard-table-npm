@@ -1,3 +1,4 @@
+$row-height: 100px;
 
 @mixin flex {
   display: flex;
@@ -6,37 +7,61 @@
 @mixin flex-center {
   @include flex();
   justify-content: center;
-  align-content: center;
+  align-items: center;
+}
+
+@mixin reset-mg-pd {
+  margin: 0;
+  padding: 0;
 }
 
 .root {
   background-color: yellow;
   border: 1px solid red;
 }
-.leaderboard {
+
+.lb {
   background-color: yellowgreen;
 
-  &__headers {
+  &_headers {
+    @include reset-mg-pd();
     display: flex;
     flex-direction: row;
 
-    &__text {
+    &_text {
       font-size: 2em;
     }
   }
 
-  &__row {
+  &_row {
+    @include reset-mg-pd();
     @include flex-center();
-    flex-direction: row;
+    padding: 0;
+    margin: 0;
+
+    &_place {
+      @include reset-mg-pd();
+      @include flex-center();
+      align-items: center;
+      width: 50px;
+      background-color: #fff;
+    }
+
+    &_content {
+      @include reset-mg-pd();
+      @include flex-center();
+      width: 100%;
+      background-color: #fff;
+    }
   }
 
-  &__col {
+  &_col {
     @include flex-center();
     flex-direction: column;
   }
 }
 
-.wrapper__row {
+.lb_row_wrapper {
   @include flex();
   flex-direction: column;
 }
