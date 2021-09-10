@@ -20,17 +20,9 @@ const Leaderboard = function ({ rootContainer, data }: LeaderboardConfig): void 
    const events = [];
    let root: HTMLElement;
 
-   function mount(): void {
-      const headersTextMOCK = ["Header First", "Header Second"];
-      const leaderboardWrapper = document.createElement("div");
-      leaderboardWrapper.classList.add("lb");
-      root = rootContainer;
-
+   function createHeaders(headersTextMOCK: string[]) {
       const headerContainer = document.createElement("div");
       headerContainer.classList.add("lb_headers");
-
-      const rowContainer = document.createElement("div");
-      rowContainer.classList.add("lb_row_wrapper");
 
       headersTextMOCK.map((headerText) => {
          const headerTag = document.createElement("h5");
@@ -38,6 +30,16 @@ const Leaderboard = function ({ rootContainer, data }: LeaderboardConfig): void 
          headerTag.classList.add("lb_headers_text", "lb_col");
          headerContainer.appendChild(headerTag);
       });
+      return headerContainer;
+   }
+
+   function rowOnClickHandler(e: Event) {
+      console.log(e.target);
+   }
+
+   function createRow() {
+      const rowContainer = document.createElement("div");
+      rowContainer.classList.add("lb_row_wrapper");
 
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       Object.entries(data).map(([_, { place, content }]) => {
@@ -54,9 +56,22 @@ const Leaderboard = function ({ rootContainer, data }: LeaderboardConfig): void 
 
          wrapper.appendChild(placeNode);
          wrapper.appendChild(contentNode);
+         wrapper.addEventListener("click", rowOnClickHandler);
          rowContainer.appendChild(wrapper);
       });
 
+      return rowContainer;
+   }
+
+   function mount(): void {
+      const headersTextMOCK = ["Header First", "Header Second"];
+      const headerContainer = createHeaders(headersTextMOCK);
+
+      const leaderboardWrapper = document.createElement("div");
+      leaderboardWrapper.classList.add("lb");
+      root = rootContainer;
+
+      const rowContainer = createRow();
       leaderboardWrapper.appendChild(headerContainer);
       leaderboardWrapper.appendChild(rowContainer);
 
