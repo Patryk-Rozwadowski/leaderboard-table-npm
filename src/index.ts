@@ -13,9 +13,14 @@ interface LeaderboardConfig {
       headerTags: string | HTMLElement;
       avatar: string;
    };
+   headers: string[];
 }
 
-const Leaderboard = function ({ rootContainer, data }: LeaderboardConfig): void {
+function compareNumbers(a: number, b: number) {
+   return a - b;
+}
+
+const Leaderboard = function ({ rootContainer, data, headers }: LeaderboardConfig): void {
    // TODO implement event system
    const events = [];
    let root: HTMLElement;
@@ -39,10 +44,11 @@ const Leaderboard = function ({ rootContainer, data }: LeaderboardConfig): void 
 
    function createRow() {
       const rowContainer = document.createElement("div");
+      const sortedDataByPlace = data.sort((a, b) => compareNumbers(a.place, b.place));
       rowContainer.classList.add("lb_row_wrapper");
 
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      Object.entries(data).map(([_, { place, content }]) => {
+      Object.entries(sortedDataByPlace).map(([_, { place, content }]) => {
          const wrapper = document.createElement("div");
          wrapper.classList.add("lb_row");
 
@@ -64,18 +70,16 @@ const Leaderboard = function ({ rootContainer, data }: LeaderboardConfig): void 
    }
 
    function mount(): void {
-      const headersTextMOCK = ["Header First", "Header Second"];
-      const headerContainer = createHeaders(headersTextMOCK);
+      const headerContainer = createHeaders(headers);
 
       const leaderboardWrapper = document.createElement("div");
       leaderboardWrapper.classList.add("lb");
-      root = rootContainer;
-
       const rowContainer = createRow();
+
       leaderboardWrapper.appendChild(headerContainer);
       leaderboardWrapper.appendChild(rowContainer);
 
-      root.appendChild(leaderboardWrapper);
+      rootContainer.appendChild(leaderboardWrapper);
    }
 
    // TODO change name
