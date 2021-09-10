@@ -34,6 +34,7 @@ $row-height: 100px;
   }
 
   &_row {
+    background-color: #fff;
     @include reset-mg-pd();
     @include flex-center();
     padding: 0;
@@ -44,15 +45,24 @@ $row-height: 100px;
       @include flex-center();
       align-items: center;
       width: 50px;
-      background-color: #fff;
+      height: 60px;
+      background-color: blue;
     }
 
     &_content {
       @include reset-mg-pd();
       @include flex-center();
       width: 100%;
-      background-color: #fff;
+      height: 60px;
+      margin-left: 50px;
+      background-color: yellow;
     }
+
+    &:hover {
+      background-color: red;
+      cursor: pointer;
+    }
+
   }
 
   &_col {
