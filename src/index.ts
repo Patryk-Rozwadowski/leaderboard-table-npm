@@ -1,4 +1,5 @@
 import "./style.scss";
+import { compareNumbers } from "./utils/compareNumbers";
 
 interface LeaderboardConfig {
    rootContainer: HTMLElement;
@@ -16,16 +17,17 @@ interface LeaderboardConfig {
    headers: string[];
 }
 
-function compareNumbers(a: number, b: number) {
-   return a - b;
-}
+class Leaderboard {
+   private readonly rootContainer;
+   private readonly headers;
+   private data;
+   constructor({ rootContainer, data, headers }: LeaderboardConfig) {
+      this.rootContainer = rootContainer;
+      this.data = data;
+      this.headers = headers;
+   }
 
-const Leaderboard = function ({ rootContainer, data, headers }: LeaderboardConfig): void {
-   // TODO implement event system
-   const events = [];
-   let root: HTMLElement;
-
-   function createHeaders(headersTextMOCK: string[]) {
+   private createHeaders(headersTextMOCK: string[]) {
       const headerContainer = document.createElement("div");
       headerContainer.classList.add("lb_headers");
 
@@ -38,16 +40,17 @@ const Leaderboard = function ({ rootContainer, data, headers }: LeaderboardConfi
       return headerContainer;
    }
 
-   function rowOnClickHandler(e: Event) {
+   private rowOnClickHandler(e: Event) {
       console.log(e.target);
    }
 
-   function createRow() {
+   private createRow() {
       const rowContainer = document.createElement("div");
-      const sortedDataByPlace = data.sort((a, b) => compareNumbers(a.place, b.place));
+      const sortedDataByPlace = this.data.sort(
+         (a: { place: number }, b: { place: number }) => compareNumbers(a.place, b.place)
+      );
       rowContainer.classList.add("lb_row_wrapper");
 
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       Object.entries(sortedDataByPlace).map(([_, { place, content }]) => {
          const wrapper = document.createElement("div");
          wrapper.classList.add("lb_row");
@@ -62,49 +65,47 @@ const Leaderboard = function ({ rootContainer, data, headers }: LeaderboardConfi
 
          wrapper.appendChild(placeNode);
          wrapper.appendChild(contentNode);
-         wrapper.addEventListener("click", rowOnClickHandler);
+         wrapper.addEventListener("click", this.rowOnClickHandler);
          rowContainer.appendChild(wrapper);
       });
 
       return rowContainer;
    }
 
-   function mount(): void {
-      const headerContainer = createHeaders(headers);
+   private mount(): void {
+      const headerContainer = this.createHeaders(this.headers);
 
       const leaderboardWrapper = document.createElement("div");
       leaderboardWrapper.classList.add("lb");
-      const rowContainer = createRow();
+      const rowContainer = this.createRow();
 
       leaderboardWrapper.appendChild(headerContainer);
       leaderboardWrapper.appendChild(rowContainer);
 
-      rootContainer.appendChild(leaderboardWrapper);
+      this.rootContainer.appendChild(leaderboardWrapper);
    }
 
    // TODO change name
-   function typeGuards() {
+   private typeGuards() {
       if (
-         typeof rootContainer === "undefined" ||
-         !(rootContainer instanceof HTMLElement)
+         typeof this.rootContainer === "undefined" ||
+         !(this.rootContainer instanceof HTMLElement)
       ) {
-         throw new Error(`Expected e to be an HTMLElement, was ${typeof rootContainer}.`);
+         throw new Error(
+            `Expected e to be an HTMLElement, was ${typeof this.rootContainer}.`
+         );
       }
    }
 
-   function init(): void {
-      console.log({ data });
-
+   public init(): void {
       // FIRST PHASE
-      typeGuards();
+      this.typeGuards();
 
       // PARSE DATA
 
       // LAST PHASE
-      mount();
+      this.mount();
    }
-
-   init();
-};
+}
 
 export default Leaderboard;
