@@ -1,9 +1,9 @@
 import "./style.scss";
-import { compareNumbers } from "./sorters/compareNumbers";
 import PhasesState from "./PhasesState";
 import Context from "./Context";
 import Mount from "./Phases/Mount";
 
+// TODO refactor leaderboardConfig interface
 interface LeaderboardConfig {
    rootContainer: HTMLElement;
    // TODO data types
@@ -20,46 +20,21 @@ interface LeaderboardConfig {
    headers: string[];
 }
 
-interface Phases {
-   parseInputs(): void;
-   mountSkeleton(): void;
-   parseData(): void;
-   update(): void;
-   render(): void;
-}
-
-interface Parser {
-   parseLeaderboardData(): void;
-}
-
-interface Sort {
-   sort(): void;
-}
-
-type ElementPlace = { place: number };
-
-class LeaderboardState {}
-
 class Leaderboard {
    private readonly rootContainer;
    private phasesContext: Context;
    private state: PhasesState;
    private data;
 
-   public setContext(context: Context) {
-      this.phasesContext = context;
-   }
-
-   public handle1(): void {}
-
+   // TODO refactor constructor types/params
    constructor({ rootContainer, data, headers }: LeaderboardConfig) {
       this.rootContainer = rootContainer;
       this.data = data;
-      // this.headers = headers;
       this.state = new PhasesState();
       this.phasesContext = new Context(new Mount(rootContainer, data));
    }
 
+   // TODO handle clicking on row
    private rowOnClickHandler(e: Event) {
       console.log(e.target);
    }
@@ -77,13 +52,7 @@ class Leaderboard {
    }
 
    public init(): void {
-      // FIRST PHASE
       this.typeGuards();
-
-      // PARSE DATA
-
-      // LAST PHASE
-      // this.mount();
    }
 }
 
