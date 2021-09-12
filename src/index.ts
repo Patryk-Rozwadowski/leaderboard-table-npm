@@ -1,5 +1,8 @@
 import "./style.scss";
-import { compareNumbers } from "./utils/compareNumbers";
+import { compareNumbers } from "./sorters/compareNumbers";
+import PhasesState from "./PhasesState";
+import Context from "./Context";
+import Mount from "./Phases/Mount";
 
 interface LeaderboardConfig {
    rootContainer: HTMLElement;
@@ -17,72 +20,48 @@ interface LeaderboardConfig {
    headers: string[];
 }
 
+interface Phases {
+   parseInputs(): void;
+   mountSkeleton(): void;
+   parseData(): void;
+   update(): void;
+   render(): void;
+}
+
+interface Parser {
+   parseLeaderboardData(): void;
+}
+
+interface Sort {
+   sort(): void;
+}
+
+type ElementPlace = { place: number };
+
+class LeaderboardState {}
+
 class Leaderboard {
    private readonly rootContainer;
-   private readonly headers;
+   private phasesContext: Context;
+   private state: PhasesState;
    private data;
+
+   public setContext(context: Context) {
+      this.phasesContext = context;
+   }
+
+   public handle1(): void {}
+
    constructor({ rootContainer, data, headers }: LeaderboardConfig) {
       this.rootContainer = rootContainer;
       this.data = data;
-      this.headers = headers;
-   }
-
-   private createHeaders(headersTextMOCK: string[]) {
-      const headerContainer = document.createElement("div");
-      headerContainer.classList.add("lb_headers");
-
-      headersTextMOCK.map((headerText) => {
-         const headerTag = document.createElement("h5");
-         headerTag.textContent = headerText;
-         headerTag.classList.add("lb_headers_text", "lb_col");
-         headerContainer.appendChild(headerTag);
-      });
-      return headerContainer;
+      // this.headers = headers;
+      this.state = new PhasesState();
+      this.phasesContext = new Context(new Mount(rootContainer, data));
    }
 
    private rowOnClickHandler(e: Event) {
       console.log(e.target);
-   }
-
-   private createRow() {
-      const rowContainer = document.createElement("div");
-      const sortedDataByPlace = this.data.sort(
-         (a: { place: number }, b: { place: number }) => compareNumbers(a.place, b.place)
-      );
-      rowContainer.classList.add("lb_row_wrapper");
-
-      Object.entries(sortedDataByPlace).map(([_, { place, content }]) => {
-         const wrapper = document.createElement("div");
-         wrapper.classList.add("lb_row");
-
-         const placeNode = document.createElement("p");
-         placeNode.classList.add("lb_row_place");
-         placeNode.textContent = `${place}`;
-
-         const contentNode = document.createElement("p");
-         contentNode.classList.add("lb_row_content");
-         contentNode.textContent = content;
-
-         wrapper.appendChild(placeNode);
-         wrapper.appendChild(contentNode);
-         wrapper.addEventListener("click", this.rowOnClickHandler);
-         rowContainer.appendChild(wrapper);
-      });
-
-      return rowContainer;
-   }
-
-   private mount(): void {
-      const headerContainer = this.createHeaders(this.headers);
-
-      const leaderboardWrapper = document.createElement("div");
-      leaderboardWrapper.classList.add("lb");
-      const rowContainer = this.createRow();
-
-      leaderboardWrapper.appendChild(headerContainer);
-      leaderboardWrapper.appendChild(rowContainer);
-
-      this.rootContainer.appendChild(leaderboardWrapper);
    }
 
    // TODO change name
@@ -104,7 +83,7 @@ class Leaderboard {
       // PARSE DATA
 
       // LAST PHASE
-      this.mount();
+      // this.mount();
    }
 }
 
