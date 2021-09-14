@@ -17,6 +17,10 @@ class Context implements ContextActions {
       this.state = state;
       this.state.setContext(this);
    }
+
+   public mount() {
+      this.state.mount();
+   }
 }
 
 export default Context;

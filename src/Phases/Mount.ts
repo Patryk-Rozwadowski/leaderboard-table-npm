@@ -4,17 +4,18 @@ import ParseData from "./ParseData";
 
 class Mount extends PhasesState {
    [x: string]: any;
+
    rootContainer: HTMLElement;
 
    constructor(rootContainer: HTMLElement, data: any) {
       super();
       this.rootContainer = rootContainer;
       this.data = data;
-      this.mount();
    }
 
    public mount(): void {
       console.log(this.context);
+      debugger;
       const headersTextMOCK = ["Header First", "Header Second"];
 
       const headerContainer = this.createHeaders(headersTextMOCK);

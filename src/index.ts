@@ -1,5 +1,4 @@
 import "./style.scss";
-import PhasesState from "./PhasesState";
 import Context from "./Context";
 import Mount from "./Phases/Mount";
 
@@ -23,14 +22,12 @@ interface LeaderboardConfig {
 class Leaderboard {
    private readonly rootContainer;
    private phasesContext: Context;
-   private state: PhasesState;
    private data;
 
    // TODO refactor constructor types/params
    constructor({ rootContainer, data, headers }: LeaderboardConfig) {
       this.rootContainer = rootContainer;
       this.data = data;
-      this.state = new PhasesState();
       this.phasesContext = new Context(new Mount(rootContainer, data));
    }
 
@@ -53,6 +50,7 @@ class Leaderboard {
 
    public init(): void {
       this.typeGuards();
+      this.phasesContext.mount();
    }
 }
 

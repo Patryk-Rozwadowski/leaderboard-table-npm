@@ -10,6 +10,8 @@ class PhasesState implements StateActions {
    public setContext(context: Context): void {
       this.context = context;
    }
+
+   public mount() {}
 }
 
 export { StateActions };
