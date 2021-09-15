@@ -1,6 +1,6 @@
-import { compareNumbers } from "../sorters/compareNumbers";
-import PhasesState from "../PhasesState";
-import ParseData from "./ParseData";
+import { compareNumbers } from "../../sorters/compareNumbers";
+import PhasesState from "../../PhasesState";
+import ParseData from "../ParseData/ParseData";
 
 class Mount extends PhasesState {
    [x: string]: any;

@@ -1,4 +1,4 @@
-import PhasesState from "../PhasesState";
+import PhasesState from "../../PhasesState";
 
 class ParseData extends PhasesState {}
 
