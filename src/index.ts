@@ -1,6 +1,7 @@
 import "./style.scss";
-import Context from "./Context";
-import Mount from "./Phases/Mount";
+import PhasesContext from "./PhasesContext";
+import Mount from "./Phases/Mount/Mount";
+import PhasesState from "./PhasesState";
 
 // TODO refactor leaderboardConfig interface
 interface LeaderboardConfig {
@@ -21,14 +22,16 @@ interface LeaderboardConfig {
 
 class Leaderboard {
    private readonly rootContainer;
-   private phasesContext: Context;
+   private phasesContext: PhasesContext;
    private data;
 
    // TODO refactor constructor types/params
    constructor({ rootContainer, data, headers }: LeaderboardConfig) {
       this.rootContainer = rootContainer;
       this.data = data;
-      this.phasesContext = new Context(new Mount(rootContainer, data));
+      this.phasesContext = new PhasesContext(
+         new Mount(rootContainer, data) as unknown as PhasesState
+      );
    }
 
    // TODO handle clicking on row

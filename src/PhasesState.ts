@@ -1,13 +1,13 @@
-import Context from "./Context";
+import PhasesContext from "./PhasesContext";
 
 interface StateActions {
-   setContext(context: Context): void;
+   setContext(context: PhasesContext): void;
 }
 
 class PhasesState implements StateActions {
-   protected context: Context;
+   protected context: PhasesContext;
 
-   public setContext(context: Context): void {
+   public setContext(context: PhasesContext): void {
       this.context = context;
    }
 

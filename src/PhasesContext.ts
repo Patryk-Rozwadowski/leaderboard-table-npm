@@ -4,12 +4,15 @@ interface ContextActions {
    transitionTo(state: PhasesState): void;
 }
 
-class Context implements ContextActions {
+type PhaseContextActions = {
+   mount(): void;
+} & ContextActions;
+
+class PhasesContext implements PhaseContextActions {
    private state: PhasesState;
 
    constructor(state: PhasesState) {
       this.transitionTo(state);
-      console.log({ state });
    }
 
    public transitionTo(state: PhasesState): void {
@@ -18,9 +21,9 @@ class Context implements ContextActions {
       this.state.setContext(this);
    }
 
-   public mount() {
+   public mount(): void {
       this.state.mount();
    }
 }
 
-export default Context;
+export default PhasesContext;
