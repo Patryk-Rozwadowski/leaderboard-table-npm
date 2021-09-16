@@ -1,31 +1,27 @@
 import { compareNumbers } from "../../sorters/compareNumbers";
 import PhasesState from "../../PhasesState";
 import ParseData from "../ParseData/ParseData";
+import Headers from "../../Components/Headers/Headers.component";
 
 class Mount extends PhasesState {
    [x: string]: any;
 
-   rootContainer: HTMLElement;
-
-   constructor(rootContainer: HTMLElement, data: any) {
+   constructor(
+      private rootContainer: HTMLElement,
+      private data: any,
+      private headers: string[]
+   ) {
       super();
       this.rootContainer = rootContainer;
-      this.data = data;
    }
 
    public mount(): void {
-      console.log(this.context);
-      const headersTextMOCK = ["Header First", "Header Second"];
-
-      const headerContainer = this.createHeaders(headersTextMOCK);
-
       const leaderboardWrapper = document.createElement("div");
       leaderboardWrapper.classList.add("lb");
       const rowContainer = this.createRow();
 
-      leaderboardWrapper.appendChild(headerContainer);
       leaderboardWrapper.appendChild(rowContainer);
-
+      this.context.transitionTo(new Headers(this.rootContainer, this.headers));
       this.rootContainer.appendChild(leaderboardWrapper);
       this.context.transitionTo(new ParseData());
    }
@@ -58,19 +54,6 @@ class Mount extends PhasesState {
       });
 
       return rowContainer;
-   }
-
-   private createHeaders(headersTextMOCK: string[]) {
-      const headerContainer = document.createElement("div");
-      headerContainer.classList.add("lb_headers");
-
-      headersTextMOCK.map((headerText) => {
-         const headerTag = document.createElement("h5");
-         headerTag.textContent = headerText;
-         headerTag.classList.add("lb_headers_text", "lb_col");
-         headerContainer.appendChild(headerTag);
-      });
-      return headerContainer;
    }
 }
 

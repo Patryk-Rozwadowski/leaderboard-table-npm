@@ -23,14 +23,12 @@ interface LeaderboardConfig {
 class Leaderboard {
    private readonly rootContainer;
    private phasesContext: PhasesContext;
-   private data;
 
    // TODO refactor constructor types/params
    constructor({ rootContainer, data, headers }: LeaderboardConfig) {
       this.rootContainer = rootContainer;
-      this.data = data;
       this.phasesContext = new PhasesContext(
-         new Mount(rootContainer, data) as unknown as PhasesState
+         new Mount(rootContainer, data, headers) as unknown as PhasesState
       );
    }
 
