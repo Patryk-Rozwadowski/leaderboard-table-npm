@@ -1,7 +1,7 @@
-import "./style.scss";
-import PhasesContext from "./PhasesContext";
+import PhasesContext from "./Phases/Context/PhasesContext";
 import Mount from "./Phases/Mount/Mount";
 import PhasesState from "./PhasesState";
+import "./style.scss";
 
 // TODO refactor leaderboardConfig interface
 interface LeaderboardConfig {
@@ -39,7 +39,6 @@ class Leaderboard {
       console.log(e.target);
    }
 
-   // TODO change name
    private typeGuards() {
       if (
          typeof this.rootContainer === "undefined" ||

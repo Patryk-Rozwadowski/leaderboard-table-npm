@@ -1,17 +1,11 @@
-import PhasesState from "./PhasesState";
+import PhasesState from "../../PhasesState";
+import { PhaseContextActions } from "./Phases.types";
 
-interface ContextActions {
-   transitionTo(state: PhasesState): void;
-}
-
-type PhaseContextActions = {
-   mount(): void;
-} & ContextActions;
-
-class PhasesContext implements PhaseContextActions {
+class PhasesContext extends PhasesState implements PhaseContextActions {
    private state: PhasesState;
 
    constructor(state: PhasesState) {
+      super();
       this.transitionTo(state);
    }
 

@@ -15,7 +15,6 @@ class Mount extends PhasesState {
 
    public mount(): void {
       console.log(this.context);
-      debugger;
       const headersTextMOCK = ["Header First", "Header Second"];
 
       const headerContainer = this.createHeaders(headersTextMOCK);
