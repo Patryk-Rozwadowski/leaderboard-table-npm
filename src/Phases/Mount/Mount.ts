@@ -1,7 +1,32 @@
-import { compareNumbers } from "../../sorters/compareNumbers";
 import PhasesState from "../../PhasesState";
-import ParseData from "../ParseData/ParseData";
 import Headers from "../../components/Headers/Headers.component";
+import { SEMANTIC_TAGS } from "../../components/style/common.enum";
+import Row from "../../components/Row/Row.component";
+
+// interface leaderboardElement {
+//    render(): void;
+//
+//    mount(): void;
+//
+//    prepareElements(): HTMLElement;
+// }
+//
+// abstract class Creator {
+//    public abstract factoryMethod(): Headers;
+//
+//    public someOperation(): string {
+//       // Call the factory method to create a Product object.
+//       const product = this.factoryMethod();
+//       // Now, use the product.
+//       return `Creator: The same creator's code has just worked with ${product.operation()}`;
+//    }
+// }
+//
+// class Row extends Creator {}
+
+enum LEADERBOARD_CLASS_STYLE {
+   LEADERBOARD = "lb"
+}
 
 class Mount extends PhasesState {
    [x: string]: any;
@@ -16,44 +41,18 @@ class Mount extends PhasesState {
    }
 
    public mount(): void {
-      const leaderboardWrapper = document.createElement("div");
-      leaderboardWrapper.classList.add("lb");
+      const leaderboardWrapper = document.createElement(
+         SEMANTIC_TAGS.CONTAINER_LEADERBOARD
+      );
+      leaderboardWrapper.classList.add(LEADERBOARD_CLASS_STYLE.LEADERBOARD);
+
       const rowContainer = this.createRow();
 
       leaderboardWrapper.appendChild(rowContainer);
       this.context.transitionTo(new Headers(this.rootContainer, this.headers));
       this.rootContainer.appendChild(leaderboardWrapper);
-      this.context.transitionTo(new ParseData());
-   }
 
-   private createRow() {
-      const rowContainer = document.createElement("div");
-      const sortedDataByPlace = this.data.sort(
-         (a: { place: number }, b: { place: number }) => compareNumbers(a.place, b.place)
-      );
-      rowContainer.classList.add("lb_row_wrapper");
-
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      Object.entries(sortedDataByPlace).map(([_, { place, content }]) => {
-         const wrapper = document.createElement("div");
-         wrapper.classList.add("lb_row");
-
-         const placeNode = document.createElement("p");
-         placeNode.classList.add("lb_row_place");
-         placeNode.textContent = `${place}`;
-
-         const contentNode = document.createElement("p");
-         contentNode.classList.add("lb_row_content");
-         contentNode.textContent = content;
-
-         wrapper.appendChild(placeNode);
-         wrapper.appendChild(contentNode);
-         wrapper.addEventListener("click", this.rowOnClickHandler);
-         rowContainer.appendChild(wrapper);
-      });
-
-      return rowContainer;
+      this.context.transitionTo(new Row(this.data.data));
    }
 }
 

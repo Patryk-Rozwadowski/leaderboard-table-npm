@@ -35,14 +35,10 @@ class Leaderboard {
          this.logger.info(`Data is not defined. Pass leaderboard information.`);
          return;
       }
+
       this.phasesContext = new PhasesContext(
          new Mount(rootContainer, data, headers) as unknown as PhasesState
       );
-   }
-
-   // TODO handle clicking on row
-   private rowOnClickHandler(e: Event) {
-      console.log(e.target);
    }
 
    private typeGuards() {

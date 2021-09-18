@@ -1,5 +1,7 @@
 enum SEMANTIC_TAGS {
-   CONTAINER_PRIMARY = "div"
+   CONTAINER_LEADERBOARD = "main",
+   CONTAINER_PRIMARY = "div",
+   CONTAINER_ROW = "div"
 }
 
 enum COMMON_STYLE_CLASS {
