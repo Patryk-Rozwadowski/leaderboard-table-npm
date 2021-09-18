@@ -1,7 +1,7 @@
 import { compareNumbers } from "../../sorters/compareNumbers";
 import PhasesState from "../../PhasesState";
 import ParseData from "../ParseData/ParseData";
-import Headers from "../../Components/Headers/Headers.component";
+import Headers from "../../components/Headers/Headers.component";
 
 class Mount extends PhasesState {
    [x: string]: any;
