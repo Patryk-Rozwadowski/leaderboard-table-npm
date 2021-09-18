@@ -1,6 +1,7 @@
-import PhasesContext from "./Phases/Context/PhasesContext";
-import Mount from "./Phases/Mount/Mount";
+import PhasesContext from "./phases/Context/PhasesContext";
+import Mount from "./phases/Mount/Mount";
 import PhasesState from "./PhasesState";
+import Logger from "./common/Logger";
 import "./style.scss";
 
 // TODO refactor leaderboardConfig interface
@@ -23,10 +24,17 @@ interface LeaderboardConfig {
 class Leaderboard {
    private readonly rootContainer;
    private phasesContext: PhasesContext;
+   private logger: Logger;
 
    // TODO refactor constructor types/params
    constructor({ rootContainer, data, headers }: LeaderboardConfig) {
       this.rootContainer = rootContainer;
+      this.logger = new Logger(this);
+
+      if (!Array.isArray(data) || data.length < 1) {
+         this.logger.info(`Data is not defined. Pass leaderboard information.`);
+         return;
+      }
       this.phasesContext = new PhasesContext(
          new Mount(rootContainer, data, headers) as unknown as PhasesState
       );

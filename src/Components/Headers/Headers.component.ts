@@ -1,14 +1,18 @@
 import PhasesState from "../../PhasesState";
 
 class Headers extends PhasesState {
+   logger: Logger;
+
    constructor(private root: HTMLElement, private headersText?: string[] | undefined) {
       super();
+      this.logger = new Logger(Headers);
       this.createHeaders();
    }
 
    private createHeaders() {
       console.log(`Headers exists: ${!!this.headersText}`);
 
+      this.logger.info(`Headers exists: ${!!this.headersText}`);
       if (!this.headersText) {
          return;
       }
