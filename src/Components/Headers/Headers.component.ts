@@ -1,4 +1,10 @@
 import PhasesState from "../../PhasesState";
+import Logger from "../../common/Logger";
+import { COMMON_STYLE_CLASS, SEMANTIC_TAGS } from "../style/common.enum";
+
+enum HEADERS_STYLE_CLASS {
+   CONTAINER = "lb_headers"
+}
 
 class Headers extends PhasesState {
    logger: Logger;
@@ -10,21 +16,22 @@ class Headers extends PhasesState {
    }
 
    private createHeaders() {
-      console.log(`Headers exists: ${!!this.headersText}`);
-
       this.logger.info(`Headers exists: ${!!this.headersText}`);
       if (!this.headersText) {
          return;
       }
 
-      const headerContainer = document.createElement("div");
-      headerContainer.classList.add("lb_headers");
+      const headerContainer = document.createElement(SEMANTIC_TAGS.CONTAINER_PRIMARY);
+      headerContainer.classList.add(HEADERS_STYLE_CLASS.CONTAINER);
 
       this.headersText?.map((headerText) => {
          // TODO createElement: dynamic tag defined by user
          const headerTag = document.createElement("h5");
          headerTag.textContent = headerText;
-         headerTag.classList.add("lb_headers_text", "lb_col");
+         headerTag.classList.add(
+            COMMON_STYLE_CLASS.TEXT_PRIMARY,
+            COMMON_STYLE_CLASS.COLUMN
+         );
          headerContainer.appendChild(headerTag);
       });
 

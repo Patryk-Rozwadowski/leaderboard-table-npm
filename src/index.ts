@@ -2,7 +2,7 @@ import PhasesContext from "./phases/Context/PhasesContext";
 import Mount from "./phases/Mount/Mount";
 import PhasesState from "./PhasesState";
 import Logger from "./common/Logger";
-import "./style.scss";
+import "./components/style/style.scss";
 
 // TODO refactor leaderboardConfig interface
 interface LeaderboardConfig {
