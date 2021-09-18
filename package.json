@@ -29,6 +29,7 @@
   },
   "homepage": "https://github.com/Patryk-Rozwadowski/Leaderboard#readme",
   "devDependencies": {
+    "@testing-library/jest-dom": "^5.14.1",
     "@types/jest": "^27.0.1",
     "@types/jsdom": "^16.2.13",
     "@types/node": "^16.7.10",
