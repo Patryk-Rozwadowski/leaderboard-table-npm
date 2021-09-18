@@ -1,3 +1,10 @@
+.idea
+.husky
 .husky
 .prettierrc
 .eslintrc.json
+tsconfig
+webpack.config.js
+eslintrc.json
+jest.config.ts
+**/?(*.)+(test).ts
