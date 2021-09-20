@@ -22,7 +22,7 @@ import Row from "../../components/Row/Row.component";
 //    }
 // }
 //
-// class Row extends Creator {}
+import Rows from "../../components/Row/Row.component";
 
 enum LEADERBOARD_CLASS_STYLE {
    LEADERBOARD = "lb"
@@ -44,15 +44,12 @@ class Mount extends PhasesState {
       const leaderboardWrapper = document.createElement(
          SEMANTIC_TAGS.CONTAINER_LEADERBOARD
       );
+
       leaderboardWrapper.classList.add(LEADERBOARD_CLASS_STYLE.LEADERBOARD);
 
-      const rowContainer = this.createRow();
-
-      leaderboardWrapper.appendChild(rowContainer);
+      this.context.transitionTo(new Rows(leaderboardWrapper, this.data));
       this.context.transitionTo(new Headers(this.rootContainer, this.headers));
       this.rootContainer.appendChild(leaderboardWrapper);
-
-      this.context.transitionTo(new Row(this.data.data));
    }
 }
 

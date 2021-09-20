@@ -17,13 +17,18 @@ class Row extends PhasesState {
 
    private rowOnClickHandler(e: Event) {
       console.log(e.target);
+class Rows extends PhasesState implements LeaderboardElement {
+   constructor(private rootContainer: HTMLElement, private rowData: string[]) {
+      super();
+      this.render();
    }
 
-   private createRow() {
+   public render(): void {
       const rowContainer = document.createElement(SEMANTIC_TAGS.CONTAINER_ROW);
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      const sortedDataByPlace = this.rowData.data.sort(
+
+      const sortedDataByPlace = this.rowData.sort(
+         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+         // @ts-ignore
          (a: { place: number }, b: { place: number }) => compareNumbers(a.place, b.place)
       );
       rowContainer.classList.add(ROW_CLASS_STYLE.CONTAINER_ROW_LIST);
@@ -47,9 +52,12 @@ class Row extends PhasesState {
          wrapper.addEventListener("click", this.rowOnClickHandler);
          rowContainer.appendChild(wrapper);
       });
+      this.rootContainer.appendChild(rowContainer);
+   }
 
-      return rowContainer;
+   private rowOnClickHandler(e: Event) {
+      console.log(e.target);
    }
 }
 
-export default Row;
+export default Rows;
