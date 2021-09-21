@@ -9,15 +9,7 @@ enum ROW_CLASS_STYLE {
    CONTENT = "lb_row_content"
 }
 
-class Row extends PhasesState {
-   constructor(private rowData: string[]) {
-      super();
-      this.createRow();
-   }
-
-   private rowOnClickHandler(e: Event) {
-      console.log(e.target);
-class Rows extends PhasesState implements LeaderboardElement {
+class Rows extends PhasesState {
    constructor(private rootContainer: HTMLElement, private rowData: string[]) {
       super();
       this.render();
