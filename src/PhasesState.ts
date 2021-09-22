@@ -9,7 +9,9 @@ abstract class PhasesState implements StateActions, PhaseStateAction {
       this.context = context;
    }
 
-   public mount(): void {}
+   public abstract mount(): void;
+
+   public abstract parseData(): void;
 }
 
 export default PhasesState;

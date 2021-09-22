@@ -1,6 +1,5 @@
 import { SEMANTIC_TAGS } from "../style/common.enum";
 import { compareNumbers } from "../../sorters/compareNumbers";
-import PhasesState from "../../PhasesState";
 
 enum ROW_CLASS_STYLE {
    CONTAINER_ROW_LIST = "lb_row_wrapper",
@@ -9,9 +8,8 @@ enum ROW_CLASS_STYLE {
    CONTENT = "lb_row_content"
 }
 
-class Rows extends PhasesState {
+class Rows {
    constructor(private rootContainer: HTMLElement, private rowData: string[]) {
-      super();
       this.render();
    }
 

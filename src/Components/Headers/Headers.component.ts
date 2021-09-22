@@ -1,4 +1,3 @@
-import PhasesState from "../../PhasesState";
 import Logger from "../../common/Logger";
 import { COMMON_STYLE_CLASS, SEMANTIC_TAGS } from "../style/common.enum";
 
@@ -6,12 +5,11 @@ enum HEADERS_STYLE_CLASS {
    CONTAINER = "lb_headers"
 }
 
-class Headers extends PhasesState {
+class Headers {
    logger: Logger;
 
    constructor(private root: HTMLElement, private headersText?: string[] | undefined) {
-      super();
-      this.logger = new Logger(Headers);
+      this.logger = new Logger(this);
       this.createHeaders();
    }
 

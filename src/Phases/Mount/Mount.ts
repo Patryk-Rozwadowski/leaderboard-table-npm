@@ -28,7 +28,7 @@ enum LEADERBOARD_CLASS_STYLE {
    LEADERBOARD = "lb"
 }
 
-class Mount extends PhasesState {
+class Mount {
    [x: string]: any;
 
    constructor(
@@ -36,7 +36,6 @@ class Mount extends PhasesState {
       private data: any,
       private headers: string[]
    ) {
-      super();
       this.rootContainer = rootContainer;
    }
 
