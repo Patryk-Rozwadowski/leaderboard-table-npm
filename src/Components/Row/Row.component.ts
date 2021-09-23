@@ -13,7 +13,7 @@ class Rows {
       this.render();
    }
 
-   public render(): void {
+   public render(): any {
       const rowContainer = document.createElement(SEMANTIC_TAGS.CONTAINER_ROW);
 
       const sortedDataByPlace = this.rowData.sort(
@@ -42,7 +42,7 @@ class Rows {
          wrapper.addEventListener("click", this.rowOnClickHandler);
          rowContainer.appendChild(wrapper);
       });
-      this.rootContainer.appendChild(rowContainer);
+      return rowContainer;
    }
 
    private rowOnClickHandler(e: Event) {

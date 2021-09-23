@@ -1,5 +1,3 @@
-import PhasesState from "../../PhasesState";
-
-class ParseData extends PhasesState {}
+class ParseData {}
 
 export default ParseData;

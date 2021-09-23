@@ -9,7 +9,7 @@ class PhasesContext extends PhasesState implements PhaseContextActions {
       this.transitionTo(state);
    }
 
-   public transitionTo(state: PhasesState): void {
+   public transitionTo(state: any): void {
       console.log(`Context: Transition to ${state.constructor.name}`);
       this.state = state;
       this.state.setContext(this);
@@ -17,6 +17,10 @@ class PhasesContext extends PhasesState implements PhaseContextActions {
 
    public mount(): void {
       this.state.mount();
+   }
+
+   public parseData(): void {
+      this.state.parseData();
    }
 }
 

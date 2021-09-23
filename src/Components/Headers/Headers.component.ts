@@ -10,10 +10,9 @@ class Headers {
 
    constructor(private root: HTMLElement, private headersText?: string[] | undefined) {
       this.logger = new Logger(this);
-      this.createHeaders();
    }
 
-   private createHeaders() {
+   public render(): any {
       this.logger.info(`Headers exists: ${!!this.headersText}`);
       if (!this.headersText) {
          return;
@@ -33,7 +32,7 @@ class Headers {
          headerContainer.appendChild(headerTag);
       });
 
-      this.root.appendChild(headerContainer);
+      return headerContainer;
    }
 }
 
