@@ -6,14 +6,14 @@ enum HEADERS_STYLE_CLASS {
 }
 
 class Headers {
-   logger: Logger;
+   _logger: Logger;
 
    constructor(private root: HTMLElement, private headersText?: string[] | undefined) {
-      this.logger = new Logger(this);
+      this._logger = new Logger(this);
    }
 
    public render(): any {
-      this.logger.info(`Headers exists: ${!!this.headersText}`);
+      this._logger.info(`Headers exists: ${!!this.headersText}`);
       if (!this.headersText) {
          return;
       }
@@ -21,7 +21,7 @@ class Headers {
       const headerContainer = document.createElement(SEMANTIC_TAGS.CONTAINER_PRIMARY);
       headerContainer.classList.add(HEADERS_STYLE_CLASS.CONTAINER);
 
-      this.headersText?.map((headerText) => {
+      this.headersText.map((headerText) => {
          // TODO createElement: dynamic tag defined by user
          const headerTag = document.createElement("h5");
          headerTag.textContent = headerText;

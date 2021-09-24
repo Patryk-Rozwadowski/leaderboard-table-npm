@@ -9,14 +9,14 @@ enum ROW_CLASS_STYLE {
 }
 
 class Rows {
-   constructor(private rootContainer: HTMLElement, private rowData: string[]) {
+   constructor(private _rootContainer: HTMLElement, private _rowData: string[]) {
       this.render();
    }
 
    public render(): any {
       const rowContainer = document.createElement(SEMANTIC_TAGS.CONTAINER_ROW);
 
-      const sortedDataByPlace = this.rowData.sort(
+      const sortedDataByPlace = this._rowData.sort(
          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
          // @ts-ignore
          (a: { place: number }, b: { place: number }) => compareNumbers(a.place, b.place)

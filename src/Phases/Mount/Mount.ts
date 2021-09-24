@@ -32,30 +32,27 @@ class Mount extends PhasesState {
       throw new Error("Method not implemented.");
    }
 
-   [x: string]: any;
-
    constructor(
-      private rootContainer: HTMLElement,
-      private data: any,
-      private headers: string[]
+      private readonly _rootContainer: HTMLElement,
+      private _data: any,
+      private _headers: string[]
    ) {
       super();
-      this.rootContainer = rootContainer;
    }
 
    public mount(): void {
-      const rows = new Rows(this.rootContainer, this.data);
-      const headers = new Headers(this.rootContainer, this.headers);
+      const rows = new Rows(this._rootContainer, this._data);
+      const headers = new Headers(this._rootContainer, this._headers);
       const leaderboardWrapper = document.createElement(
          SEMANTIC_TAGS.CONTAINER_LEADERBOARD
       );
 
       leaderboardWrapper.classList.add(LEADERBOARD_CLASS_STYLE.LEADERBOARD);
 
-      this.rootContainer.appendChild(headers.render());
-      this.rootContainer.appendChild(rows.render());
+      this._rootContainer.appendChild(headers.render());
+      this._rootContainer.appendChild(rows.render());
 
-      this.rootContainer.appendChild(leaderboardWrapper);
+      this._rootContainer.appendChild(leaderboardWrapper);
    }
 }
 
