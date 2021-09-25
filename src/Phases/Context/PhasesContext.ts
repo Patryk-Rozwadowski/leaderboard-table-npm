@@ -10,7 +10,8 @@ class PhasesContext extends PhasesState implements PhaseContextActions {
    }
 
    public transitionTo(state: any): void {
-      console.log(`Context: Transition to ${state.constructor.name}`);
+      const contextName = state.constructor.name;
+      console.log(`Context: Transition to ${contextName}`);
       this._state = state;
       this._state.setContext(this);
    }

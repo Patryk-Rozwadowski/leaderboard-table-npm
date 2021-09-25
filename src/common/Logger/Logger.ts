@@ -1,5 +1,5 @@
 class Logger {
-   constructor(private _context: any) {}
+   constructor(private _context: { new (...args: any[]): any }) {}
 
    public info(msg: string): void {
       const contextName = this._context.constructor.name;

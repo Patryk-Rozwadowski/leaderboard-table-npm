@@ -1,8 +1,9 @@
 import PhasesContext from "./phases/Context/PhasesContext";
 import Mount from "./phases/Mount/Mount";
 import PhasesState from "./PhasesState";
-import Logger from "./common/Logger";
+import Logger from "./common/Logger/Logger";
 import "./components/style/style.scss";
+import { Newable } from "./common/common.types";
 
 // TODO refactor leaderboardConfig interface
 interface LeaderboardConfig {
@@ -22,39 +23,39 @@ interface LeaderboardConfig {
 }
 
 class Leaderboard {
-   private readonly rootContainer;
-   private phasesContext: PhasesContext;
-   private logger: Logger;
+   private readonly _rootContainer;
+   private _phasesContext: PhasesContext;
+   private _logger: Logger;
 
    // TODO refactor constructor types/params
    constructor({ rootContainer, data, headers }: LeaderboardConfig) {
-      this.rootContainer = rootContainer;
-      this.logger = new Logger(this);
+      this._rootContainer = rootContainer;
+      this._logger = new Logger(this as unknown as Newable);
 
       if (!Array.isArray(data) || data.length < 1) {
-         this.logger.info(`Data is not defined. Pass leaderboard information.`);
+         this._logger.info(`Data is not defined. Pass leaderboard information.`);
          return;
       }
 
-      this.phasesContext = new PhasesContext(
+      this._phasesContext = new PhasesContext(
          new Mount(rootContainer, data, headers) as unknown as PhasesState
       );
    }
 
    private typeGuards() {
       if (
-         typeof this.rootContainer === "undefined" ||
-         !(this.rootContainer instanceof HTMLElement)
+         typeof this._rootContainer === "undefined" ||
+         !(this._rootContainer instanceof HTMLElement)
       ) {
          throw new Error(
-            `Expected e to be an HTMLElement, was ${typeof this.rootContainer}.`
+            `Expected e to be an HTMLElement, was ${typeof this._rootContainer}.`
          );
       }
    }
 
    public init(): void {
       this.typeGuards();
-      this.phasesContext.mount();
+      this._phasesContext.mount();
    }
 }
 
