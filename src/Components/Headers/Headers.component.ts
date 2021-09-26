@@ -11,6 +11,7 @@ class Headers {
 
    constructor(private root: HTMLElement, private headersText?: string[] | undefined) {
       this._logger = new Logger(this as unknown as Newable);
+      this._logger.log(`Creating headers.`);
    }
 
    public render(): HTMLElement {

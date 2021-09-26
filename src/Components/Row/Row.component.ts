@@ -13,7 +13,7 @@ class Rows {
       this.render();
    }
 
-   public render(): any {
+   public render(): HTMLElement {
       const rowContainer = document.createElement(SEMANTIC_TAGS.CONTAINER_ROW);
 
       const sortedDataByPlace = this._rowData.sort(
