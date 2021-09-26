@@ -32,7 +32,7 @@ class Leaderboard {
       this._rootContainer = rootContainer;
       this._logger = new Logger(this as unknown as Newable);
 
-      if (!Array.isArray(data) || data.length < 1) {
+      if (!Array.isArray(data) || data) {
          this._logger.info(`Data is not defined. Pass leaderboard information.`);
          return;
       }

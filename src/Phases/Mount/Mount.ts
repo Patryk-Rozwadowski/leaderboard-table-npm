@@ -22,12 +22,17 @@ import { SEMANTIC_TAGS } from "../../components/style/common.enum";
 import Rows from "../../components/Row/Row.component";
 import PhasesState from "../../PhasesState";
 import Headers from "../../components/Headers/Headers.component";
+import Logger from "../../common/Logger/Logger";
+import { SEMANTIC_TAGS } from "../../components/style/common.enum";
+import { Newable } from "../../common/common.types";
 
 enum LEADERBOARD_CLASS_STYLE {
    LEADERBOARD = "lb"
 }
 
 class Mount extends PhasesState {
+   private _logger: Logger;
+
    public parseData(): void {
       throw new Error("Method not implemented.");
    }
@@ -38,6 +43,7 @@ class Mount extends PhasesState {
       private _headers: string[]
    ) {
       super();
+      this._logger = new Logger(this as unknown as Newable);
    }
 
    public mount(): void {
@@ -49,7 +55,11 @@ class Mount extends PhasesState {
 
       leaderboardWrapper.classList.add(LEADERBOARD_CLASS_STYLE.LEADERBOARD);
 
-      this._rootContainer.appendChild(headers.render());
+      if (this._headers) {
+         this._logger.info(`Headers exists: ${!!this._headers}`);
+         this._rootContainer.appendChild(headers.render());
+      }
+
       this._rootContainer.appendChild(rows.render());
 
       this._rootContainer.appendChild(leaderboardWrapper);

@@ -13,16 +13,11 @@ class Headers {
       this._logger = new Logger(this as unknown as Newable);
    }
 
-   public render(): any {
-      this._logger.info(`Headers exists: ${!!this.headersText}`);
-      if (!this.headersText) {
-         return;
-      }
-
+   public render(): HTMLElement {
       const headerContainer = document.createElement(SEMANTIC_TAGS.CONTAINER_PRIMARY);
       headerContainer.classList.add(HEADERS_STYLE_CLASS.CONTAINER);
 
-      this.headersText.map((headerText) => {
+      this.headersText?.map((headerText) => {
          // TODO createElement: dynamic tag defined by user
          const headerTag = document.createElement("h5");
          headerTag.textContent = headerText;

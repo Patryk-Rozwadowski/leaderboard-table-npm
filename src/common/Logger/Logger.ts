@@ -1,5 +1,7 @@
+import { Newable } from "../common.types";
+
 class Logger {
-   constructor(private _context: { new (...args: any[]): any }) {}
+   constructor(private _context: Newable) {}
 
    public info(msg: string): void {
       const contextName = this._context.constructor.name;
