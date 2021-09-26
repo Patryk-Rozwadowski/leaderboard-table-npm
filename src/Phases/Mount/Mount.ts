@@ -1,24 +1,3 @@
-import { SEMANTIC_TAGS } from "../../components/style/common.enum";
-
-// interface leaderboardElement {
-//    render(): void;
-//
-//    mount(): void;
-//
-//    prepareElements(): HTMLElement;
-// }
-//
-// abstract class Creator {
-//    public abstract factoryMethod(): Headers;
-//
-//    public someOperation(): string {
-//       // Call the factory method to create a Product object.
-//       const product = this.factoryMethod();
-//       // Now, use the product.
-//       return `Creator: The same creator's code has just worked with ${product.operation()}`;
-//    }
-// }
-//
 import Rows from "../../components/Row/Row.component";
 import PhasesState from "../../PhasesState";
 import Headers from "../../components/Headers/Headers.component";
