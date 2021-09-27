@@ -14,12 +14,7 @@ class Mount extends PhasesState {
    private _rows: Rows;
    private _headers: Headers;
    private _logger: Logger;
-
    private _componentToMount: HTMLElement[] = [];
-
-   public parseData(): void {
-      throw new Error("Method not implemented.");
-   }
 
    constructor(
       private readonly _rootContainer: HTMLElement,
@@ -36,7 +31,11 @@ class Mount extends PhasesState {
       this._leaderboardWrapper.classList.add(LEADERBOARD_CLASS_STYLE.LEADERBOARD);
    }
 
-   public mount(): void {
+   public execute2(): void {
+      this._logger.log("Parsedata handling");
+   }
+
+   public execute(): void {
       if (this._headerTexts) {
          this._headers = new Headers(this._rootContainer, this._headerTexts);
          this.addComponentToMount(this._headers.render());

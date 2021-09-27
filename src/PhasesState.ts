@@ -5,13 +5,11 @@ import { StateActions } from "./phases/types";
 abstract class PhasesState implements StateActions, PhaseStateAction {
    protected context: PhasesContext;
 
-   public setContext(context: PhasesContext): void {
+   public setContext(context: any): void {
       this.context = context;
    }
 
-   public abstract mount(): void;
-
-   public abstract parseData(): void;
+   public abstract execute(): void;
 }
 
 export default PhasesState;

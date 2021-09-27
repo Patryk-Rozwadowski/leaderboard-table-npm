@@ -1,9 +1,9 @@
 import PhasesContext from "./phases/Context/PhasesContext";
 import Mount from "./phases/Mount/Mount";
-import PhasesState from "./PhasesState";
 import Logger from "./common/Logger/Logger";
-import "./components/style/style.scss";
+import ParseData from "./phases/ParseData/ParseData";
 import { Newable } from "./common/common.types";
+import "./components/style/style.scss";
 
 // TODO refactor leaderboardConfig interface
 interface LeaderboardConfig {
@@ -37,9 +37,7 @@ class Leaderboard {
          return;
       }
 
-      this._phasesContext = new PhasesContext(
-         new Mount(rootContainer, data, headers) as unknown as PhasesState
-      );
+      this._phasesContext = new PhasesContext(new Mount(rootContainer, data, headers));
    }
 
    private typeGuards() {
@@ -55,7 +53,10 @@ class Leaderboard {
 
    public init(): void {
       this.typeGuards();
-      this._phasesContext.mount();
+      this._phasesContext.execute();
+
+      this._phasesContext.transitionTo(new ParseData());
+      this._phasesContext.execute();
    }
 }
 

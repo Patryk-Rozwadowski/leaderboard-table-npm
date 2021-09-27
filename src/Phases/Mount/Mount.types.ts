@@ -1,7 +1,7 @@
 import { StateActions } from "../types";
 
 type PhaseStateAction = StateActions & {
-   mount(): void;
+   execute(): void;
 };
 
 export { PhaseStateAction };

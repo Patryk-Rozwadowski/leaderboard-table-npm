@@ -1,8 +1,7 @@
 import { ContextActions } from "../types";
 
 type PhaseContextActions = {
-   mount(): void;
-   parseData(): void;
+   execute(): void;
 } & ContextActions;
 
 export { PhaseContextActions };

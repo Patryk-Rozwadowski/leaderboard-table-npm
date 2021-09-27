@@ -16,12 +16,8 @@ class PhasesContext extends PhasesState implements PhaseContextActions {
       this._state.setContext(this);
    }
 
-   public mount(): void {
-      this._state.mount();
-   }
-
-   public parseData(): void {
-      this._state.parseData();
+   public execute(): void {
+      this._state.execute();
    }
 }
 
