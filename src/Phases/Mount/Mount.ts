@@ -47,6 +47,7 @@ class Mount extends PhasesState {
       this._componentToMount.map((component) => {
          this._rootContainer.appendChild(component);
       });
+      this._logger.log(`${this._componentToMount.length} components mounted.`);
    }
 
    private addComponentToMount(component: HTMLElement) {

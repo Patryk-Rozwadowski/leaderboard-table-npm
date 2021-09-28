@@ -26,6 +26,8 @@ class Leaderboard {
    private readonly _rootContainer;
    private _phasesContext: PhasesContext;
    private _logger: Logger;
+   private _data: any;
+   private _headers: any;
 
    // TODO refactor constructor types/params
    constructor({ rootContainer, data, headers }: LeaderboardConfig) {
@@ -36,8 +38,10 @@ class Leaderboard {
          this._logger.log(`Data is not defined. Pass leaderboard information.`);
          return;
       }
-
-      this._phasesContext = new PhasesContext(new Mount(rootContainer, data, headers));
+      this._data = data;
+      this._headers = headers;
+      this._phasesContext = new PhasesContext(new ParseData());
+      this._phasesContext.execute();
    }
 
    private typeGuards() {
@@ -53,9 +57,10 @@ class Leaderboard {
 
    public init(): void {
       this.typeGuards();
-      this._phasesContext.execute();
 
-      this._phasesContext.transitionTo(new ParseData());
+      this._phasesContext.transitionTo(
+         new Mount(this._rootContainer, this._data, this._headers)
+      );
       this._phasesContext.execute();
    }
 }
