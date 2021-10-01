@@ -16,8 +16,8 @@ class PhasesContext extends PhasesState implements PhaseContextActions {
       this._state.setContext(this);
    }
 
-   public execute(): void {
-      this._state.execute();
+   public execute(): any {
+      return this._state.execute();
    }
 }
 

@@ -9,7 +9,7 @@ import "./components/style/style.scss";
 interface LeaderboardConfig {
    rootContainer: HTMLElement;
    // TODO data types
-   data: [
+   leaderboardData: [
       {
          place: number;
          content: string;
@@ -26,24 +26,25 @@ class Leaderboard {
    private readonly _rootContainer;
    private _phasesContext: PhasesContext;
    private _logger: Logger;
-   private _data: any;
+   private _parsedData: any;
    private _headers: any;
 
    // TODO refactor constructor types/params
-   constructor({ rootContainer, data, headers, options }: LeaderboardConfig) {
+   constructor({ rootContainer, leaderboardData, headers, options }: LeaderboardConfig) {
       this._rootContainer = rootContainer;
       this._logger = new Logger(this as unknown as Newable);
       this._headers = headers;
 
       this._phasesContext = new PhasesContext(
-         new ParseData(rootContainer, data, options)
+         new ParseData(rootContainer, leaderboardData, options)
       );
-      this._phasesContext.execute();
    }
 
    public init(): void {
+      this._parsedData = this._phasesContext.execute();
+
       this._phasesContext.transitionTo(
-         new Mount(this._rootContainer, this._data, this._headers)
+         new Mount(this._rootContainer, this._parsedData, this._headers)
       );
       this._phasesContext.execute();
    }

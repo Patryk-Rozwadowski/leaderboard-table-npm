@@ -9,7 +9,7 @@ abstract class PhasesState implements StateActions, PhaseStateAction {
       this.context = context;
    }
 
-   public abstract execute(): void;
+   public abstract execute(): any;
 }
 
 export default PhasesState;
