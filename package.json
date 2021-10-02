@@ -8,7 +8,7 @@
     "build": "webpack",
     "build:watch": "webpack --watch",
     "start:dev": "tsc -w",
-    "prepublish": "tsc && npm run test",
+    "prepublish": "tsc",
     "prepare": "husky install",
     "test": "jest"
   },

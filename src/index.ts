@@ -3,23 +3,23 @@ import Mount from "./phases/Mount/Mount";
 import Logger from "./common/Logger/Logger";
 import ParseData from "./phases/ParseData/ParseData";
 import { Newable } from "./common/common.types";
+import { HeadersOptions } from "./Components/Headers/Headers.types";
+import { Row } from "./Components/Row/Row.types";
 import "./components/style/style.scss";
 
-// TODO refactor leaderboardConfig interface
+interface LeaderboardOptions {
+   headerTags: string | HTMLElement;
+   logs: boolean;
+}
+
 interface LeaderboardConfig {
    rootContainer: HTMLElement;
-   // TODO data types
-   leaderboardData: [
-      {
-         place: number;
-         content: string;
-      }
-   ];
-   options: {
-      headerTags: string | HTMLElement;
-      avatar: string;
+   leaderboardData: Row[];
+   options: LeaderboardOptions;
+   headers: {
+      text: string | string[];
+      options: HeadersOptions;
    };
-   headers: string[];
 }
 
 class Leaderboard {
@@ -29,12 +29,11 @@ class Leaderboard {
    private _parsedData: any;
    private _headers: any;
 
-   // TODO refactor constructor types/params
    constructor({ rootContainer, leaderboardData, headers, options }: LeaderboardConfig) {
       this._rootContainer = rootContainer;
       this._logger = new Logger(this as unknown as Newable);
-      this._headers = headers;
 
+      this._headers = headers.text;
       this._phasesContext = new PhasesContext(
          new ParseData(rootContainer, leaderboardData, options)
       );
