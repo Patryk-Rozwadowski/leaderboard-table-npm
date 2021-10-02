@@ -1,5 +1,5 @@
-import PhasesContext from "./phases/Context/PhasesContext";
-import { PhaseStateAction } from "./phases/Mount/Mount.types";
+import PhasesContext from "./phases/context/phases/PhasesContext";
+import { PhaseStateAction } from "./phases/mount/types";
 import { StateActions } from "./phases/types";
 
 abstract class PhasesState implements StateActions, PhaseStateAction {

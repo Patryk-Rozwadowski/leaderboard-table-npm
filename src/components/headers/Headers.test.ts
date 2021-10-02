@@ -1,4 +1,4 @@
-import Headers from "./Headers.component";
+import Headers from "./Headers";
 import { MOCK_HEADERS_TEXT } from "../../__mocks__/inputs";
 
 describe("Header component", () => {

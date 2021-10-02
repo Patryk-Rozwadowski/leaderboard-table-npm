@@ -1,4 +1,4 @@
-import { ContextActions } from "../types";
+import { ContextActions } from "../../types";
 
 type PhaseContextActions = {
    execute(): void;

@@ -1,10 +1,10 @@
-import PhasesContext from "./phases/Context/PhasesContext";
-import Mount from "./phases/Mount/Mount";
+import PhasesContext from "./phases/context/phases/PhasesContext";
+import Mount from "./phases/mount/Mount";
 import Logger from "./common/Logger/Logger";
-import ParseData from "./phases/ParseData/ParseData";
+import ParseData from "./phases/parseData/ParseData";
 import { Newable } from "./common/common.types";
-import { HeadersOptions } from "./Components/Headers/Headers.types";
-import { Row } from "./Components/Row/Row.types";
+import { HeadersOptions } from "./components/headers/types";
+import { Row } from "./components/row/types";
 import "./components/style/style.scss";
 
 interface LeaderboardOptions {

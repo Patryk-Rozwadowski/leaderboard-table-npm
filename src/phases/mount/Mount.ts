@@ -1,6 +1,6 @@
-import Rows from "../../components/Row/Row.component";
+import Rows from "../../components/row/Row";
 import PhasesState from "../../PhasesState";
-import Headers from "../../components/Headers/Headers.component";
+import Headers from "../../components/headers/Headers";
 import Logger from "../../common/Logger/Logger";
 import { SEMANTIC_TAGS } from "../../components/style/common.enum";
 import { Newable } from "../../common/common.types";
