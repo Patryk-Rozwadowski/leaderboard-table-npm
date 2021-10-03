@@ -31,10 +31,6 @@ class Mount extends PhasesState {
       this._leaderboardWrapper.classList.add(LEADERBOARD_CLASS_STYLE.LEADERBOARD);
    }
 
-   public execute2(): void {
-      this._logger.log("Parsedata handling");
-   }
-
    public execute(): void {
       if (this._headerTexts) {
          this._headers = new Headers(this._rootContainer, this._headerTexts);
