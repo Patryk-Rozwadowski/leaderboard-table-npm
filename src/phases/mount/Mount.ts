@@ -4,6 +4,7 @@ import Headers from "../../components/headers/Headers";
 import Logger from "../../common/Logger/Logger";
 import { SEMANTIC_TAGS } from "../../components/style/common.enum";
 import { Newable } from "../../common/common.types";
+import ElementCreator from "../../factories/LeaderboardElement";
 
 enum LEADERBOARD_CLASS_STYLE {
    LEADERBOARD = "lb"
@@ -14,6 +15,7 @@ class Mount extends PhasesState {
    private _rows: Rows;
    private _headers: Headers;
    private _logger: Logger;
+   private _elementCreator: ElementCreator;
    private _componentToMount: HTMLElement[] = [];
 
    constructor(
@@ -24,6 +26,7 @@ class Mount extends PhasesState {
       super();
       this._rows = new Rows(this._rootContainer, this._data);
       this._logger = new Logger(this as unknown as Newable);
+      this._elementCreator = new ElementCreator();
 
       this._leaderboardWrapper = document.createElement(
          SEMANTIC_TAGS.CONTAINER_LEADERBOARD
@@ -37,6 +40,7 @@ class Mount extends PhasesState {
          this.addComponentToMount(this._headers.render());
       }
 
+      console.log(this._rows);
       this.addComponentToMount(this._rows.render());
       this.addComponentToMount(this._leaderboardWrapper);
 
@@ -47,7 +51,7 @@ class Mount extends PhasesState {
    }
 
    private addComponentToMount(component: HTMLElement) {
-      // TODO nice to have better logger with better component's name
+      // TODO nice to have better logger with better component's name instead of nodeName
       this._logger.log(`Add ${component.nodeName} to mount queue.`);
       this._componentToMount.push(component);
    }

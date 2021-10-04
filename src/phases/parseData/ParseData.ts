@@ -1,21 +1,26 @@
 import PhasesState from "../../PhasesState";
 import Logger from "../../common/Logger/Logger";
 import { Newable } from "../../common/common.types";
+import { LeaderboardOptions } from "../../index";
+import { Row } from "../../components/row/types";
 
 class ParseData extends PhasesState {
    private _logger: Logger;
-   private _leaderboardData: any;
-   private _userOptions: any;
+   private _rows: Row[];
+   private _columns: any;
+   private _userOptions: LeaderboardOptions;
    private _rootContainer: HTMLElement;
 
-   constructor(rootContainer: HTMLElement, data: any, userOptions: any) {
+   constructor(rootContainer: HTMLElement, data: Row[], userOptions: LeaderboardOptions) {
       super();
 
       this._logger = new Logger(this as unknown as Newable);
       this._rootContainer = rootContainer;
-      this._leaderboardData = data;
+      this._rows = data;
       this._userOptions = userOptions;
       this._logger.group("ParseData");
+
+      this.createColumn();
    }
 
    public getOptions(): any {
@@ -23,13 +28,22 @@ class ParseData extends PhasesState {
    }
 
    public getLeaderboardData(): any {
-      return this._leaderboardData;
+      return this._rows;
+   }
+
+   public createColumn(): void {
+      this._columns = this._rows.reduce((rowAcc: any, { place, content }: Row) => {
+         if (!content) return "";
+         rowAcc = [...rowAcc, { place, content }];
+         return rowAcc;
+      }, []);
    }
 
    public execute(): any {
+      // TODO implementation for rows / columns
       this.userInputValidation();
       this._logger.groupEnd();
-      return this._leaderboardData;
+      return this._columns;
    }
 
    private userInputValidation() {
@@ -39,7 +53,7 @@ class ParseData extends PhasesState {
    }
 
    private checkData() {
-      if (!Array.isArray(this._leaderboardData) || !this._leaderboardData) {
+      if (!Array.isArray(this._rows) || !this._rows) {
          this._logger.error("Data is not defined. Pass leaderboard information.");
          return;
       }
