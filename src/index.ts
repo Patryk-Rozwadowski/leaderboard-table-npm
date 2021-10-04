@@ -1,13 +1,13 @@
-import PhasesContext from "./phases/context/phases/PhasesContext";
 import Mount from "./phases/mount/Mount";
 import Logger from "./common/Logger/Logger";
 import ParseData from "./phases/parseData/ParseData";
 import { Newable } from "./common/common.types";
-import { HeadersOptions } from "./components/headers/types";
+import { HeadersOptions, HeadersProps } from "./components/headers/types";
 import { Row } from "./components/row/types";
 import "./components/style/style.scss";
+import PhasesContext from "./phases/context/phases/PhasesContext";
 
-interface LeaderboardOptions {
+export interface LeaderboardOptions {
    headerTags: string | HTMLElement;
    logs: boolean;
 }
@@ -16,10 +16,7 @@ interface LeaderboardConfig {
    rootContainer: HTMLElement;
    leaderboardData: Row[];
    options: LeaderboardOptions;
-   headers: {
-      text: string | string[];
-      options: HeadersOptions;
-   };
+   headers: HeadersProps;
 }
 
 class Leaderboard {

@@ -6,7 +6,8 @@ enum SEMANTIC_TAGS {
 
 enum COMMON_STYLE_CLASS {
    TEXT_PRIMARY = "lb_headers_text",
-   COLUMN = "lb_col"
+   COLUMN = "lb_col",
+   CONTAINER = "lb_container"
 }
 
 export { SEMANTIC_TAGS, COMMON_STYLE_CLASS };

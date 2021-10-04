@@ -2,4 +2,9 @@ interface HeadersOptions {
    tags: string | HTMLElement;
 }
 
-export { HeadersOptions };
+interface HeadersProps {
+   text: string | string[];
+   options: HeadersOptions;
+}
+
+export { HeadersOptions, HeadersProps };
