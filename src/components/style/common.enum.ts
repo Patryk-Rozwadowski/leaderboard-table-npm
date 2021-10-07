@@ -8,8 +8,8 @@ enum SEMANTIC_TAGS {
 
 enum COMMON_STYLE_CLASS {
    // TODO check lb_headers_text css class
-   TEXT_PRIMARY = "lb_headers_text",
-   HEADER_PRIMARY = "lb_header_text",
+   TEXT_PRIMARY = "lb_text_primary",
+   HEADER_PRIMARY = "lb_header_text_primary",
    COLUMN = "lb_col",
    CONTAINER = "lb_container"
 }

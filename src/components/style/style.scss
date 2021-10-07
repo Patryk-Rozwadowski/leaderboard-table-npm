@@ -15,6 +15,10 @@ $row-height: 100px;
   padding: 0;
 }
 
+@mixin text_primary {
+  font-size: 1.5em;
+}
+
 .root {
   background-color: yellow;
   border: 1px solid red;
@@ -23,14 +27,18 @@ $row-height: 100px;
 .lb {
   background-color: yellowgreen;
 
+  &_header_text_primary {
+    font-size: 2em;
+  }
+
+  //TODO
+  &_text_primary {}
+
   &_headers {
     @include reset-mg-pd();
+    @include flex-center();
     display: flex;
     flex-direction: row;
-
-    &_text {
-      font-size: 2em;
-    }
   }
 
   &_row {
