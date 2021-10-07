@@ -11,7 +11,6 @@ enum LEADERBOARD_CLASS_STYLE {
 }
 
 class Mount extends PhasesState {
-   private _leaderboardWrapper: HTMLElement;
    private _rows: Rows;
    private _headers: Headers;
    private _logger: Logger;
@@ -27,11 +26,6 @@ class Mount extends PhasesState {
       this._rows = new Rows(this._rootContainer, this._data);
       this._logger = new Logger(this as unknown as Newable);
       this._elementCreator = new ElementCreator();
-
-      this._leaderboardWrapper = document.createElement(
-         SEMANTIC_TAGS.CONTAINER_LEADERBOARD
-      );
-      this._leaderboardWrapper.classList.add(LEADERBOARD_CLASS_STYLE.LEADERBOARD);
    }
 
    public execute(): void {
@@ -42,8 +36,6 @@ class Mount extends PhasesState {
 
       console.log(this._rows);
       this.addComponentToMount(this._rows.render());
-      this.addComponentToMount(this._leaderboardWrapper);
-
       this._componentToMount.map((component) => {
          this._rootContainer.appendChild(component);
       });
