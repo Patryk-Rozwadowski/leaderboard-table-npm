@@ -2,19 +2,12 @@ import Rows from "../../components/row/Row";
 import PhasesState from "../../PhasesState";
 import Headers from "../../components/headers/Headers";
 import Logger from "../../common/Logger/Logger";
-import { SEMANTIC_TAGS } from "../../components/style/common.enum";
 import { Newable } from "../../common/common.types";
-import ElementCreator from "../../factories/LeaderboardElement";
-
-enum LEADERBOARD_CLASS_STYLE {
-   LEADERBOARD = "lb"
-}
 
 class Mount extends PhasesState {
    private _rows: Rows;
    private _headers: Headers;
    private _logger: Logger;
-   private _elementCreator: ElementCreator;
    private _componentToMount: HTMLElement[] = [];
 
    constructor(
@@ -25,7 +18,6 @@ class Mount extends PhasesState {
       super();
       this._rows = new Rows(this._rootContainer, this._data);
       this._logger = new Logger(this as unknown as Newable);
-      this._elementCreator = new ElementCreator();
    }
 
    public execute(): void {
