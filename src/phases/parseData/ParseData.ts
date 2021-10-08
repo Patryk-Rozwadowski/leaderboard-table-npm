@@ -7,7 +7,7 @@ import { Row } from "../../components/row/types";
 class ParseData extends PhasesState {
    private _logger: Logger;
    private _rows: Row[];
-   private _columns: any;
+   private _columnsData: any;
    private _userOptions: LeaderboardOptions;
    private _rootContainer: HTMLElement;
 
@@ -32,7 +32,7 @@ class ParseData extends PhasesState {
    }
 
    public createColumn(): void {
-      this._columns = this._rows.reduce((rowAcc: any, { place, content }: Row) => {
+      this._columnsData = this._rows.reduce((rowAcc: any, { place, content }: Row) => {
          if (!content) return "";
          rowAcc = [...rowAcc, { place, content }];
          return rowAcc;
@@ -43,7 +43,7 @@ class ParseData extends PhasesState {
       // TODO implementation for rows / columns
       this.userInputValidation();
       this._logger.groupEnd();
-      return this._columns;
+      return this._columnsData;
    }
 
    private userInputValidation() {
