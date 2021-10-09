@@ -18,7 +18,6 @@ class ParseData extends PhasesState {
       this._rootContainer = rootContainer;
       this._rows = data;
       this._userOptions = userOptions;
-      this._logger.group("ParseData");
 
       this.createColumn();
    }

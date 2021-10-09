@@ -1,11 +1,15 @@
 import { Newable } from "../common.types";
 
 class Logger {
-   constructor(private _context: Newable) {}
+   private readonly _contextName: string;
+
+   constructor(private _context: Newable) {
+      this._contextName = this._context.constructor.name;
+      this.group(this._contextName);
+   }
 
    public log(msg: string): void {
-      const contextName = this._context.constructor.name;
-      console.log(`${contextName}: ${msg}`);
+      console.log(`${this._contextName}: ${msg}`);
    }
 
    public group(label: string): void {

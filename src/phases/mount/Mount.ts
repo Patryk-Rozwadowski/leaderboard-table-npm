@@ -25,8 +25,6 @@ class Mount extends PhasesState {
          this._headers = new Headers(this._rootContainer, this._headerTexts);
          this.addComponentToMount(this._headers.render());
       }
-
-      console.log(this._rows);
       this.addComponentToMount(this._rows.render());
       this._componentToMount.map((component) => {
          this._rootContainer.appendChild(component);
