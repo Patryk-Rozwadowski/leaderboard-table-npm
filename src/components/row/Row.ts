@@ -1,57 +1,98 @@
 import ElementCreator from "../../factories/ElementCreator";
-import { SEMANTIC_TAGS } from "../style/common.enum";
+import { COMMON_STYLE_CLASS, SEMANTIC_TAGS } from "../style/common.enum";
 import { compareNumbers } from "../../sorters/compareNumbers";
-import { Creator } from "../../common/common.types";
+import { Creator, Newable } from "../../common/common.types";
+import Logger from "../../common/Logger/Logger";
 
 enum ROW_CLASS_STYLE {
-   CONTAINER_ROW_LIST = "lb_row_wrapper",
-   ROW = "lb_row",
-   PLACE = "lb_row_place",
-   CONTENT = "lb_row_content"
+   ROW_LIST_CONTAINER = "lb_row_wrapper",
+   ROW_CONTAINER = "lb_row",
+   PLACE_CONTAINER = "lb_row_place",
+   CONTENT_CONTAINER = "lb_row_content"
+}
+
+interface RowContainers {
+   placeContainer: HTMLElement;
+   contentContainer: HTMLElement;
+}
+
+interface RowTexts {
+   contentTextElement: HTMLElement;
+   placeTextElement: HTMLElement;
 }
 
 class Rows implements Creator {
    _elementCreator: ElementCreator;
+   _rowListContainer: HTMLElement;
+   _logger: Logger;
 
    constructor(private _rootContainer: HTMLElement, private _rowData: string[]) {
       this._elementCreator = new ElementCreator();
+      this._logger = new Logger(this as unknown as Newable);
    }
 
    public render(): HTMLElement {
-      const rowContainer = this._elementCreator
+      this._rowListContainer = this._elementCreator
          .container(SEMANTIC_TAGS.CONTAINER_ROW)
-         .appendStyles(ROW_CLASS_STYLE.CONTAINER_ROW_LIST).getElement;
+         .appendStyles(ROW_CLASS_STYLE.ROW_LIST_CONTAINER).getElement;
+      this._createRowList();
+      return this._rowListContainer;
+   }
 
+   private _createRowList() {
       const sortedDataByPlace = this._rowData.sort(
          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
          // @ts-ignore
          (a: { place: number }, b: { place: number }) => compareNumbers(a.place, b.place)
       );
 
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
       Object.entries(sortedDataByPlace).map(([_, { place, content }]) => {
-         const wrapper = this._elementCreator
+         const rowWrapper = this._elementCreator
             .container(SEMANTIC_TAGS.CONTAINER_ROW)
-            .appendStyles(ROW_CLASS_STYLE.ROW).getElement;
+            .appendStyles(ROW_CLASS_STYLE.ROW_CONTAINER).getElement;
 
-         const placeNode = this._elementCreator
-            .createText(SEMANTIC_TAGS.PRIMARY_TEXT, place)
-            .appendStyles(ROW_CLASS_STYLE.PLACE).getElement;
+         const { placeContainer, contentContainer } = this._createRowContainers();
+         const { contentTextElement, placeTextElement } = this._createRowTexts(
+            place,
+            content
+         );
 
-         const contentNode = this._elementCreator
-            .createText(SEMANTIC_TAGS.PRIMARY_TEXT, content)
-            .appendStyles(ROW_CLASS_STYLE.CONTENT).getElement;
+         placeContainer.appendChild(placeTextElement);
+         contentContainer.appendChild(contentTextElement);
 
-         wrapper.appendChild(placeNode);
-         wrapper.appendChild(contentNode);
-         wrapper.addEventListener("click", this.rowOnClickHandler);
-         rowContainer.appendChild(wrapper);
+         rowWrapper.appendChild(placeContainer);
+         rowWrapper.appendChild(contentContainer);
+
+         rowWrapper.addEventListener("click", this._rowOnClickHandler);
+         this._rowListContainer.appendChild(rowWrapper);
       });
-      return rowContainer;
    }
 
-   private rowOnClickHandler(e: Event) {
+   private _createRowContainers(): RowContainers {
+      const placeContainer = this._elementCreator
+         .container(SEMANTIC_TAGS.CONTAINER_ROW)
+         .appendStyles(ROW_CLASS_STYLE.PLACE_CONTAINER).getElement;
+
+      const contentContainer = this._elementCreator
+         .container(SEMANTIC_TAGS.CONTAINER_ROW)
+         .appendStyles(ROW_CLASS_STYLE.CONTENT_CONTAINER).getElement;
+
+      return { placeContainer, contentContainer };
+   }
+
+   private _createRowTexts(placeText: string, contentText: string): RowTexts {
+      const contentTextElement = this._elementCreator
+         .createText(SEMANTIC_TAGS.PRIMARY_TEXT, contentText)
+         .appendStyles(COMMON_STYLE_CLASS.TEXT_PRIMARY).getElement;
+
+      const placeTextElement = this._elementCreator
+         .createText(SEMANTIC_TAGS.PRIMARY_TEXT, placeText)
+         .appendStyles(COMMON_STYLE_CLASS.TEXT_PRIMARY).getElement;
+
+      return { contentTextElement, placeTextElement };
+   }
+
+   private _rowOnClickHandler(e: Event) {
       console.log(e.target);
    }
 }

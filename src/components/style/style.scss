@@ -2,6 +2,8 @@ $row-height: 100px;
 $headers-section-container-bg-primary: #222;
 $headers-section-text-primary: #fff;
 $headers-section-border-radius: 10px;
+$header-font-family: "Roboto Bold", sans-serif;
+$primary-text-font-family: "Roboto Light", sans-serif;
 
 @mixin flex {
   display: flex;
@@ -31,11 +33,14 @@ $headers-section-border-radius: 10px;
   background-color: yellowgreen;
 
   &_header_text_primary {
+    font-family: $header-font-family, sans-serif;
     font-size: 2em;
   }
 
   //TODO
-  &_text_primary {}
+  &_text_primary {
+    font-family: $primary-text-font-family;
+  }
 
   &_headers {
     @include reset-mg-pd();
