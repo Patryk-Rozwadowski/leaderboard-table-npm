@@ -1,8 +1,7 @@
 import Mount from "./phases/mount/Mount";
 import Logger from "./common/Logger/Logger";
 import ParseData from "./phases/parseData/ParseData";
-import { Newable } from "./common/common.types";
-import { HeadersOptions, HeadersProps } from "./components/headers/types";
+import { HeadersProps } from "./components/headers/types";
 import { Row } from "./components/row/types";
 import "./components/style/style.scss";
 import PhasesContext from "./phases/context/phases/PhasesContext";
@@ -28,7 +27,7 @@ class Leaderboard {
 
    constructor({ rootContainer, leaderboardData, headers, options }: LeaderboardConfig) {
       this._rootContainer = rootContainer;
-      this._logger = new Logger(this as unknown as Newable);
+      this._logger = new Logger(this as unknown as Leaderboard);
 
       this._headers = headers.text;
       this._phasesContext = new PhasesContext(
