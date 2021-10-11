@@ -3,6 +3,7 @@ import Logger from "../../common/Logger/Logger";
 import { Newable } from "../../common/common.types";
 import { LeaderboardOptions } from "../../index";
 import { Row } from "../../components/row/types";
+import Sorter from "../../sorters/Sorter";
 
 class ParseData extends PhasesState {
    private _logger: Logger;
@@ -10,10 +11,11 @@ class ParseData extends PhasesState {
    private _columnsData: any;
    private _userOptions: LeaderboardOptions;
    private _rootContainer: HTMLElement;
+   private _sorter: Sorter;
 
    constructor(rootContainer: HTMLElement, data: Row[], userOptions: LeaderboardOptions) {
       super();
-
+      this._sorter = new Sorter(data);
       this._logger = new Logger(this as unknown as Newable);
       this._rootContainer = rootContainer;
       this._rows = data;
@@ -42,7 +44,11 @@ class ParseData extends PhasesState {
       // TODO implementation for rows / columns
       this.userInputValidation();
       this._logger.groupEnd();
-      return this._columnsData;
+
+      // TODO return data based upon whether its column or just simple rows
+      // return this._columnsData;
+      this._sort();
+      return this._rows;
    }
 
    private userInputValidation() {
@@ -51,7 +57,12 @@ class ParseData extends PhasesState {
       this.checkData();
    }
 
+   private _sort() {
+      this._rows = this._sorter.ascendant();
+   }
+
    private checkData() {
+      this._logger.log("Checking data types.");
       if (!Array.isArray(this._rows) || !this._rows) {
          this._logger.error("Data is not defined. Pass leaderboard information.");
          return;

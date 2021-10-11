@@ -1,8 +1,8 @@
 import ElementCreator from "../../factories/ElementCreator";
 import { COMMON_STYLE_CLASS, SEMANTIC_TAGS } from "../style/common.enum";
-import { compareNumbers } from "../../sorters/compareNumbers";
 import { Creator, Newable } from "../../common/common.types";
 import Logger from "../../common/Logger/Logger";
+import { Row } from "./types";
 
 enum ROW_CLASS_STYLE {
    ROW_LIST_CONTAINER = "lb_row_wrapper",
@@ -26,7 +26,7 @@ class Rows implements Creator {
    _rowListContainer: HTMLElement;
    _logger: Logger;
 
-   constructor(private _rootContainer: HTMLElement, private _rowData: string[]) {
+   constructor(private _rootContainer: HTMLElement, private _rowData: Row[]) {
       this._elementCreator = new ElementCreator();
       this._logger = new Logger(this as unknown as Newable);
    }
@@ -40,20 +40,14 @@ class Rows implements Creator {
    }
 
    private _createRowList() {
-      const sortedDataByPlace = this._rowData.sort(
-         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-         // @ts-ignore
-         (a: { place: number }, b: { place: number }) => compareNumbers(a.place, b.place)
-      );
-
-      Object.entries(sortedDataByPlace).map(([_, { place, content }]) => {
+      this._rowData.map(({ place, content }: Row) => {
          const rowWrapper = this._elementCreator
             .container(SEMANTIC_TAGS.CONTAINER_ROW)
             .appendStyles(ROW_CLASS_STYLE.ROW_CONTAINER).getElement;
 
          const { placeContainer, contentContainer } = this._createRowContainers();
          const { contentTextElement, placeTextElement } = this._createRowTexts(
-            place,
+            place.toString(),
             content
          );
 

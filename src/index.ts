@@ -37,7 +37,6 @@ class Leaderboard {
 
    public init(): void {
       this._parsedData = this._phasesContext.execute();
-
       this._phasesContext.transitionTo(
          new Mount(this._rootContainer, this._parsedData, this._headers)
       );
