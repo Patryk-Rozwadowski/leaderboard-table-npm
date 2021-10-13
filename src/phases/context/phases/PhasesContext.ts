@@ -1,4 +1,4 @@
-import PhasesState from "../../../PhasesState";
+import PhasesState from "../../PhasesState";
 import { PhaseContextActions } from "./types";
 
 class PhasesContext extends PhasesState implements PhaseContextActions {

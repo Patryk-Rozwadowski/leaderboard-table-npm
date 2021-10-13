@@ -1,4 +1,4 @@
-import PhasesState from "../PhasesState";
+import PhasesState from "./PhasesState";
 import PhasesContext from "./context/phases/PhasesContext";
 
 interface StateActions {

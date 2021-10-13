@@ -1,5 +1,5 @@
 import Rows from "../../components/row/Row";
-import PhasesState from "../../PhasesState";
+import PhasesState from "../PhasesState";
 import Headers from "../../components/headers/Headers";
 import Logger from "../../common/Logger/Logger";
 import { Newable } from "../../common/common.types";

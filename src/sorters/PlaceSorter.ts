@@ -2,7 +2,7 @@ import { Row } from "../components/row/types";
 import Logger from "../common/Logger/Logger";
 import { Newable } from "../common/common.types";
 
-class Sorter {
+class PlaceSorter {
    private _logger: Logger;
 
    constructor(private dataToSort: Row[]) {
@@ -11,7 +11,7 @@ class Sorter {
 
    public ascendant(): Row[] {
       this._logger.log("Sorting ascendant places.");
-      return Sorter.comparePlaces(this.dataToSort);
+      return PlaceSorter.comparePlaces(this.dataToSort);
    }
 
    private static comparePlaces(data: Row[]) {
@@ -21,4 +21,4 @@ class Sorter {
    }
 }
 
-export default Sorter;
+export default PlaceSorter;
