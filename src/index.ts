@@ -6,10 +6,17 @@ import { Row } from "./components/row/types";
 import "./components/style/style.scss";
 import PhasesContext from "./phases/context/phases/PhasesContext";
 
+
+export interface LeaderboardType {
+   extended?: boolean;
+}
+
 export interface LeaderboardOptions {
    headerTags: string | HTMLElement;
    logs: boolean;
 }
+
+export type LeaderboardOptionType = LeaderboardType & LeaderboardOptions;
 
 interface LeaderboardConfig {
    rootContainer: HTMLElement;
