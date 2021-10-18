@@ -1,7 +1,7 @@
 import PhasesState from "../PhasesState";
 import Logger from "../../common/Logger/Logger";
 import { Newable } from "../../common/common.types";
-import { LeaderboardOptions, LeaderboardOptionType, LeaderboardType } from "../../index";
+import { LeaderboardOptions, LeaderboardOptionType } from "../../index";
 import { Row } from "../../components/row/types";
 import PlaceSorter from "../../sorters/PlaceSorter";
 
@@ -24,15 +24,12 @@ class ParseData extends PhasesState {
 
    public execute(): Row[] {
       this._parseData();
+      this._logger.groupEnd();
       return this._rows;
    }
 
    public getOptions(): LeaderboardOptions {
       return this._userOptions;
-   }
-
-   public getLeaderboardData(): Row[] {
-      return this._rows;
    }
 
    public createColumn(): void {
@@ -43,18 +40,6 @@ class ParseData extends PhasesState {
       }, []);
    }
 
-   public execute(): any {
-      // TODO implementation for rows / columns
-      this.userInputValidation();
-      this._logger.groupEnd();
-
-      // TODO return data based upon whether its column or just simple rows
-      // return this._columnsData;
-      this._sort();
-      return this._rows;
-   }
-
-   private userInputValidation() {
    private _userInputValidation() {
       this._logger.log(`User's input validation.`);
       this._checkRootContainer();
@@ -67,6 +52,8 @@ class ParseData extends PhasesState {
 
    private _checkData() {
       this._logger.log("Checking data types.");
+
+      // TODO handler for columns data
       if (!Array.isArray(this._rows) || !this._rows) {
          this._logger.error("Data is not defined. Pass leaderboard information.");
          return;
@@ -86,21 +73,19 @@ class ParseData extends PhasesState {
       this._logger.log("Root element is valid.");
    }
 
-   private _parseData(): void {
+   private _parseData(): Row[] {
       this._logger.log(`Started parsing data.`);
-      // TODO implementation for rows / columns
-
       this._userInputValidation();
-      this._logger.groupEnd();
-
-      // TODO return data based upon whether its column or just simple rows
-      // return this._columnsData;
       this._sort();
+
+      if (this._isExtended()) {
+         return this._columnsData;
+      }
+      return this._rows;
    }
 
-   private checkLeaderboardType(): LeaderboardType {
-      const leaderboardType = this._userOptions.extended;
-      return leaderboardType;
+   private _isExtended(): boolean {
+      return !!this._userOptions.extended;
    }
 }
 

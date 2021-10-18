@@ -6,6 +6,10 @@ import { Row } from "./components/row/types";
 import "./components/style/style.scss";
 import PhasesContext from "./phases/context/phases/PhasesContext";
 
+enum LEADERBOARD_TYPE {
+   SIMPLE = "simple",
+   EXTENDED = "extended"
+}
 
 export interface LeaderboardType {
    extended?: boolean;
