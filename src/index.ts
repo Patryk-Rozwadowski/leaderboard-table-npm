@@ -33,8 +33,8 @@ class Leaderboard {
    private readonly _rootContainer;
    private _phasesContext: PhasesContext;
    private _logger: Logger;
-   private _parsedData: any;
-   private _headers: any;
+   private _parsedData: Row[];
+   private _headers: string | string[];
 
    constructor({ rootContainer, leaderboardData, headers, options }: LeaderboardConfig) {
       this._rootContainer = rootContainer;

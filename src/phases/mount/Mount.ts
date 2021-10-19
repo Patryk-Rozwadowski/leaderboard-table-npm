@@ -13,7 +13,7 @@ class Mount extends PhasesState {
    constructor(
       private readonly _rootContainer: HTMLElement,
       private _data: any,
-      private _headerTexts: string[]
+      private _headerTexts: string | string[]
    ) {
       super();
       this._rows = new Rows(this._rootContainer, this._data);
