@@ -4,6 +4,11 @@ import { COMMON_STYLE_CLASS, SEMANTIC_TAGS } from "../components/style/common.en
 
 type Newable = { new (...args: any[]): any };
 
+/*
+ * Creator
+ *    This type is used for any class, which is allowed to create
+ *    new Leaderboard elements.
+ */
 interface Creator {
    _elementCreator: ElementCreator;
 }

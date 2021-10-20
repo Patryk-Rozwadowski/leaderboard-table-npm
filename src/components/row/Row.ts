@@ -3,6 +3,7 @@ import { COMMON_STYLE_CLASS, SEMANTIC_TAGS } from "../style/common.enum";
 import { Creator, Newable } from "../../common/common.types";
 import Logger from "../../common/Logger/Logger";
 import { Row } from "./types";
+import ElementController from "../../common/ElementController";
 
 enum ROW_CLASS_STYLE {
    ROW_LIST_CONTAINER = "lb_row_wrapper",
@@ -50,12 +51,16 @@ class Rows implements Creator {
             place.toString(),
             content
          );
-
-         placeContainer.appendChild(placeTextElement);
-         contentContainer.appendChild(contentTextElement);
-
-         rowWrapper.appendChild(placeContainer);
-         rowWrapper.appendChild(contentContainer);
+         ElementController.appendElementsToContainer(placeContainer, placeTextElement);
+         ElementController.appendElementsToContainer(
+            contentContainer,
+            contentTextElement
+         );
+         ElementController.appendElementsToContainer(
+            rowWrapper,
+            placeContainer,
+            contentContainer
+         );
 
          rowWrapper.addEventListener("click", this._rowOnClickHandler);
          this._rowListContainer.appendChild(rowWrapper);

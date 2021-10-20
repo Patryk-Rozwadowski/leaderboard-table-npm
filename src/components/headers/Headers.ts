@@ -2,8 +2,9 @@ import ElementCreator from "../../factories/ElementCreator";
 import Logger from "../../common/Logger/Logger";
 import { COMMON_STYLE_CLASS, SEMANTIC_TAGS } from "../style/common.enum";
 import { Creator, Newable } from "../../common/common.types";
+import ElementController from "../../common/ElementController";
 
-enum HEADERS_LOGGER {
+enum HEADERS_LOGGER_MESSAGES {
    INIT = "Creating headers.",
    SINGLE_HEADER = "Creating single header.",
    MULTIPLE_HEADERS = "Creating multiple headers."
@@ -25,7 +26,7 @@ class Headers implements Creator {
    }
 
    private _handler() {
-      this._logger.log(HEADERS_LOGGER.INIT);
+      this._logger.log(HEADERS_LOGGER_MESSAGES.INIT);
       this._createHeadersContainer();
       if (Array.isArray(this.headersText)) {
          this._multipleHeadersHandler();
@@ -35,25 +36,24 @@ class Headers implements Creator {
    }
 
    private _singleHeaderHandler() {
-      this._logger.log(HEADERS_LOGGER.SINGLE_HEADER);
-      const headerTag = this._createHeaderElement(this.headersText as string);
-      this._headersContainer.append(headerTag);
+      this._logger.log(HEADERS_LOGGER_MESSAGES.SINGLE_HEADER);
+      this._createHeaderElement(this.headersText as string);
    }
 
    private _multipleHeadersHandler() {
-      this._logger.log(HEADERS_LOGGER.MULTIPLE_HEADERS);
+      this._logger.log(HEADERS_LOGGER_MESSAGES.MULTIPLE_HEADERS);
       this._createHeadersContainer();
       const headers = this.headersText as string[];
       headers.forEach((headerText) => {
-         const headerTag = this._createHeaderElement(headerText);
-         this._headersContainer.appendChild(headerTag);
+         this._createHeaderElement(headerText);
       });
    }
 
    private _createHeaderElement(text: string) {
-      return this._elementCreator
+      const headerTag = this._elementCreator
          .createText(SEMANTIC_TAGS.HEADER_TEXT, text)
          .appendStyles(COMMON_STYLE_CLASS.HEADER_PRIMARY).getElement;
+      ElementController.appendElementsToContainer(this._headersContainer, headerTag);
    }
 
    private _createHeadersContainer() {

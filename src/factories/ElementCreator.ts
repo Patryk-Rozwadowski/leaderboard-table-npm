@@ -18,12 +18,12 @@ class ElementCreator {
    public container(
       tag: SEMANTIC_TAGS = SEMANTIC_TAGS.CONTAINER_PRIMARY
    ): ElementCreator {
-      this._element = this.createElement(tag);
+      this._element = this._createElement(tag);
       return this;
    }
 
    public createText(tag: TextElement, text: string): ElementCreator {
-      const textElement = this.createElement(tag);
+      const textElement = this._createElement(tag);
       textElement.textContent = `${text}`;
       this._element = textElement;
       return this;
@@ -36,11 +36,11 @@ class ElementCreator {
 
    // TODO
    public column(columnData: Column) {
-      const columnElement = this.createElement(SEMANTIC_TAGS.CONTAINER_PRIMARY);
+      const columnElement = this._createElement(SEMANTIC_TAGS.CONTAINER_PRIMARY);
       return columnElement;
    }
 
-   private createElement(tag: LbSemanticTag): HTMLElement {
+   private _createElement(tag: LbSemanticTag): HTMLElement {
       return document.createElement(tag);
    }
 }
