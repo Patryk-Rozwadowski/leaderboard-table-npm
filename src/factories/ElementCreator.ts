@@ -34,12 +34,6 @@ class ElementCreator {
       return this;
    }
 
-   // TODO
-   public column(columnData: Column) {
-      const columnElement = this._createElement(SEMANTIC_TAGS.CONTAINER_PRIMARY);
-      return columnElement;
-   }
-
    private _createElement(tag: LbSemanticTag): HTMLElement {
       return document.createElement(tag);
    }
