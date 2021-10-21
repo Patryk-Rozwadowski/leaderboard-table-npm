@@ -13,7 +13,15 @@ interface Creator {
    _elementCreator: ElementCreator;
 }
 
+/*
+ * RootElementConnect
+ *     Type for every class which operates directly with root container.
+ */
+interface RootElementConnector {
+   root: HTMLElement;
+}
+
 type LbCSSClass = ROW_CLASS_STYLE | COMMON_STYLE_CLASS;
 type LbSemanticTag = SEMANTIC_TAGS;
 
-export { Newable, Creator, LbCSSClass, LbSemanticTag };
+export { Newable, Creator, LbCSSClass, LbSemanticTag, RootElementConnector };

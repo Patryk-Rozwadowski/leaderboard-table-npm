@@ -15,7 +15,7 @@ class Headers implements Creator {
    _elementCreator: ElementCreator;
    private _headersContainer: HTMLElement;
 
-   constructor(private root: HTMLElement, private headersText: string | string[]) {
+   constructor(private root: HTMLElement, private clientHeaders: string | string[]) {
       this._logger = new Logger(this as unknown as Newable);
       this._elementCreator = new ElementCreator();
    }
@@ -28,7 +28,7 @@ class Headers implements Creator {
    private _handler() {
       this._logger.log(HEADERS_LOGGER_MESSAGES.INIT);
       this._createHeadersContainer();
-      if (Array.isArray(this.headersText)) {
+      if (Array.isArray(this.clientHeaders)) {
          this._multipleHeadersHandler();
          return;
       }
@@ -37,13 +37,13 @@ class Headers implements Creator {
 
    private _singleHeaderHandler() {
       this._logger.log(HEADERS_LOGGER_MESSAGES.SINGLE_HEADER);
-      this._createHeaderElement(this.headersText as string);
+      this._createHeaderElement(this.clientHeaders as string);
    }
 
    private _multipleHeadersHandler() {
       this._logger.log(HEADERS_LOGGER_MESSAGES.MULTIPLE_HEADERS);
       this._createHeadersContainer();
-      const headers = this.headersText as string[];
+      const headers = this.clientHeaders as string[];
       headers.forEach((headerText) => {
          this._createHeaderElement(headerText);
       });
