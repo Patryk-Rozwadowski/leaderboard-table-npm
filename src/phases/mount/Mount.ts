@@ -22,17 +22,29 @@ class Mount extends PhasesState {
 
    public execute(): void {
       if (this._headerTexts) {
-         this._headers = new Headers(this._rootContainer, this._headerTexts);
-         this.addComponentToMount(this._headers.render());
+         this._handleHeaders();
       }
-      this.addComponentToMount(this._rows.render());
-      this._componentToMount.map((component) => {
+      this._handleRows();
+      this._mountAllElementsToRoot();
+   }
+
+   private _mountAllElementsToRoot() {
+      this._componentToMount.forEach((component) => {
          this._rootContainer.appendChild(component);
       });
       this._logger.log(`${this._componentToMount.length} components mounted.`);
    }
 
-   private addComponentToMount(component: HTMLElement) {
+   private _handleRows() {
+      this._addComponentToMount(this._rows.render());
+   }
+
+   private _handleHeaders() {
+      this._headers = new Headers(this._rootContainer, this._headerTexts);
+      this._addComponentToMount(this._headers.render());
+   }
+
+   private _addComponentToMount(component: HTMLElement) {
       // TODO nice to have better logger with better component's name instead of nodeName
       this._logger.log(`Add ${component.nodeName} to mount queue.`);
       this._componentToMount.push(component);
