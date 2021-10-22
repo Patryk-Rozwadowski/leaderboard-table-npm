@@ -28,25 +28,12 @@ class Headers implements Creator {
    private _handler() {
       this._logger.log(HEADERS_LOGGER_MESSAGES.INIT);
       this._createHeadersContainer();
-      if (Array.isArray(this.clientHeaders)) {
-         this._multipleHeadersHandler();
-         return;
-      }
       this._singleHeaderHandler();
    }
 
    private _singleHeaderHandler() {
       this._logger.log(HEADERS_LOGGER_MESSAGES.SINGLE_HEADER);
       this._createHeaderElement(this.clientHeaders as string);
-   }
-
-   private _multipleHeadersHandler() {
-      this._logger.log(HEADERS_LOGGER_MESSAGES.MULTIPLE_HEADERS);
-      this._createHeadersContainer();
-      const headers = this.clientHeaders as string[];
-      headers.forEach((headerText) => {
-         this._createHeaderElement(headerText);
-      });
    }
 
    private _createHeaderElement(text: string) {
