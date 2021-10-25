@@ -22,7 +22,10 @@ class ElementCreator {
       return this;
    }
 
-   public createText(tag: TextElement, text: string): ElementCreator {
+   public createText(
+      tag: TextElement = SEMANTIC_TAGS.PRIMARY_TEXT,
+      text: string
+   ): ElementCreator {
       const textElement = this._createElement(tag);
       textElement.textContent = `${text}`;
       this._element = textElement;
