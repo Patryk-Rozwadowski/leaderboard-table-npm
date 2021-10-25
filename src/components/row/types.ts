@@ -1,7 +1,6 @@
-interface Row {
+interface RowProperties {
    place: number;
-   content: string;
-   image?: string;
+   content: string | string[];
 }
 
-export { Row };
+export { RowProperties };

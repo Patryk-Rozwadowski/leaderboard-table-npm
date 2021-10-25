@@ -1,9 +1,9 @@
-import Headers from "./Headers";
+import Header from "./Header";
 import { MOCK_HEADERS_TEXT } from "../../__mocks__/inputs";
 
 describe("Header component", () => {
    let rootContainer: HTMLElement;
-   let headers: Headers;
+   let headers: Header;
 
    beforeEach(() => {
       rootContainer = document.createElement("div");
@@ -11,11 +11,11 @@ describe("Header component", () => {
    });
 
    it("should render header texts", () => {
-      headers = new Headers(rootContainer, MOCK_HEADERS_TEXT);
+      headers = new Header(rootContainer, MOCK_HEADERS_TEXT);
       expect(headers).toBeTruthy();
    });
 
    it("should not render header texts", () => {
-      headers = new Headers(rootContainer);
+      headers = new Header(rootContainer);
    });
 });

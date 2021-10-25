@@ -2,18 +2,22 @@ import PhasesState from "../PhasesState";
 import Logger from "../../common/Logger/Logger";
 import { Newable } from "../../common/common.types";
 import { LeaderboardOptions, LeaderboardOptionType } from "../../index";
-import { Row } from "../../components/row/types";
+import { RowProperties } from "../../components/row/types";
 import PlaceSorter from "../../sorters/PlaceSorter";
 
 class ParseData extends PhasesState {
    private _logger: Logger;
-   private _rows: Row[];
+   private _rows: RowProperties[];
    private _columnsData: any;
    private _userOptions: LeaderboardOptionType;
    private _rootContainer: HTMLElement;
    private _sorter: PlaceSorter;
 
-   constructor(rootContainer: HTMLElement, data: Row[], userOptions: LeaderboardOptions) {
+   constructor(
+      rootContainer: HTMLElement,
+      data: RowProperties[],
+      userOptions: LeaderboardOptions
+   ) {
       super();
       this._sorter = new PlaceSorter(data);
       this._logger = new Logger(this as unknown as Newable);
@@ -22,7 +26,7 @@ class ParseData extends PhasesState {
       this._userOptions = userOptions;
    }
 
-   public execute(): Row[] {
+   public execute(): RowProperties[] {
       this._parseData();
       this._logger.groupEnd();
       return this._rows;
@@ -33,11 +37,14 @@ class ParseData extends PhasesState {
    }
 
    public createColumn(): void {
-      this._columnsData = this._rows.reduce((rowAcc: any, { place, content }: Row) => {
-         if (!content) return "";
-         rowAcc = [...rowAcc, { place, content }];
-         return rowAcc;
-      }, []);
+      this._columnsData = this._rows.reduce(
+         (rowAcc: any, { place, content }: RowProperties) => {
+            if (!content) return "";
+            rowAcc = [...rowAcc, { place, content }];
+            return rowAcc;
+         },
+         []
+      );
    }
 
    private _userInputValidation() {
@@ -73,7 +80,7 @@ class ParseData extends PhasesState {
       this._logger.log("Root element is valid.");
    }
 
-   private _parseData(): Row[] {
+   private _parseData(): RowProperties[] {
       this._logger.log(`Started parsing data.`);
       this._userInputValidation();
       this._sort();

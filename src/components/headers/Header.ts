@@ -10,7 +10,7 @@ enum HEADERS_LOGGER_MESSAGES {
    MULTIPLE_HEADERS = "Creating multiple headers."
 }
 
-class Headers implements Creator {
+class Header implements Creator {
    _logger: Logger;
    _elementCreator: ElementCreator;
    private _headersContainer: HTMLElement;
@@ -50,4 +50,4 @@ class Headers implements Creator {
    }
 }
 
-export default Headers;
+export default Header;
