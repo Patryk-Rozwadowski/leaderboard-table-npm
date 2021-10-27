@@ -17,7 +17,7 @@ class Mount extends PhasesState {
    }
 
    public execute(): void {
-      this._handleColumnsLeaderboard();
+      this._addAllComponentsToQueue();
       this._mountAllElementsToRoot();
    }
 
@@ -28,25 +28,20 @@ class Mount extends PhasesState {
       this._logger.log(`${this._componentToMount.length} components mounted.`);
    }
 
-   private _handleColumnsLeaderboard() {
+   private _addAllComponentsToQueue() {
       this._addComponentToMount(this._column.render());
-   }
-
-   private _handleRows() {
-      this._addComponentToMount(this._rows.render());
    }
 
    private _addComponentToMount(component: HTMLElement | HTMLElement[]) {
       if (Array.isArray(component)) {
          component.forEach((el) => {
             this._componentToMount.push(el);
+
+            // TODO nice to have better logger with better component's name instead of nodeName
             this._logger.log(`Add ${el.nodeName} to mount queue.`);
          });
          return;
       }
-      // TODO nice to have better logger with better component's name instead of nodeName
-      // this._logger.log(`Add ${component.nodeName} to mount queue.`);
-      // this._componentToMount.push(component);
    }
 }
 
