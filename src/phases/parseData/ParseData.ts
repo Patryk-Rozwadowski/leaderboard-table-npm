@@ -7,7 +7,7 @@ import PlaceSorter from "../../sorters/PlaceSorter";
 
 class ParseData extends PhasesState {
    private _logger: Logger;
-   private _rows: RowProperties[];
+   private _data: RowProperties[];
    private _columnsData: any;
    private _userOptions: LeaderboardOptionType;
    private _rootContainer: HTMLElement;
@@ -22,29 +22,18 @@ class ParseData extends PhasesState {
       this._sorter = new PlaceSorter(data);
       this._logger = new Logger(this as unknown as Newable);
       this._rootContainer = rootContainer;
-      this._rows = data;
+      this._data = data;
       this._userOptions = userOptions;
    }
 
    public execute(): RowProperties[] {
       this._parseData();
       this._logger.groupEnd();
-      return this._rows;
+      return this._data;
    }
 
    public getOptions(): LeaderboardOptions {
       return this._userOptions;
-   }
-
-   public createColumn(): void {
-      this._columnsData = this._rows.reduce(
-         (rowAcc: any, { place, content }: RowProperties) => {
-            if (!content) return "";
-            rowAcc = [...rowAcc, { place, content }];
-            return rowAcc;
-         },
-         []
-      );
    }
 
    private _userInputValidation() {
@@ -54,14 +43,14 @@ class ParseData extends PhasesState {
    }
 
    private _sort() {
-      if (this._userOptions) this._rows = this._sorter.ascendant();
+      if (this._userOptions) this._data = this._sorter.ascendant();
    }
 
    private _checkData() {
       this._logger.log("Checking data types.");
 
       // TODO handler for columns data
-      if (!Array.isArray(this._rows) || !this._rows) {
+      if (!Array.isArray(this._data) || !this._data) {
          this._logger.error("Data is not defined. Pass leaderboard information.");
          return;
       }
@@ -84,11 +73,7 @@ class ParseData extends PhasesState {
       this._logger.log(`Started parsing data.`);
       this._userInputValidation();
       this._sort();
-
-      if (this._isExtended()) {
-         return this._columnsData;
-      }
-      return this._rows;
+      return this._data;
    }
 
    private _isExtended(): boolean {
