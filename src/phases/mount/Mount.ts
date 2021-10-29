@@ -1,11 +1,9 @@
-import Row from "../../components/row/Row";
 import PhasesState from "../PhasesState";
 import Logger from "../../common/Logger/Logger";
 import { Newable } from "../../common/common.types";
 import Column from "../../components/column/Column";
 
 class Mount extends PhasesState {
-   private _rows: Row;
    private _logger: Logger;
    private _componentToMount: HTMLElement[] = [];
    private _column: Column;

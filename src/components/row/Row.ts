@@ -2,7 +2,6 @@ import ElementCreator from "../../factories/ElementCreator";
 import { COMMON_STYLE_CLASS, SEMANTIC_TAGS } from "../style/common.enum";
 import { Creator, Newable } from "../../common/common.types";
 import Logger from "../../common/Logger/Logger";
-import { RowProperties } from "./types";
 import ElementController from "../../common/ElementController";
 
 enum ROW_CLASS_STYLE {
@@ -19,7 +18,7 @@ interface RowContainers {
 
 interface RowTexts {
    contentTextElement: HTMLElement;
-   placeTextElement: HTMLElement;
+   textContent: HTMLElement;
 }
 
 class Row implements Creator {
@@ -36,24 +35,8 @@ class Row implements Creator {
       this._rowListContainer = this._elementCreator
          .container(SEMANTIC_TAGS.CONTAINER_ROW)
          .appendStyles(ROW_CLASS_STYLE.ROW_LIST_CONTAINER).getElement;
-
-      if (this.isSimpleLeaderboard()) {
-         this._createRowList();
-      } else {
-         this._createRow();
-      }
+      this._createRow();
       return this._rowListContainer;
-   }
-
-   private isSimpleLeaderboard() {
-      // TODO parser will pass this option
-      return !!Array.isArray(this._rowData.content);
-   }
-
-   private _createRowList() {
-      this._rowData.map(({ place, content }: RowProperties) => {
-         this._createRow();
-      });
    }
 
    private _createRow() {
@@ -62,13 +45,9 @@ class Row implements Creator {
          .appendStyles(ROW_CLASS_STYLE.ROW_CONTAINER).getElement;
 
       const { placeContainer, contentContainer } = this._createRowContainers();
-      const { contentTextElement, placeTextElement } = this._createRowTexts(
-         this._rowData?.place.toString(),
-         this._rowData?.content as string
-      );
+      const textContent = this._createRowTexts(this._rowData.toString());
 
-      ElementController.appendElementsToContainer(placeContainer, placeTextElement);
-      ElementController.appendElementsToContainer(contentContainer, contentTextElement);
+      ElementController.appendElementsToContainer(placeContainer, textContent);
       ElementController.appendElementsToContainer(
          rowWrapper,
          placeContainer,
@@ -91,20 +70,10 @@ class Row implements Creator {
       return { placeContainer, contentContainer };
    }
 
-   private _createRowTexts(placeText: string, contentText: string): RowTexts {
-      const contentTextElement = this._elementCreator
-         .createText(SEMANTIC_TAGS.PRIMARY_TEXT, contentText)
+   private _createRowTexts(txt: string): HTMLElement {
+      return this._elementCreator
+         .createText(SEMANTIC_TAGS.PRIMARY_TEXT, txt)
          .appendStyles(COMMON_STYLE_CLASS.TEXT_PRIMARY).getElement;
-
-      const placeTextElement = this._elementCreator
-         .createText(SEMANTIC_TAGS.PRIMARY_TEXT, placeText)
-         .appendStyles(COMMON_STYLE_CLASS.TEXT_PRIMARY).getElement;
-
-      return { contentTextElement, placeTextElement };
-   }
-
-   private _rowOnClickHandler(e: Event) {
-      console.log(e.target);
    }
 }
 export { ROW_CLASS_STYLE };
