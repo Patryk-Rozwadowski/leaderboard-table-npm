@@ -35,6 +35,7 @@ class Row implements Creator {
       this._rowListContainer = this._elementCreator
          .container(SEMANTIC_TAGS.CONTAINER_ROW)
          .appendStyles(ROW_CLASS_STYLE.ROW_LIST_CONTAINER).getElement;
+
       this._createRow();
       return this._rowListContainer;
    }
@@ -44,17 +45,12 @@ class Row implements Creator {
          .container(SEMANTIC_TAGS.CONTAINER_ROW)
          .appendStyles(ROW_CLASS_STYLE.ROW_CONTAINER).getElement;
 
-      const { placeContainer, contentContainer } = this._createRowContainers();
+      const { contentContainer } = this._createRowContainers();
       const textContent = this._createRowTexts(this._rowData.toString());
 
-      ElementController.appendElementsToContainer(placeContainer, textContent);
-      ElementController.appendElementsToContainer(
-         rowWrapper,
-         placeContainer,
-         contentContainer
-      );
+      ElementController.appendElementsToContainer(contentContainer, textContent);
+      ElementController.appendElementsToContainer(rowWrapper, contentContainer);
 
-      rowWrapper.addEventListener("click", this._rowOnClickHandler);
       this._rowListContainer.appendChild(rowWrapper);
    }
 

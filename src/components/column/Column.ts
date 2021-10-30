@@ -1,8 +1,11 @@
-import { Creator, RootElementConnector } from "../../common/common.types";
+import { Creator, Newable, RootElementConnector } from "../../common/common.types";
 import LeaderboardHeader from "../headers/Header";
 import Header from "../headers/Header";
 import ElementCreator from "../../factories/ElementCreator";
 import Row from "../row/Row";
+import Logger from "../../common/Logger/Logger";
+import ElementController from "../../common/ElementController";
+import { SEMANTIC_TAGS } from "../style/common.enum";
 
 export interface LeaderboardData {
    /*
@@ -30,31 +33,39 @@ interface ColumnProperties extends RowProperties {
 
 type RawColumnProperties = any;
 
+enum COLUMN_DATA_LOGS {
+   NO_DATA_FOUND = "Cannot find header and row data."
+}
 class Column implements RootElementConnector, Creator {
    root: HTMLElement;
    _elementCreator: ElementCreator;
+   private _logger: Logger;
 
    constructor(root: HTMLElement, private _lbData: any) {
       this.root = root;
       this._elementCreator = new ElementCreator();
+      this._logger = new Logger(this as unknown as Newable);
    }
 
-   public render(): any {
-      return this._createColumn();
+   public render(): HTMLElement[] {
+      return this._createColumns();
    }
 
-   private _createColumn() {
+   private _createColumns() {
       const columnsData = this._lbData.reduce(
          (
             headersAccumulator: ColumnProperties[],
             preParsedElement: RawColumnProperties
          ) => {
-            if (!preParsedElement || !headersAccumulator) return;
+            if (!preParsedElement) {
+               this._logger.log(COLUMN_DATA_LOGS.NO_DATA_FOUND);
+               return;
+            }
+
             const preParsedHeaders = Object.keys(preParsedElement);
             if (!preParsedHeaders) return;
 
             preParsedHeaders.forEach((header) => {
-               // eslint-disable-next-line no-prototype-builtins
                if (preParsedElement.hasOwnProperty(header)) {
                   const singleRowForHeader: RowProperties = preParsedElement[header];
                   const isHeaderAlreadyExistsInAcc: boolean = headersAccumulator.some(
@@ -79,6 +90,49 @@ class Column implements RootElementConnector, Creator {
          },
          []
       );
+      console.log({ columnsData });
+
+      return this._generateColumns(columnsData);
+   }
+
+   private _generateColumns(columnsData: ColumnProperties[]) {
+      return columnsData.map(({ rows, header }: ColumnProperties) => {
+         const columnContainer = this._elementCreator.container().getElement;
+         const columnHeaderElement = this._generateColumnHeader(header);
+         const columnsRows = rows.map(
+            (rowData: unknown): HTMLElement => this._generateRowElement(rowData)
+         );
+
+         this._appendHeaderToColumnContainer(columnContainer, columnHeaderElement);
+         this._appendElementsToColumnContainer(columnsRows, columnContainer);
+         return columnContainer;
+      });
+   }
+
+   private _appendHeaderToColumnContainer(
+      columnContainer: HTMLElement,
+      columnHeaderElement: HTMLElement
+   ): void {
+      ElementController.appendElementsToContainer(columnContainer, columnHeaderElement);
+   }
+
+   private _appendElementsToColumnContainer(
+      columnsRows: HTMLElement[],
+      columnContainer: HTMLElement
+   ): void {
+      columnsRows.forEach((rowElement: HTMLElement) =>
+         ElementController.appendElementsToContainer(columnContainer, rowElement)
+      );
+   }
+
+   private _generateColumnHeader(headerText: string) {
+      return this._elementCreator.createText(SEMANTIC_TAGS.PRIMARY_TEXT, headerText)
+         .getElement;
+   }
+
+   private _generateRowElement(rowData: unknown) {
+      const instanceOfRow = new Row(this.root, rowData);
+      return instanceOfRow.render();
    }
 
    private _appendNewRowToExistingHeader(
