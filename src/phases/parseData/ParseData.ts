@@ -1,7 +1,7 @@
 import PhasesState from "../PhasesState";
 import Logger from "../../common/Logger/Logger";
 import { Newable } from "../../common/common.types";
-import { LeaderboardOptions, LeaderboardOptionType } from "../../index";
+import { LeaderboardOptions } from "../../index";
 import { RowProperties } from "../../components/row/types";
 import PlaceSorter from "../../sorters/PlaceSorter";
 
@@ -9,7 +9,7 @@ class ParseData extends PhasesState {
    private _logger: Logger;
    private _data: RowProperties[];
    private _columnsData: any;
-   private _userOptions: LeaderboardOptionType;
+   private _userOptions: LeaderboardOptions;
    private _rootContainer: HTMLElement;
    private _sorter: PlaceSorter;
 
@@ -74,10 +74,6 @@ class ParseData extends PhasesState {
       this._userInputValidation();
       this._sort();
       return this._data;
-   }
-
-   private _isExtended(): boolean {
-      return !!this._userOptions.extended;
    }
 }
 

@@ -1,21 +1,15 @@
 import Mount from "./phases/mount/Mount";
 import Logger from "./common/Logger/Logger";
 import ParseData from "./phases/parseData/ParseData";
+import PhasesContext from "./phases/context/phases/PhasesContext";
 import { HeadersProps } from "./components/headers/types";
 import { RowProperties } from "./components/row/types";
 import "./components/style/style.scss";
-import PhasesContext from "./phases/context/phases/PhasesContext";
-
-export interface LeaderboardType {
-   extended?: boolean;
-}
 
 export interface LeaderboardOptions {
    headerTags: string | HTMLElement;
    logs: boolean;
 }
-
-export type LeaderboardOptionType = LeaderboardType & LeaderboardOptions;
 
 interface LeaderboardConfig {
    rootContainer: HTMLElement;
@@ -27,7 +21,7 @@ interface LeaderboardConfig {
 /**
  *  @interface PreParsedLeaderboardData this interface is used for client data type.
  */
-export interface PreParsedLeaderboardData {
+interface PreParsedLeaderboardData {
    /**
     * @type header is REQUIRED - header is used for each column for arrays of rows.
     */
@@ -72,4 +66,5 @@ class Leaderboard {
    }
 }
 
+export { PreParsedLeaderboardData };
 export default Leaderboard;
