@@ -6,11 +6,6 @@ import { RowProperties } from "./components/row/types";
 import "./components/style/style.scss";
 import PhasesContext from "./phases/context/phases/PhasesContext";
 
-enum LEADERBOARD_TYPE {
-   SIMPLE = "simple",
-   EXTENDED = "extended"
-}
-
 export interface LeaderboardType {
    extended?: boolean;
 }
@@ -27,6 +22,32 @@ interface LeaderboardConfig {
    leaderboardData: RowProperties[];
    options: LeaderboardOptions;
    headers: HeadersProps;
+}
+
+/**
+ *  @interface PreParsedLeaderboardData this interface is used for client data type.
+ */
+export interface PreParsedLeaderboardData {
+   /**
+    * @type header is REQUIRED - header is used for each column for arrays of rows.
+    */
+   header: string;
+
+   /**
+    * @type place is OPTIONAL  - if user doesn't want to use sorters, data in leaderboard
+    *                           is not going to be sorted in anyway without this type.
+    */
+   place: number;
+
+   /**
+    * @type points is OPTIONAL - points can be used for sorting of entities based on its points.
+    */
+   points: number;
+
+   /**
+    *  Any other keys in client's object will be considered as data for headers and properties.
+    */
+   [key: string]: string | number;
 }
 
 class Leaderboard {
