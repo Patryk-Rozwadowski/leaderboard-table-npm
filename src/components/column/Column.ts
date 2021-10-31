@@ -5,7 +5,6 @@ import ElementCreator from "../../factories/ElementCreator";
 import Row from "../row/Row";
 import Logger from "../../common/Logger/Logger";
 import ElementController from "../../common/ElementController";
-import { SEMANTIC_TAGS } from "../style/common.enum";
 import { PreParsedLeaderboardData } from "../../index";
 
 /**
@@ -37,10 +36,10 @@ class Column implements RootElementConnector, Creator {
    }
 
    public render(): HTMLElement[] {
-      return this._createColumns();
+      return this._prepareColumns();
    }
 
-   private _createColumns() {
+   private _prepareColumns() {
       const columnsData = this._lbData.reduce(
          (
             headersAccumulator: ColumnProperties[],
@@ -73,7 +72,7 @@ class Column implements RootElementConnector, Creator {
          },
          []
       );
-      return this._generateColumns(columnsData);
+      return this._generateColumnsElements(columnsData);
    }
 
    private _appendNewHeaderAndRowToAcc({
@@ -105,16 +104,17 @@ class Column implements RootElementConnector, Creator {
       return existingHeaderInAcc.rows.push(singleRowValuesForHeader);
    }
 
-   private _generateColumns(columnsData: ColumnProperties[]) {
+   private _generateColumnsElements(columnsData: ColumnProperties[]) {
       return columnsData.map(({ rows, header }: ColumnProperties): HTMLElement => {
          const columnContainer = this._elementCreator.container().getElement;
-         const columnHeaderElement = this._generateColumnHeader(header);
          const columnsRows = rows.map(
             (rowData: SingleRowProperties): HTMLElement =>
                this._generateRowElement(rowData)
          );
 
-         this._appendHeaderToColumnContainer(columnContainer, columnHeaderElement);
+         const headerElement = this._instantiateHeader(header).render();
+
+         this._appendHeaderToColumnContainer(columnContainer, headerElement);
          this._appendElementsToColumnContainer(columnsRows, columnContainer);
          return columnContainer;
       });
@@ -127,11 +127,6 @@ class Column implements RootElementConnector, Creator {
       columnsRows.forEach((rowElement: HTMLElement) =>
          ElementController.appendElementsToContainer(columnContainer, rowElement)
       );
-   }
-
-   private _generateColumnHeader(headerText: string) {
-      return this._elementCreator.createText(SEMANTIC_TAGS.PRIMARY_TEXT, headerText)
-         .getElement;
    }
 
    private _generateRowElement(rowData: SingleRowProperties): HTMLElement {
