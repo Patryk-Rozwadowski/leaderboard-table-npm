@@ -3,6 +3,7 @@ import { COMMON_STYLE_CLASS, SEMANTIC_TAGS } from "../style/common.enum";
 import { Creator, Newable } from "../../common/common.types";
 import Logger from "../../common/Logger/Logger";
 import ElementController from "../../common/ElementController";
+import { SingleRowProperties } from "../column/Column";
 
 enum ROW_CLASS_STYLE {
    ROW_LIST_CONTAINER = "lb_row_wrapper",
@@ -16,17 +17,15 @@ interface RowContainers {
    contentContainer: HTMLElement;
 }
 
-interface RowTexts {
-   contentTextElement: HTMLElement;
-   textContent: HTMLElement;
-}
-
 class Row implements Creator {
    _elementCreator: ElementCreator;
    _rowListContainer: HTMLElement;
    _logger: Logger;
 
-   constructor(private _rootContainer: HTMLElement, private _rowData: any) {
+   constructor(
+      private _rootContainer: HTMLElement,
+      private _rowData: SingleRowProperties
+   ) {
       this._elementCreator = new ElementCreator();
       this._logger = new Logger(this as unknown as Newable);
    }
