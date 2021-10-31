@@ -97,8 +97,8 @@ class Column implements RootElementConnector, Creator {
       singleRowValuesForHeader
    }: ValuesToSaveOrAppend) {
       const headerIndexInAcc = headersAccumulator.findIndex(
-         (el: { [x: string]: any }) => {
-            return el.header === header;
+         (element: { header: string }) => {
+            return element.header === header;
          }
       );
       const existingHeaderInAcc = headersAccumulator[headerIndexInAcc];
@@ -109,9 +109,10 @@ class Column implements RootElementConnector, Creator {
       return columnsData.map(({ rows, header }: ColumnProperties): HTMLElement => {
          const columnContainer = this._elementCreator.container().getElement;
          const columnHeaderElement = this._generateColumnHeader(header);
-         const columnsRows = rows.map((rowData: any): HTMLElement => {
-            return this._generateRowElement(rowData);
-         });
+         const columnsRows = rows.map(
+            (rowData: SingleRowProperties): HTMLElement =>
+               this._generateRowElement(rowData)
+         );
 
          this._appendHeaderToColumnContainer(columnContainer, columnHeaderElement);
          this._appendElementsToColumnContainer(columnsRows, columnContainer);

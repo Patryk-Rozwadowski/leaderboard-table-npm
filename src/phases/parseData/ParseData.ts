@@ -8,7 +8,6 @@ import PlaceSorter from "../../sorters/PlaceSorter";
 class ParseData extends PhasesState {
    private _logger: Logger;
    private _data: RowProperties[];
-   private _columnsData: any;
    private _userOptions: LeaderboardOptions;
    private _rootContainer: HTMLElement;
    private _sorter: PlaceSorter;
