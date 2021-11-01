@@ -6,6 +6,7 @@ import Row from "../row/Row";
 import Logger from "../../common/Logger/Logger";
 import ElementController from "../../common/ElementController";
 import { PreParsedLeaderboardData } from "../../index";
+import { COMMON_STYLE_CLASS } from "../style/common.enum";
 
 /**
  * @type ColumnProperties type for column data which is after whole
@@ -46,6 +47,7 @@ class Column implements RootElementConnector, Creator {
             preParsedElement: Partial<PreParsedLeaderboardData>
          ): ColumnProperties[] => {
             const preParsedHeaders = Object.keys(preParsedElement);
+
             preParsedHeaders.forEach((header: string): void => {
                const singleRowValuesForHeader = preParsedElement[
                   header
@@ -75,6 +77,24 @@ class Column implements RootElementConnector, Creator {
       return this._generateColumnsElements(columnsData);
    }
 
+   private _generateColumnsElements(columnsData: ColumnProperties[]) {
+      return columnsData.map(({ rows, header }: ColumnProperties): HTMLElement => {
+         const columnContainer = this._elementCreator.container().getElement;
+         columnContainer.classList.add(COMMON_STYLE_CLASS.COLUMN_CONTAINER);
+
+         const columnsRows = rows.map(
+            (rowData: SingleRowProperties): HTMLElement =>
+               this._generateRowElement(rowData)
+         );
+
+         const headerElement = this._instantiateHeader(header).render();
+
+         this._appendHeaderToColumnContainer(columnContainer, headerElement);
+         this._appendElementsToColumnContainer(columnsRows, columnContainer);
+         return columnContainer;
+      });
+   }
+
    private _appendNewHeaderAndRowToAcc({
       headersAccumulator,
       header,
@@ -102,22 +122,6 @@ class Column implements RootElementConnector, Creator {
       );
       const existingHeaderInAcc = headersAccumulator[headerIndexInAcc];
       return existingHeaderInAcc.rows.push(singleRowValuesForHeader);
-   }
-
-   private _generateColumnsElements(columnsData: ColumnProperties[]) {
-      return columnsData.map(({ rows, header }: ColumnProperties): HTMLElement => {
-         const columnContainer = this._elementCreator.container().getElement;
-         const columnsRows = rows.map(
-            (rowData: SingleRowProperties): HTMLElement =>
-               this._generateRowElement(rowData)
-         );
-
-         const headerElement = this._instantiateHeader(header).render();
-
-         this._appendHeaderToColumnContainer(columnContainer, headerElement);
-         this._appendElementsToColumnContainer(columnsRows, columnContainer);
-         return columnContainer;
-      });
    }
 
    private _appendElementsToColumnContainer(
