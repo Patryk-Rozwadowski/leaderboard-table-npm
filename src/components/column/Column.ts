@@ -1,6 +1,6 @@
 import { Creator, Newable, RootElementConnector } from "../../common/common.types";
-import LeaderboardHeader from "../headers/Header";
-import Header from "../headers/Header";
+import LeaderboardHeader from "../header/Header";
+import Header from "../header/Header";
 import ElementCreator from "../../factories/ElementCreator";
 import Row from "../row/Row";
 import Logger from "../../common/Logger/Logger";
