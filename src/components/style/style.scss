@@ -24,12 +24,9 @@ $primary-text-font-family: "Roboto Light", sans-serif;
   font-size: 1.5em;
 }
 
-.root {
-  background-color: yellow;
-  border: 1px solid red;
-}
-
 .lb {
+  display: flex;
+  width: 100%;
   background-color: yellowgreen;
 
   &_header_text_primary {
@@ -45,6 +42,7 @@ $primary-text-font-family: "Roboto Light", sans-serif;
   &_headers {
     @include reset-mg-pd();
     @include flex-center();
+    width: 100%;
     display: flex;
     flex-direction: row;
     border-radius: $headers-section-border-radius;
@@ -88,11 +86,18 @@ $primary-text-font-family: "Roboto Light", sans-serif;
 
   &_col {
     @include flex-center();
+    width: 100%;
     flex-direction: column;
   }
 }
 
 .lb_row_wrapper {
   @include flex();
+  width: 100%;
   flex-direction: column;
+
+  &:nth-of-type(2n) {
+    border: 1px solid green;
+
+  }
 }

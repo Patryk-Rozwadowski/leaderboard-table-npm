@@ -7,10 +7,11 @@ enum SEMANTIC_TAGS {
 }
 
 enum COMMON_STYLE_CLASS {
+   ROOT_CONTAINER = "lb",
    HEADERS_CONTAINER = "lb_headers",
    TEXT_PRIMARY = "lb_text_primary",
    HEADER_PRIMARY = "lb_header_text_primary",
-   COLUMN = "lb_col",
+   COLUMN_CONTAINER = "lb_col",
    CONTAINER = "lb_container"
 }
 
