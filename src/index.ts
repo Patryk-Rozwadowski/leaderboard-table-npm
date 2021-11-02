@@ -2,8 +2,9 @@ import Mount from "./phases/mount/Mount";
 import Logger from "./common/Logger/Logger";
 import ParseData from "./phases/parseData/ParseData";
 import PhasesContext from "./phases/context/phases/PhasesContext";
-import { HeadersProps } from "./components/headers/types";
+import { HeadersProps } from "./components/header/types";
 import { RowProperties } from "./components/row/types";
+import { COMMON_STYLE_CLASS } from "./components/style/common.enum";
 import "./components/style/style.scss";
 
 export interface LeaderboardOptions {
@@ -39,7 +40,7 @@ interface PreParsedLeaderboardData {
    points: number;
 
    /**
-    *  Any other keys in client's object will be considered as data for headers and properties.
+    *  Any other keys in client's object will be considered as data for header and properties.
     */
    [key: string]: string | number;
 }
@@ -61,6 +62,9 @@ class Leaderboard {
 
    public init(): void {
       this._parsedData = this._phasesContext.execute();
+
+      this._rootContainer.classList.add(COMMON_STYLE_CLASS.ROOT_CONTAINER);
+
       this._phasesContext.transitionTo(new Mount(this._rootContainer, this._parsedData));
       this._phasesContext.execute();
    }
