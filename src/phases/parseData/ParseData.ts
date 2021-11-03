@@ -4,6 +4,7 @@ import { Newable } from "../../common/common.types";
 import { LeaderboardOptions } from "../../index";
 import { RowProperties } from "../../components/row/types";
 import PlaceSorter from "../../sorters/PlaceSorter";
+import ClientInputVerification from "../../common/ClientInputVerificator/ClientInputVerification";
 
 class ParseData extends PhasesState {
    private _logger: Logger;
@@ -11,6 +12,7 @@ class ParseData extends PhasesState {
    private _userOptions: LeaderboardOptions;
    private _rootContainer: HTMLElement;
    private _sorter: PlaceSorter;
+   private _clientInputVerification: ClientInputVerification;
 
    constructor(
       rootContainer: HTMLElement,
@@ -20,6 +22,7 @@ class ParseData extends PhasesState {
       super();
       this._sorter = new PlaceSorter(data);
       this._logger = new Logger(this as unknown as Newable);
+      this._clientInputVerification = new ClientInputVerification(this._logger);
       this._rootContainer = rootContainer;
       this._data = data;
       this._userOptions = userOptions;
@@ -37,8 +40,9 @@ class ParseData extends PhasesState {
 
    private _userInputValidation() {
       this._logger.log(`User's input validation.`);
-      this._checkRootContainer();
-      this._checkData();
+      if (this._clientInputVerification.isRootContainerValid(this._rootContainer)) {
+         this._checkData();
+      }
    }
 
    private _sort() {
@@ -47,25 +51,8 @@ class ParseData extends PhasesState {
 
    private _checkData() {
       this._logger.log("Checking data types.");
-
-      // TODO handler for columns data
-      if (!Array.isArray(this._data) || !this._data) {
-         this._logger.error("Data is not defined. Pass leaderboard information.");
-         return;
-      }
+      if (!this._clientInputVerification.isDataStructureValid(this._data)) return;
       this._logger.log(`Data is valid.`);
-   }
-
-   private _checkRootContainer(): void {
-      if (
-         typeof this._rootContainer === "undefined" ||
-         !(this._rootContainer instanceof HTMLElement)
-      ) {
-         throw new Error(
-            `Expected e to be an HTMLElement, was ${typeof this._rootContainer}.`
-         );
-      }
-      this._logger.log("Root element is valid.");
    }
 
    private _parseData(): RowProperties[] {

@@ -4,18 +4,20 @@ import { RowProperties } from "../../components/row/types";
 class ClientInputVerification {
    constructor(private _logger: Logger) {}
 
-   public verifyRootElement(element: HTMLElement): void {
+   public isRootContainerValid(element: HTMLElement): boolean {
       if (typeof element === "undefined" || !(element instanceof HTMLElement)) {
          throw new Error(`Expected e to be an HTMLElement, was ${typeof element}.`);
       }
       this._logger.log("Root element is valid.");
+      return true;
    }
 
-   public verifyDataStructure(data: RowProperties[]): void {
+   public isDataStructureValid(data: RowProperties[]): boolean {
       if (!Array.isArray(data) || !data) {
          this._logger.error("Data is not defined. Pass leaderboard information.");
-         return;
+         return false;
       }
+      return true;
    }
 }
 

@@ -1,13 +1,13 @@
 import { Newable } from "../common.types";
 import Leaderboard from "../../index";
+import Row from "../../components/row/Row";
 
 class Logger {
    private readonly _contextName: string;
 
-   constructor(private _context: Newable | Leaderboard) {
+   constructor(private _context: Newable | Leaderboard | Row) {
       this._context = _context;
       this._contextName = this._context.constructor.name;
-      this.group(this._contextName);
       this.initialStateGroup();
    }
 
@@ -28,6 +28,7 @@ class Logger {
    }
 
    private initialStateGroup() {
+      if (!(this._context instanceof Row)) this.group(this._contextName);
       if (this._context instanceof Leaderboard) {
          this.group("State");
       }
