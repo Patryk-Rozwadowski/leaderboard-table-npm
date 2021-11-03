@@ -1,6 +1,6 @@
 import ElementCreator from "../../factories/ElementCreator";
 import { COMMON_STYLE_CLASS, SEMANTIC_TAGS } from "../style/common.enum";
-import { Creator, Newable } from "../../common/common.types";
+import { Component, Newable } from "../../common/common.types";
 import Logger from "../../common/Logger/Logger";
 import ElementController from "../../common/ElementController";
 import { SingleRowProperties } from "../column/Column";
@@ -17,7 +17,7 @@ interface RowContainers {
    contentContainer: HTMLElement;
 }
 
-class Row implements Creator {
+class Row implements Component {
    _elementCreator: ElementCreator;
    _rowListContainer: HTMLElement;
    _logger: Logger;

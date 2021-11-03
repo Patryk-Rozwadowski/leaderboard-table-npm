@@ -1,7 +1,7 @@
 import ElementCreator from "../../factories/ElementCreator";
 import Logger from "../../common/Logger/Logger";
 import { COMMON_STYLE_CLASS, SEMANTIC_TAGS } from "../style/common.enum";
-import { Creator, Newable } from "../../common/common.types";
+import { Component, Newable } from "../../common/common.types";
 import ElementController from "../../common/ElementController";
 
 enum HEADERS_LOGGER_MESSAGES {
@@ -10,7 +10,7 @@ enum HEADERS_LOGGER_MESSAGES {
    MULTIPLE_HEADERS = "Creating multiple headers."
 }
 
-class Header implements Creator {
+class Header implements Component {
    _logger: Logger;
    _elementCreator: ElementCreator;
    private _headersContainer: HTMLElement;

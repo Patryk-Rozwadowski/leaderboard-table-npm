@@ -1,4 +1,4 @@
-import { Creator, Newable, RootElementConnector } from "../../common/common.types";
+import { Component, Newable, RootElementConnector } from "../../common/common.types";
 import LeaderboardHeader from "../header/Header";
 import Header from "../header/Header";
 import ElementCreator from "../../factories/ElementCreator";
@@ -25,7 +25,7 @@ interface ValuesToSaveOrAppend {
    singleRowValuesForHeader: SingleRowProperties;
 }
 
-class Column implements RootElementConnector, Creator {
+class Column implements RootElementConnector, Component {
    root: HTMLElement;
    _elementCreator: ElementCreator;
    private _logger: Logger;
@@ -74,6 +74,7 @@ class Column implements RootElementConnector, Creator {
          },
          []
       );
+      console.log({ columnsData });
       return this._generateColumnsElements(columnsData);
    }
 

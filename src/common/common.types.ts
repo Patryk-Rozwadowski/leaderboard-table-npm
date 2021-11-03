@@ -21,7 +21,11 @@ interface RootElementConnector {
    root: HTMLElement;
 }
 
+interface Component extends Creator {
+   render(): HTMLElement | HTMLElement[];
+}
+
 type LbCSSClass = ROW_CLASS_STYLE | COMMON_STYLE_CLASS;
 type LbSemanticTag = SEMANTIC_TAGS;
 
-export { Newable, Creator, LbCSSClass, LbSemanticTag, RootElementConnector };
+export { Newable, Creator, LbCSSClass, LbSemanticTag, RootElementConnector, Component };
