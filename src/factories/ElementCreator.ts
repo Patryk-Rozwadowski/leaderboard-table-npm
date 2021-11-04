@@ -8,6 +8,10 @@ interface Column {
 
 type TextElement = SEMANTIC_TAGS.PRIMARY_TEXT | SEMANTIC_TAGS.HEADER_TEXT;
 
+/**
+ * @class ElementCreator is used whenever is need to create
+ * native DOM elements. Methods can be chained.
+ */
 class ElementCreator {
    private _element: HTMLElement;
 
