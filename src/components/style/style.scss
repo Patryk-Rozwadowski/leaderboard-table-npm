@@ -85,7 +85,6 @@ $primary-text-font-family: "Roboto Light", sans-serif;
   }
 
   &_col {
-    @include flex-center();
     width: 100%;
     flex-direction: column;
   }
