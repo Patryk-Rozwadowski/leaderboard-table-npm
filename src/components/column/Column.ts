@@ -14,7 +14,7 @@ import { COMMON_STYLE_CLASS } from "../style/common.enum";
  */
 interface ColumnProperties {
    header: string;
-   rows: SingleRowProperties[];
+   rows: SingleRowProperties[] | [];
 }
 
 export type SingleRowProperties = { [key: string]: string | number };
@@ -46,21 +46,40 @@ class Column implements RootElementConnector, Component {
             headersAccumulator: ColumnProperties[],
             preParsedElement: Partial<PreParsedLeaderboardData>
          ): ColumnProperties[] => {
-            const preParsedHeaders = Object.keys(preParsedElement);
-
-            preParsedHeaders.forEach((header: string): void => {
+            const clientHeaders: string[] = Object.keys(preParsedElement);
+            clientHeaders.forEach((clientHeader: string): void => {
+               console.log({ clientHeader });
                const singleRowValuesForHeader = preParsedElement[
-                  header
+                  clientHeader
                ] as unknown as SingleRowProperties;
 
                const isHeaderAlreadyExistsInAcc: boolean = headersAccumulator.some(
                   (currentIteratedElement: { header: string }) =>
-                     currentIteratedElement.header === header
+                     currentIteratedElement.header === clientHeader
                );
+
+               let newKey: ColumnProperties;
+               let isAdditionalKey = false;
+
+               if (isHeaderAlreadyExistsInAcc) {
+                  let index;
+                  const accHeaders: string[] = headersAccumulator.map((el) => el.header);
+
+                  /**
+                   * Holding boolean value if there is another new header in column which already has been added.
+                   * @let isAdditionalKey
+                   * @type boolean
+                   */
+                  isAdditionalKey =
+                     accHeaders.length === clientHeaders.length &&
+                     accHeaders.every(function (value, index) {
+                        return value === clientHeaders[index];
+                     });
+               }
 
                const valuesToSaveOrAppend: ValuesToSaveOrAppend = {
                   headersAccumulator,
-                  header,
+                  header: clientHeader,
                   singleRowValuesForHeader
                };
 
@@ -70,18 +89,30 @@ class Column implements RootElementConnector, Component {
                   this._appendNewHeaderAndRowToAcc(valuesToSaveOrAppend);
                }
             });
+
             return headersAccumulator;
          },
          []
       );
+
       console.log({ columnsData });
+
       return this._generateColumnsElements(columnsData);
+   }
+
+   private _findElementWithMostKeys(headersArray: any): ColumnProperties {
+      const headersArrayLength = headersArray.map((el: {}) => Object.keys(el).length);
+      const longestArrayIndex = headersArrayLength.indexOf(
+         Math.max(...headersArrayLength)
+      );
+      return headersArray[longestArrayIndex];
    }
 
    private _generateColumnsElements(columnsData: ColumnProperties[]) {
       return columnsData.map(({ rows, header }: ColumnProperties): HTMLElement => {
-         const columnContainer = this._elementCreator.container().getElement;
-         columnContainer.classList.add(COMMON_STYLE_CLASS.COLUMN_CONTAINER);
+         const columnContainer = this._elementCreator
+            .container()
+            .appendStyles(COMMON_STYLE_CLASS.COLUMN_CONTAINER).getElement;
 
          const columnsRows = rows.map(
             (rowData: SingleRowProperties): HTMLElement =>
@@ -122,6 +153,7 @@ class Column implements RootElementConnector, Component {
          }
       );
       const existingHeaderInAcc = headersAccumulator[headerIndexInAcc];
+      // @ts-ignore
       return existingHeaderInAcc.rows.push(singleRowValuesForHeader);
    }
 
