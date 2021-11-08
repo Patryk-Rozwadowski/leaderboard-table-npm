@@ -71,5 +71,6 @@ class Row implements Component {
          .appendStyles(COMMON_STYLE_CLASS.TEXT_PRIMARY).getElement;
    }
 }
+
 export { ROW_CLASS_STYLE };
 export default Row;

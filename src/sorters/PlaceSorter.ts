@@ -9,15 +9,15 @@ class PlaceSorter {
       this._logger = new Logger(this as unknown as Newable);
    }
 
-   public ascendant(): RowProperties[] {
-      this._logger.log("Sorting ascendant places.");
-      return PlaceSorter.comparePlaces(this.dataToSort);
-   }
-
    private static comparePlaces(data: RowProperties[]) {
       return data.sort((a, b) => {
          return a.place - b.place;
       });
+   }
+
+   public ascendant(): RowProperties[] {
+      this._logger.log("Sorting ascendant places.");
+      return PlaceSorter.comparePlaces(this.dataToSort);
    }
 }
 
