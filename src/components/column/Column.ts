@@ -29,6 +29,8 @@ class Column implements RootElementConnector, Component {
    root: HTMLElement;
    _elementCreator: ElementCreator;
    private _logger: Logger;
+   private _isAdditionalKey: boolean;
+   private _newKey: string | ColumnProperties;
 
    constructor(root: HTMLElement, private _lbData: Partial<PreParsedLeaderboardData>[]) {
       this.root = root;
@@ -44,49 +46,53 @@ class Column implements RootElementConnector, Component {
       const columnsData = this._lbData.reduce(
          (
             headersAccumulator: ColumnProperties[],
-            preParsedElement: Partial<PreParsedLeaderboardData>
+            preParsedElement: Partial<PreParsedLeaderboardData>,
+            index: number
          ): ColumnProperties[] => {
             const clientHeaders: string[] = Object.keys(preParsedElement);
             clientHeaders.forEach((clientHeader: string): void => {
-               console.log({ clientHeader });
-               const singleRowValuesForHeader = preParsedElement[
-                  clientHeader
-               ] as unknown as SingleRowProperties;
-
                const isHeaderAlreadyExistsInAcc: boolean = headersAccumulator.some(
                   (currentIteratedElement: { header: string }) =>
                      currentIteratedElement.header === clientHeader
                );
 
-               let newKey: ColumnProperties;
-               let isAdditionalKey = false;
-
                if (isHeaderAlreadyExistsInAcc) {
-                  let index;
                   const accHeaders: string[] = headersAccumulator.map((el) => el.header);
-
                   /**
                    * Holding boolean value if there is another new header in column which already has been added.
                    * @let isAdditionalKey
                    * @type boolean
                    */
-                  isAdditionalKey =
-                     accHeaders.length === clientHeaders.length &&
-                     accHeaders.every(function (value, index) {
-                        return value === clientHeaders[index];
-                     });
+                  clientHeaders.forEach((accHeader, index) => {
+                     this._isAdditionalKey = !accHeaders.includes(clientHeaders[index]);
+                     if (this._isAdditionalKey) this._newKey = clientHeaders[index];
+                  });
+                  console.log(this._isAdditionalKey);
                }
+               const singleRowValuesForHeader = preParsedElement[
+                  clientHeader
+               ] as unknown as SingleRowProperties;
 
                const valuesToSaveOrAppend: ValuesToSaveOrAppend = {
                   headersAccumulator,
                   header: clientHeader,
                   singleRowValuesForHeader
                };
-
                if (isHeaderAlreadyExistsInAcc) {
                   this._appendNewRowToExistingHeader(valuesToSaveOrAppend);
                } else {
                   this._appendNewHeaderAndRowToAcc(valuesToSaveOrAppend);
+                  if (this._isAdditionalKey) {
+                     headersAccumulator.forEach((col) => {
+                        if (col.header === this._newKey) {
+                           const n = Array.apply(null, Array(index));
+                           n.forEach((emptyArr): void => {
+                              col.rows.unshift(emptyArr as never);
+                           });
+                        }
+                     });
+                  }
+                  console.log({ headersAccumulator });
                }
             });
 

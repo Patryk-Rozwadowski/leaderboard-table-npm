@@ -45,7 +45,7 @@ class Row implements Component {
          .appendStyles(ROW_CLASS_STYLE.ROW_CONTAINER).getElement;
 
       const { contentContainer } = this._createRowContainers();
-      const textContent = this._createRowTexts(this._rowData.toString());
+      const textContent = this._createRowTexts(this._rowData?.toString());
 
       ElementController.appendElementsToContainer(contentContainer, textContent);
       ElementController.appendElementsToContainer(rowWrapper, contentContainer);
