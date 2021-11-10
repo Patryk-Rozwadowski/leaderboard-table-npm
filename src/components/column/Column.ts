@@ -56,19 +56,6 @@ class Column implements RootElementConnector, Component {
                      currentIteratedElement.header === clientHeader
                );
 
-               if (isHeaderAlreadyExistsInAcc) {
-                  const accHeaders: string[] = headersAccumulator.map((el) => el.header);
-                  /**
-                   * Holding boolean value if there is another new header in column which already has been added.
-                   * @let isAdditionalKey
-                   * @type boolean
-                   */
-                  clientHeaders.forEach((accHeader, index) => {
-                     this._isAdditionalKey = !accHeaders.includes(clientHeaders[index]);
-                     if (this._isAdditionalKey) this._newKey = clientHeaders[index];
-                  });
-                  console.log(this._isAdditionalKey);
-               }
                const singleRowValuesForHeader = preParsedElement[
                   clientHeader
                ] as unknown as SingleRowProperties;
@@ -78,17 +65,21 @@ class Column implements RootElementConnector, Component {
                   header: clientHeader,
                   singleRowValuesForHeader
                };
+
+               if (isHeaderAlreadyExistsInAcc) {
+                  this._newKeyHandler(clientHeaders, headersAccumulator);
+               }
+
                if (isHeaderAlreadyExistsInAcc) {
                   this._appendNewRowToExistingHeader(valuesToSaveOrAppend);
                } else {
                   this._appendNewHeaderAndRowToAcc(valuesToSaveOrAppend);
                   if (this._isAdditionalKey) {
                      headersAccumulator.forEach((col) => {
-                        if (col.header === this._newKey) {
-                           const n = Array.apply(null, Array(index));
-                           n.forEach((emptyArr): void => {
-                              col.rows.unshift(emptyArr as never);
-                           });
+                        // Finding new key which is new
+                        const isNewKey = col.header === this._newKey;
+                        if (isNewKey) {
+                           this._unshiftEmptyRowsToNewKey(col, index);
                         }
                      });
                   }
@@ -104,6 +95,35 @@ class Column implements RootElementConnector, Component {
       console.log({ columnsData });
 
       return this._generateColumnsElements(columnsData);
+   }
+
+   private _unshiftEmptyRowsToNewKey(column: ColumnProperties, nOfArrays: number): void {
+      const n = Array.apply(null, Array(nOfArrays));
+      n.forEach((emptyArr): void => {
+         column.rows.unshift(emptyArr as never);
+      });
+   }
+   private _checkIsNewKey(
+      headersAcc: string[],
+      clientHeaders: string[],
+      index: number
+   ): void {
+      this._isAdditionalKey = !headersAcc.includes(clientHeaders[index]);
+      if (this._isAdditionalKey) this._newKey = clientHeaders[index];
+   }
+
+   private _newKeyHandler(
+      clientHeaders: string[],
+      headersAccumulator: { header: string }[]
+   ) {
+      const accHeaders: string[] = this._extractHeadersFromAcc(headersAccumulator);
+      clientHeaders.forEach((accHeader, index) => {
+         this._checkIsNewKey(accHeaders, clientHeaders, index);
+      });
+   }
+
+   private _extractHeadersFromAcc(headersAccumulator: { header: string }[]) {
+      return headersAccumulator.map(({ header }) => header);
    }
 
    private _findElementWithMostKeys(headersArray: any): ColumnProperties {
