@@ -67,7 +67,7 @@ class Column implements RootElementConnector, Component {
                };
 
                if (isHeaderAlreadyExistsInAcc) {
-                  this._newKeyHandler(clientHeaders, headersAccumulator);
+                  this._newKeyHandler(headersAccumulator, clientHeaders);
                }
 
                if (isHeaderAlreadyExistsInAcc) {
@@ -97,32 +97,57 @@ class Column implements RootElementConnector, Component {
       return this._generateColumnsElements(columnsData);
    }
 
+   /**
+    * Insert empty arrays in start of column's row, which has new key.
+    * @param column     Column which has new key.
+    * @param nOfArrays  Number of empty arrays to add
+    * @private
+    */
    private _unshiftEmptyRowsToNewKey(column: ColumnProperties, nOfArrays: number): void {
       const n = Array.apply(null, Array(nOfArrays));
       n.forEach((emptyArr): void => {
          column.rows.unshift(emptyArr as never);
       });
    }
+
+   /**
+    * Check if is there any new header key in data accumulator.
+    * @param headersKeysInAccumulator Array of header's string.
+    * @param clientHeaders            Raw headers from client's code.
+    * @param index                    Index of current iteration
+    * @private
+    */
    private _checkIsNewKey(
-      headersAcc: string[],
+      headersKeysInAccumulator: string[],
       clientHeaders: string[],
       index: number
    ): void {
-      this._isAdditionalKey = !headersAcc.includes(clientHeaders[index]);
+      const clientHeader = clientHeaders[index];
+      this._isAdditionalKey = !headersKeysInAccumulator.includes(clientHeader);
       if (this._isAdditionalKey) this._newKey = clientHeaders[index];
    }
 
+   /**
+    * Handler for checking for new key and if found then assigning to
+    * newKey information about that new header.
+    * @param headersAccumulator Array of header's string.
+    * @param clientHeaders      Raw headers from client's code.
+    * @private
+    */
    private _newKeyHandler(
-      clientHeaders: string[],
-      headersAccumulator: { header: string }[]
+      headersAccumulator: ColumnProperties[],
+      clientHeaders: string[]
    ) {
-      const accHeaders: string[] = this._extractHeadersFromAcc(headersAccumulator);
+      const keysOfAccumulatorHeaders: string[] =
+         this._extractHeadersFromAcc(headersAccumulator);
+
+      // Iteration over client raw headers
       clientHeaders.forEach((accHeader, index) => {
-         this._checkIsNewKey(accHeaders, clientHeaders, index);
+         this._checkIsNewKey(keysOfAccumulatorHeaders, clientHeaders, index);
       });
    }
 
-   private _extractHeadersFromAcc(headersAccumulator: { header: string }[]) {
+   private _extractHeadersFromAcc(headersAccumulator: ColumnProperties[]) {
       return headersAccumulator.map(({ header }) => header);
    }
 
@@ -134,6 +159,11 @@ class Column implements RootElementConnector, Component {
       return headersArray[longestArrayIndex];
    }
 
+   /**
+    * Generating DOM elements based on parsed data.
+    * @param columnsData   Parsed and prepared data
+    * @private
+    */
    private _generateColumnsElements(columnsData: ColumnProperties[]) {
       return columnsData.map(({ rows, header }: ColumnProperties): HTMLElement => {
          const columnContainer = this._elementCreator
