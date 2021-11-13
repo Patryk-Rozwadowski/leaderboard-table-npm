@@ -14,7 +14,7 @@ import { COMMON_STYLE_CLASS } from "../style/common.enum";
  */
 interface ColumnProperties {
    header: string;
-   rows: SingleRowProperties[] | [];
+   rows: SingleRowProperties[];
 }
 
 export type SingleRowProperties = { [key: string]: string | number };
@@ -122,9 +122,18 @@ class Column implements RootElementConnector, Component {
       clientHeaders: string[],
       index: number
    ): void {
-      const clientHeader = clientHeaders[index];
-      this._isAdditionalKey = !headersKeysInAccumulator.includes(clientHeader);
-      if (this._isAdditionalKey) this._newKey = clientHeaders[index];
+      const newKey: string = clientHeaders[index];
+      this._isAdditionalKey = !headersKeysInAccumulator.includes(newKey);
+      if (this._isAdditionalKey) this._newKeyFound(newKey);
+   }
+
+   /**
+    * Save information about newly
+    * @param newKey
+    * @private
+    */
+   private _newKeyFound(newKey: string): void {
+      this._newKey = newKey;
    }
 
    /**
@@ -147,12 +156,14 @@ class Column implements RootElementConnector, Component {
       });
    }
 
-   private _extractHeadersFromAcc(headersAccumulator: ColumnProperties[]) {
+   private _extractHeadersFromAcc(headersAccumulator: ColumnProperties[]): string[] {
       return headersAccumulator.map(({ header }) => header);
    }
 
    private _findElementWithMostKeys(headersArray: any): ColumnProperties {
-      const headersArrayLength = headersArray.map((el: {}) => Object.keys(el).length);
+      const headersArrayLength = headersArray.map(
+         (el: ColumnProperties) => Object.keys(el).length
+      );
       const longestArrayIndex = headersArrayLength.indexOf(
          Math.max(...headersArrayLength)
       );
@@ -183,19 +194,20 @@ class Column implements RootElementConnector, Component {
       });
    }
 
+   /**
+    * Appending new header with its single row value to data which will be used
+    * for rendering.
+    * @param headersAccumulator
+    * @param header
+    * @param singleRowValuesForHeader
+    * @private
+    */
    private _appendNewHeaderAndRowToAcc({
       headersAccumulator,
       header,
       singleRowValuesForHeader
    }: ValuesToSaveOrAppend) {
       headersAccumulator.push({ header, rows: [singleRowValuesForHeader] });
-   }
-
-   private _appendHeaderToColumnContainer(
-      columnContainer: HTMLElement,
-      columnHeaderElement: HTMLElement
-   ): void {
-      ElementController.appendElementsToContainer(columnContainer, columnHeaderElement);
    }
 
    private _appendNewRowToExistingHeader({
@@ -208,9 +220,16 @@ class Column implements RootElementConnector, Component {
             return element.header === header;
          }
       );
+
       const existingHeaderInAcc = headersAccumulator[headerIndexInAcc];
-      // @ts-ignore
-      return existingHeaderInAcc.rows.push(singleRowValuesForHeader);
+      existingHeaderInAcc.rows.push(singleRowValuesForHeader);
+   }
+
+   private _appendHeaderToColumnContainer(
+      columnContainer: HTMLElement,
+      columnHeaderElement: HTMLElement
+   ): void {
+      ElementController.appendElementsToContainer(columnContainer, columnHeaderElement);
    }
 
    private _appendElementsToColumnContainer(
