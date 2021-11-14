@@ -17,7 +17,7 @@ interface ColumnProperties {
    rows: SingleRowProperties[];
 }
 
-export type SingleRowProperties = { [key: string]: string | number };
+export type SingleRowProperties = { [key: string]: string | number | unknown };
 
 interface ValuesToSaveOrAppend {
    headersAccumulator: ColumnProperties[];
@@ -50,40 +50,41 @@ class Column implements RootElementConnector, Component {
             index: number
          ): ColumnProperties[] => {
             const clientHeaders: string[] = Object.keys(preParsedElement);
+
             clientHeaders.forEach((clientHeader: string): void => {
-               const isHeaderAlreadyExistsInAcc: boolean = headersAccumulator.some(
-                  (currentIteratedElement: { header: string }) =>
-                     currentIteratedElement.header === clientHeader
+               const isHeaderAlreadyExistsInAcc = headersAccumulator.findIndex(
+                  (element: { header: string }) => {
+                     return element.header === clientHeader;
+                  }
                );
 
                const singleRowValuesForHeader = preParsedElement[
                   clientHeader
                ] as unknown as SingleRowProperties;
-
                const valuesToSaveOrAppend: ValuesToSaveOrAppend = {
                   headersAccumulator,
                   header: clientHeader,
                   singleRowValuesForHeader
                };
-
                if (isHeaderAlreadyExistsInAcc) {
                   this._newKeyHandler(headersAccumulator, clientHeaders);
                }
 
-               if (isHeaderAlreadyExistsInAcc) {
+               if (isHeaderAlreadyExistsInAcc !== -1) {
                   this._appendNewRowToExistingHeader(valuesToSaveOrAppend);
                } else {
-                  this._appendNewHeaderAndRowToAcc(valuesToSaveOrAppend);
-                  if (this._isAdditionalKey) {
-                     headersAccumulator.forEach((col) => {
-                        // Finding new key which is new
-                        const isNewKey = col.header === this._newKey;
-                        if (isNewKey) {
-                           this._unshiftEmptyRowsToNewKey(col, index);
+                  this._appendNewHeaderAndRowToAcc(valuesToSaveOrAppend, index);
+                  const headersNotInCurrentIteration = headersAccumulator.filter(
+                     (col, i) => {
+                        if (col.header !== clientHeaders[i]) {
+                           // this._fillMissingRows(headersAccumulator, col, i)
+                           col.rows.splice(i, 0, "AAAA");
+                           return col;
                         }
-                     });
-                  }
-                  console.log({ headersAccumulator });
+                     }
+                  );
+                  console.log({ headersNotInCurrentIteration });
+                  // Headers which are not in current iteration
                }
             });
 
@@ -104,6 +105,7 @@ class Column implements RootElementConnector, Component {
     * @private
     */
    private _unshiftEmptyRowsToNewKey(column: ColumnProperties, nOfArrays: number): void {
+      // eslint-disable-next-line prefer-spread
       const n = Array.apply(null, Array(nOfArrays));
       n.forEach((emptyArr): void => {
          column.rows.unshift(emptyArr as never);
@@ -200,14 +202,17 @@ class Column implements RootElementConnector, Component {
     * @param headersAccumulator
     * @param header
     * @param singleRowValuesForHeader
+    * @param nOfArrays
     * @private
     */
-   private _appendNewHeaderAndRowToAcc({
-      headersAccumulator,
-      header,
-      singleRowValuesForHeader
-   }: ValuesToSaveOrAppend) {
-      headersAccumulator.push({ header, rows: [singleRowValuesForHeader] });
+   private _appendNewHeaderAndRowToAcc(
+      { headersAccumulator, header, singleRowValuesForHeader }: ValuesToSaveOrAppend,
+      nOfArrays: number
+   ) {
+      // eslint-disable-next-line prefer-spread
+      const emptyArrays: unknown[] = Array.apply(null, Array(nOfArrays));
+      const columnToSave = { header, rows: [...emptyArrays, singleRowValuesForHeader] };
+      headersAccumulator.push(columnToSave);
    }
 
    private _appendNewRowToExistingHeader({
@@ -223,6 +228,20 @@ class Column implements RootElementConnector, Component {
 
       const existingHeaderInAcc = headersAccumulator[headerIndexInAcc];
       existingHeaderInAcc.rows.push(singleRowValuesForHeader);
+   }
+
+   private _fillMissingRows(
+      headersAccumulator: any,
+      column: { rows: string | any[] },
+      i: number
+   ) {
+      const mostKeys = this._findElementWithMostKeys(headersAccumulator);
+      const numbersOfExistingRows = column.rows.length;
+      const differenceInRows = mostKeys.rows.length - numbersOfExistingRows;
+      if (differenceInRows <= 0) return;
+      const n = Array.apply(null, Array(differenceInRows));
+      console.log({ i });
+      column.rows.splice(...n, i);
    }
 
    private _appendHeaderToColumnContainer(
