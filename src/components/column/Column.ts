@@ -74,20 +74,10 @@ class Column implements RootElementConnector, Component {
                   this._appendNewRowToExistingHeader(valuesToSaveOrAppend);
                } else {
                   this._appendNewHeaderAndRowToAcc(valuesToSaveOrAppend, index);
-                  const headersNotInCurrentIteration = headersAccumulator.filter(
-                     (col, i) => {
-                        if (col.header !== clientHeaders[i]) {
-                           // this._fillMissingRows(headersAccumulator, col, i)
-                           col.rows.splice(i, 0, "AAAA");
-                           return col;
-                        }
-                     }
-                  );
-                  console.log({ headersNotInCurrentIteration });
-                  // Headers which are not in current iteration
                }
             });
 
+            this._fillMissingRows(headersAccumulator, clientHeaders, index);
             return headersAccumulator;
          },
          []
@@ -211,7 +201,10 @@ class Column implements RootElementConnector, Component {
    ) {
       // eslint-disable-next-line prefer-spread
       const emptyArrays: unknown[] = Array.apply(null, Array(nOfArrays));
-      const columnToSave = { header, rows: [...emptyArrays, singleRowValuesForHeader] };
+      const columnToSave = {
+         header,
+         rows: [...emptyArrays, singleRowValuesForHeader]
+      } as ColumnProperties;
       headersAccumulator.push(columnToSave);
    }
 
@@ -231,17 +224,18 @@ class Column implements RootElementConnector, Component {
    }
 
    private _fillMissingRows(
-      headersAccumulator: any,
-      column: { rows: string | any[] },
-      i: number
+      headersAccumulator: ColumnProperties[],
+      clientHeaders: string[],
+      indexForEmptyArray: number
    ) {
-      const mostKeys = this._findElementWithMostKeys(headersAccumulator);
-      const numbersOfExistingRows = column.rows.length;
-      const differenceInRows = mostKeys.rows.length - numbersOfExistingRows;
-      if (differenceInRows <= 0) return;
-      const n = Array.apply(null, Array(differenceInRows));
-      console.log({ i });
-      column.rows.splice(...n, i);
+      const headersNotInCurrentIteration = headersAccumulator.filter(
+         (accEl) => !clientHeaders.includes(accEl.header)
+      );
+
+      console.log(headersNotInCurrentIteration);
+      headersNotInCurrentIteration.forEach((el) =>
+         el?.rows.splice(indexForEmptyArray, 0, { "": "" })
+      );
    }
 
    private _appendHeaderToColumnContainer(
