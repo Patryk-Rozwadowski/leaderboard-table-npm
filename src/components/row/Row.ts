@@ -1,9 +1,8 @@
 import ElementCreator from "../../factories/ElementCreator";
 import { COMMON_STYLE_CLASS, SEMANTIC_TAGS } from "../style/common.enum";
-import { Component, Newable } from "../../common/common.types";
+import { Component, Newable, SingleRowProperties } from "../../common/common.types";
 import Logger from "../../common/Logger/Logger";
 import ElementController from "../../common/ElementController";
-import { SingleRowProperties } from "../column/Column";
 
 enum ROW_CLASS_STYLE {
    ROW_LIST_CONTAINER = "lb_row_wrapper",

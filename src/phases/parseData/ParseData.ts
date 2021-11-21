@@ -1,30 +1,24 @@
 import PhasesState from "../PhasesState";
 import Logger from "../../common/Logger/Logger";
-import { Newable } from "../../common/common.types";
+import {
+   ColumnProperties,
+   HeaderKey,
+   Newable,
+   SingleRowProperties
+} from "../../common/common.types";
 import { LeaderboardOptions, PreParsedLeaderboardData } from "../../index";
-import { RowProperties } from "../../components/row/types";
+import { SortableProperties } from "../../components/row/types";
 import PlaceSorter from "../../sorters/PlaceSorter";
 import ClientInputVerification from "../../common/ClientInputVerificator/ClientInputVerification";
-import { SingleRowProperties } from "../../components/column/Column";
 
-interface ValuesToSaveOrAppend {
+type ValuesToSaveOrAppend = {
    headersAccumulator: ColumnProperties[];
-   header: string;
    singleRowValuesForHeader: SingleRowProperties;
-}
-
-/**
- * @type ColumnProperties type for column data which is after whole
- * data parsing process and ready to use.
- */
-export interface ColumnProperties {
-   header: string;
-   rows: SingleRowProperties[];
-}
+} & HeaderKey;
 
 class ParseData extends PhasesState {
    private _logger: Logger;
-   private _data: RowProperties[];
+   private _data: SortableProperties[];
    private _userOptions: LeaderboardOptions;
    private _rootContainer: HTMLElement;
    private _sorter: PlaceSorter;
@@ -32,12 +26,9 @@ class ParseData extends PhasesState {
    private _lbData: any;
    private _newKey: string;
    private _isAdditionalKey: boolean;
+   private _contentForEmptyRows: string;
 
-   constructor(
-      rootContainer: HTMLElement,
-      data: RowProperties[],
-      userOptions: LeaderboardOptions
-   ) {
+   constructor(rootContainer: HTMLElement, data: any, userOptions: LeaderboardOptions) {
       super();
       this._sorter = new PlaceSorter(data);
       this._logger = new Logger(this as unknown as Newable);
@@ -45,9 +36,10 @@ class ParseData extends PhasesState {
       this._rootContainer = rootContainer;
       this._lbData = data;
       this._userOptions = userOptions;
+      this._contentForEmptyRows = "-";
    }
 
-   public execute(): RowProperties[] {
+   public execute(): SortableProperties[] {
       this._logger.groupEnd();
       return this._parseData();
    }
@@ -64,19 +56,19 @@ class ParseData extends PhasesState {
    }
 
    private _sort() {
-      if (this._userOptions) this._data = this._sorter.ascendant();
+      if (this._userOptions) this._lbData = this._sorter.ascendant();
    }
 
    private _checkData() {
       this._logger.log("Checking data types.");
-      if (!this._clientInputVerification.isDataStructureValid(this._data)) return;
+      if (!this._clientInputVerification.isDataStructureValid(this._lbData)) return;
       this._logger.log(`Data is valid.`);
    }
 
-   private _parseData(): RowProperties[] {
+   private _parseData(): SortableProperties[] {
       this._logger.log(`Started parsing data.`);
       this._userInputValidation();
-      // this._sort();
+      this._sort();
 
       return this._lbData.reduce(
          (
@@ -88,7 +80,7 @@ class ParseData extends PhasesState {
 
             clientHeaders.forEach((clientHeader: string): void => {
                const isHeaderAlreadyExistsInAcc = headersAccumulator.findIndex(
-                  (element: { header: string }) => {
+                  (element: HeaderKey) => {
                      return element.header === clientHeader;
                   }
                );
@@ -125,11 +117,9 @@ class ParseData extends PhasesState {
       header,
       singleRowValuesForHeader
    }: ValuesToSaveOrAppend) {
-      const headerIndexInAcc = headersAccumulator.findIndex(
-         (element: { header: string }) => {
-            return element.header === header;
-         }
-      );
+      const headerIndexInAcc = headersAccumulator.findIndex((element: HeaderKey) => {
+         return element.header === header;
+      });
 
       const existingHeaderInAcc = headersAccumulator[headerIndexInAcc];
       existingHeaderInAcc.rows.push(singleRowValuesForHeader);
@@ -150,14 +140,24 @@ class ParseData extends PhasesState {
       clientHeaders: string[],
       indexForEmptyArray: number
    ): void {
-      const headersNotInCurrentIteration = this._columnsNotInCurrentIteration(
+      const columnsNotInCurrentIteration = this._columnsNotInCurrentIteration(
          headersAccumulator,
          clientHeaders
       );
 
-      headersNotInCurrentIteration.forEach((el) =>
-         el?.rows.splice(indexForEmptyArray, 0, "")
+      this._fillColumnsWithMissingRows(
+         columnsNotInCurrentIteration,
+         indexForEmptyArray,
+         this._contentForEmptyRows
       );
+   }
+
+   private _fillColumnsWithMissingRows(
+      columns: ColumnProperties[],
+      indexInRows: number,
+      content: string
+   ) {
+      columns.forEach((column) => column?.rows.splice(indexInRows, 0, content));
    }
 
    private _columnIcludesHeader(
@@ -210,27 +210,17 @@ class ParseData extends PhasesState {
       { headersAccumulator, header, singleRowValuesForHeader }: ValuesToSaveOrAppend,
       nOfArrays: number
    ) {
-      // eslint-disable-next-line prefer-spread
-      const emptyArrays = this._createNOfEmptyArrays(nOfArrays).map(() => "");
+      const emptyRows = this._createNOfEmptyArrays(nOfArrays);
+      const arraysToFillWithContent = this._insertContentIntoRows(emptyRows);
       const columnToSave = {
          header,
-         rows: [...emptyArrays, singleRowValuesForHeader]
+         rows: [...arraysToFillWithContent, singleRowValuesForHeader]
       } as ColumnProperties;
       headersAccumulator.push(columnToSave);
    }
 
-   /**
-    * Insert empty arrays in start of column's row, which has new key.
-    * @param column     Column which has new key.
-    * @param nOfArrays  Number of empty arrays to add
-    * @private
-    */
-   private _unshiftEmptyRowsToNewKey(column: ColumnProperties, nOfArrays: number): void {
-      // eslint-disable-next-line prefer-spread
-      const n = Array.apply(null, Array(nOfArrays));
-      n.forEach((emptyArr): void => {
-         column.rows.unshift(emptyArr as never);
-      });
+   private _insertContentIntoRows(rows: string[] | unknown[]) {
+      return rows.map(() => this._contentForEmptyRows);
    }
 
    /**
@@ -247,7 +237,7 @@ class ParseData extends PhasesState {
    ): void {
       const newKey: string = clientHeaders[index];
       this._isAdditionalKey = !headersKeysInAccumulator.includes(newKey);
-      if (this._isAdditionalKey) this._newKeyFound(newKey);
+      if (this._isAdditionalKey) this._setNewKey(newKey);
    }
 
    /**
@@ -255,7 +245,7 @@ class ParseData extends PhasesState {
     * @param newKey
     * @private
     */
-   private _newKeyFound(newKey: string): void {
+   private _setNewKey(newKey: string): void {
       this._newKey = newKey;
    }
 

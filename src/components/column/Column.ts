@@ -1,4 +1,10 @@
-import { Component, Newable, RootElementConnector } from "../../common/common.types";
+import {
+   ColumnProperties,
+   Component,
+   Newable,
+   RootElementConnector,
+   SingleRowProperties
+} from "../../common/common.types";
 import LeaderboardHeader from "../header/Header";
 import Header from "../header/Header";
 import ElementCreator from "../../factories/ElementCreator";
@@ -6,10 +12,6 @@ import Row from "../row/Row";
 import Logger from "../../common/Logger/Logger";
 import ElementController from "../../common/ElementController";
 import { COMMON_STYLE_CLASS } from "../style/common.enum";
-import { ColumnProperties } from "../../phases/parseData/ParseData";
-
-// Single pre parsed client column
-export type SingleRowProperties = { [key: string]: string | number } | string;
 
 class Column implements RootElementConnector, Component {
    root: HTMLElement;

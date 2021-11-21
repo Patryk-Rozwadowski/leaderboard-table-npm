@@ -1,6 +1,11 @@
-interface RowProperties {
-   place: number;
-   content: string | string[];
-}
+type PlaceProp = { place: string };
+type ScoreProp = { score: number };
+type PointsProp = { points: number };
 
-export { RowProperties };
+type SortableKeys = PlaceProp & ScoreProp & PointsProp;
+
+type SortableProperties = {
+   [k in keyof SortableKeys]: SortableKeys[k];
+};
+
+export { SortableProperties };
