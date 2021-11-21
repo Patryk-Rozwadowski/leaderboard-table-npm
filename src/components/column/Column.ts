@@ -17,7 +17,8 @@ interface ColumnProperties {
    rows: SingleRowProperties[];
 }
 
-export type SingleRowProperties = { [key: string]: string | number | unknown };
+// Single pre parsed client column
+export type SingleRowProperties = { [key: string]: string | number } | string;
 
 interface ValuesToSaveOrAppend {
    headersAccumulator: ColumnProperties[];
@@ -77,7 +78,8 @@ class Column implements RootElementConnector, Component {
                }
             });
 
-            this._fillMissingRows(headersAccumulator, clientHeaders, index);
+            // Fill each header which has lower rows amount with empty rows
+            this._fillMissingRowsPOST(headersAccumulator, clientHeaders, index);
             return headersAccumulator;
          },
          []
@@ -200,7 +202,7 @@ class Column implements RootElementConnector, Component {
       nOfArrays: number
    ) {
       // eslint-disable-next-line prefer-spread
-      const emptyArrays: unknown[] = Array.apply(null, Array(nOfArrays));
+      const emptyArrays = this._createNOfEmptyArrays(nOfArrays).map(() => "");
       const columnToSave = {
          header,
          rows: [...emptyArrays, singleRowValuesForHeader]
@@ -223,19 +225,59 @@ class Column implements RootElementConnector, Component {
       existingHeaderInAcc.rows.push(singleRowValuesForHeader);
    }
 
-   private _fillMissingRows(
+   private _fillMissingRowsPRE() {}
+
+   /**
+    * Method for filling AFTER whole parsing process. It's the last step of
+    * preparing data for rendering.
+    * @param headersAccumulator
+    * @param clientHeaders
+    * @param indexForEmptyArray
+    * @private
+    */
+   private _fillMissingRowsPOST(
       headersAccumulator: ColumnProperties[],
       clientHeaders: string[],
       indexForEmptyArray: number
-   ) {
-      const headersNotInCurrentIteration = headersAccumulator.filter(
-         (accEl) => !clientHeaders.includes(accEl.header)
+   ): void {
+      const headersNotInCurrentIteration = this._columnsNotInCurrentIteration(
+         headersAccumulator,
+         clientHeaders
       );
 
-      console.log(headersNotInCurrentIteration);
       headersNotInCurrentIteration.forEach((el) =>
-         el?.rows.splice(indexForEmptyArray, 0, { "": "" })
+         el?.rows.splice(indexForEmptyArray, 0, "")
       );
+   }
+
+   private _columnIcludesHeader(
+      source: SingleRowProperties[],
+      accEl: { header: string }
+   ) {
+      return !source.includes(accEl.header);
+   }
+
+   private _columnsNotInCurrentIteration(
+      columns: ColumnProperties[],
+      clientHeaders: string[]
+   ) {
+      return this._getColumnByQuery(columns, clientHeaders, this._columnIcludesHeader);
+   }
+
+   /**
+    * Getting column by header from source which contains columns.
+    * @param columns
+    * @param source
+    * @param query
+    * @private
+    */
+   private _getColumnByQuery(columns: ColumnProperties[], source: string[], query) {
+      return columns.filter((sourceElement) => query(source, sourceElement));
+   }
+
+   private _createNOfEmptyArrays(nOfArrays: number) {
+      // eslint-disable-next-line prefer-spread
+      return Array.apply(null, Array(nOfArrays));
    }
 
    private _appendHeaderToColumnContainer(
