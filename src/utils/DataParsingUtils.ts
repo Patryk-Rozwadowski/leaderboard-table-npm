@@ -30,6 +30,13 @@ class DataParsingUtils {
       return !source.includes(accEl.header);
    }
 
+   public static insertValuesToColumnRows(
+      column: ColumnProperties,
+      value: SingleRowProperties
+   ): void {
+      column.rows.push(value);
+   }
+
    /**
     * Getting column by header from source which contains columns.
     * @param columns
