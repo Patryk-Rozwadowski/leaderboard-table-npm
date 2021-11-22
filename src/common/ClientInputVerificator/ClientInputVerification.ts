@@ -1,5 +1,5 @@
 import Logger from "../Logger/Logger";
-import { SortableProperties } from "../../components/row/types";
+import { PreParsedLeaderboardData } from "../../index";
 
 class ClientInputVerification {
    constructor(private _logger: Logger) {}
@@ -12,7 +12,7 @@ class ClientInputVerification {
       return true;
    }
 
-   public isDataStructureValid(data: SortableProperties[]): boolean {
+   public isDataStructureValid(data: PreParsedLeaderboardData[]): boolean {
       if (!Array.isArray(data) || !data) {
          this._logger.error("Data is not defined. Pass leaderboard information.");
          return false;

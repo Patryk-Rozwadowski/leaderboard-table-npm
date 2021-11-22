@@ -3,7 +3,7 @@ import Logger from "./common/Logger/Logger";
 import ParseData from "./phases/parseData/ParseData";
 import PhasesContext from "./phases/context/phases/PhasesContext";
 import { HeadersProps } from "./components/header/types";
-import { RowProperties } from "./components/row/types";
+import { SortableProperties } from "./components/row/types";
 import { COMMON_STYLE_CLASS } from "./components/style/common.enum";
 import "./components/style/style.scss";
 
@@ -14,7 +14,7 @@ export interface LeaderboardOptions {
 
 interface LeaderboardConfig {
    rootContainer: HTMLElement;
-   leaderboardData: RowProperties[];
+   leaderboardData: PreParsedLeaderboardData[];
    options: LeaderboardOptions;
    headers: HeadersProps;
 }
@@ -49,7 +49,7 @@ class Leaderboard {
    private readonly _rootContainer;
    private _phasesContext: PhasesContext;
    private _logger: Logger;
-   private _parsedData: RowProperties[];
+   private _parsedData: SortableProperties[];
 
    constructor({ rootContainer, leaderboardData, options }: LeaderboardConfig) {
       this._rootContainer = rootContainer;

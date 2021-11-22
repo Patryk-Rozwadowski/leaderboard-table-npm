@@ -7,28 +7,41 @@ import {
    SingleRowProperties
 } from "../../common/common.types";
 import { LeaderboardOptions, PreParsedLeaderboardData } from "../../index";
-import { SortableProperties } from "../../components/row/types";
 import PlaceSorter from "../../sorters/PlaceSorter";
 import ClientInputVerification from "../../common/ClientInputVerificator/ClientInputVerification";
+import DataParsingUtils from "../../utils/DataParsingUtils";
 
 type ValuesToSaveOrAppend = {
    headersAccumulator: ColumnProperties[];
    singleRowValuesForHeader: SingleRowProperties;
 } & HeaderKey;
 
+type MissingRow = {
+   columns: ColumnProperties[];
+   index: number;
+   content: string;
+};
+
+type ColumnsToFillWithRows = {
+   allColumns: ColumnProperties[];
+   columnsToCheck: string[];
+   indexForEmptyArray: number;
+};
+
 class ParseData extends PhasesState {
    private _logger: Logger;
-   private _data: SortableProperties[];
    private _userOptions: LeaderboardOptions;
    private _rootContainer: HTMLElement;
    private _sorter: PlaceSorter;
    private _clientInputVerification: ClientInputVerification;
-   private _lbData: any;
-   private _newKey: string;
-   private _isAdditionalKey: boolean;
+   private _lbData: PreParsedLeaderboardData[];
    private _contentForEmptyRows: string;
 
-   constructor(rootContainer: HTMLElement, data: any, userOptions: LeaderboardOptions) {
+   constructor(
+      rootContainer: HTMLElement,
+      data: PreParsedLeaderboardData[],
+      userOptions: LeaderboardOptions
+   ) {
       super();
       this._sorter = new PlaceSorter(data);
       this._logger = new Logger(this as unknown as Newable);
@@ -39,7 +52,7 @@ class ParseData extends PhasesState {
       this._contentForEmptyRows = "-";
    }
 
-   public execute(): SortableProperties[] {
+   public execute(): ColumnProperties[] {
       this._logger.groupEnd();
       return this._parseData();
    }
@@ -48,29 +61,16 @@ class ParseData extends PhasesState {
       return this._userOptions;
    }
 
-   private _userInputValidation() {
-      this._logger.log(`User's input validation.`);
-      if (this._clientInputVerification.isRootContainerValid(this._rootContainer)) {
-         this._checkData();
-      }
-   }
-
    private _sort() {
       if (this._userOptions) this._lbData = this._sorter.ascendant();
    }
 
-   private _checkData() {
-      this._logger.log("Checking data types.");
-      if (!this._clientInputVerification.isDataStructureValid(this._lbData)) return;
-      this._logger.log(`Data is valid.`);
-   }
-
-   private _parseData(): SortableProperties[] {
+   private _parseData(): ColumnProperties[] {
       this._logger.log(`Started parsing data.`);
       this._userInputValidation();
       this._sort();
 
-      return this._lbData.reduce(
+      const parsedLbData = this._lbData.reduce(
          (
             headersAccumulator: ColumnProperties[],
             preParsedElement: Partial<PreParsedLeaderboardData>,
@@ -93,9 +93,6 @@ class ParseData extends PhasesState {
                   header: clientHeader,
                   singleRowValuesForHeader
                };
-               if (isHeaderAlreadyExistsInAcc) {
-                  this._newKeyHandler(headersAccumulator, clientHeaders);
-               }
 
                if (isHeaderAlreadyExistsInAcc !== -1) {
                   this._appendNewRowToExistingHeader(valuesToSaveOrAppend);
@@ -104,19 +101,22 @@ class ParseData extends PhasesState {
                }
             });
 
-            // Fill each header which has lower rows amount with empty rows
-            this._fillMissingRowsPOST(headersAccumulator, clientHeaders, index);
+            const columnsToFillWithRows: ColumnsToFillWithRows = {
+               allColumns: headersAccumulator,
+               columnsToCheck: clientHeaders,
+               indexForEmptyArray: index
+            };
+            this._fillMissingRowsPOST(columnsToFillWithRows);
             return headersAccumulator;
          },
          []
       );
+
+      return parsedLbData as ColumnProperties[];
    }
 
-   private _appendNewRowToExistingHeader({
-      headersAccumulator,
-      header,
-      singleRowValuesForHeader
-   }: ValuesToSaveOrAppend) {
+   private _appendNewRowToExistingHeader(val: ValuesToSaveOrAppend): void {
+      const { headersAccumulator, header, singleRowValuesForHeader } = val;
       const headerIndexInAcc = headersAccumulator.findIndex((element: HeaderKey) => {
          return element.header === header;
       });
@@ -129,72 +129,34 @@ class ParseData extends PhasesState {
 
    /**
     * Method for filling AFTER whole parsing process. It's the last step of
-    * preparing data for rendering.
-    * @param headersAccumulator
-    * @param clientHeaders
-    * @param indexForEmptyArray
+    * preparing data before rendering.
     * @private
+    * @param columnsToFillWithRows
     */
-   private _fillMissingRowsPOST(
-      headersAccumulator: ColumnProperties[],
-      clientHeaders: string[],
-      indexForEmptyArray: number
-   ): void {
-      const columnsNotInCurrentIteration = this._columnsNotInCurrentIteration(
-         headersAccumulator,
-         clientHeaders
+   private _fillMissingRowsPOST(columnsToFillWithRows: ColumnsToFillWithRows): void {
+      const { allColumns, indexForEmptyArray, columnsToCheck } = columnsToFillWithRows;
+      const columnsNotInCurrentIteration = DataParsingUtils.columnsNotInCurrentIteration(
+         allColumns,
+         columnsToCheck
       );
 
-      this._fillColumnsWithMissingRows(
-         columnsNotInCurrentIteration,
-         indexForEmptyArray,
-         this._contentForEmptyRows
-      );
-   }
+      const missingRow = {
+         columns: columnsNotInCurrentIteration,
+         index: indexForEmptyArray,
+         content: this._contentForEmptyRows
+      };
 
-   private _fillColumnsWithMissingRows(
-      columns: ColumnProperties[],
-      indexInRows: number,
-      content: string
-   ) {
-      columns.forEach((column) => column?.rows.splice(indexInRows, 0, content));
-   }
-
-   private _columnIcludesHeader(
-      source: SingleRowProperties[],
-      accEl: { header: string }
-   ) {
-      return !source.includes(accEl.header);
-   }
-
-   private _columnsNotInCurrentIteration(
-      columns: ColumnProperties[],
-      clientHeaders: string[]
-   ) {
-      return this._getColumnByQuery(columns, clientHeaders, this._columnIcludesHeader);
+      this._insertColumnsWithMissingRows(missingRow);
    }
 
    /**
-    * Getting column by header from source which contains columns.
-    * @param columns
-    * @param source
-    * @param query
+    * Inserting rows for columns which weren't in iteration.
+    * @param missingRow {MissingRow}
     * @private
     */
-   private _getColumnByQuery(
-      columns: ColumnProperties[],
-      source: string[],
-      query: {
-         (source: SingleRowProperties[], accEl: { header: string }): boolean;
-         (arg0: string[], arg1: ColumnProperties): unknown;
-      }
-   ) {
-      return columns.filter((sourceElement) => query(source, sourceElement));
-   }
-
-   private _createNOfEmptyArrays(nOfArrays: number) {
-      // eslint-disable-next-line prefer-spread
-      return Array.apply(null, Array(nOfArrays));
+   private _insertColumnsWithMissingRows(missingRow: MissingRow): void {
+      const { columns, index, content } = missingRow;
+      columns.forEach((column) => column.rows.splice(index, 0, content));
    }
 
    /**
@@ -210,7 +172,7 @@ class ParseData extends PhasesState {
       { headersAccumulator, header, singleRowValuesForHeader }: ValuesToSaveOrAppend,
       nOfArrays: number
    ) {
-      const emptyRows = this._createNOfEmptyArrays(nOfArrays);
+      const emptyRows = DataParsingUtils.createNOfEmptyArrays(nOfArrays);
       const arraysToFillWithContent = this._insertContentIntoRows(emptyRows);
       const columnToSave = {
          header,
@@ -223,64 +185,17 @@ class ParseData extends PhasesState {
       return rows.map(() => this._contentForEmptyRows);
    }
 
-   /**
-    * Check if is there any new header key in data accumulator.
-    * @param headersKeysInAccumulator Array of header's string.
-    * @param clientHeaders            Raw headers from client's code.
-    * @param index                    Index of current iteration
-    * @private
-    */
-   private _checkIsNewKey(
-      headersKeysInAccumulator: string[],
-      clientHeaders: string[],
-      index: number
-   ): void {
-      const newKey: string = clientHeaders[index];
-      this._isAdditionalKey = !headersKeysInAccumulator.includes(newKey);
-      if (this._isAdditionalKey) this._setNewKey(newKey);
+   private _userInputValidation() {
+      this._logger.log(`User's input validation.`);
+      if (this._clientInputVerification.isRootContainerValid(this._rootContainer)) {
+         this._checkData();
+      }
    }
 
-   /**
-    * Save information about newly
-    * @param newKey
-    * @private
-    */
-   private _setNewKey(newKey: string): void {
-      this._newKey = newKey;
-   }
-
-   /**
-    * Handler for checking for new key and if found then assigning to
-    * newKey information about that new header.
-    * @param headersAccumulator Array of header's string.
-    * @param clientHeaders      Raw headers from client's code.
-    * @private
-    */
-   private _newKeyHandler(
-      headersAccumulator: ColumnProperties[],
-      clientHeaders: string[]
-   ) {
-      const keysOfAccumulatorHeaders: string[] =
-         this._extractHeadersFromAcc(headersAccumulator);
-
-      // Iteration over client raw headers
-      clientHeaders.forEach((accHeader, index) => {
-         this._checkIsNewKey(keysOfAccumulatorHeaders, clientHeaders, index);
-      });
-   }
-
-   private _extractHeadersFromAcc(headersAccumulator: ColumnProperties[]): string[] {
-      return headersAccumulator.map(({ header }) => header);
-   }
-
-   private _findElementWithMostKeys(headersArray: any): ColumnProperties {
-      const headersArrayLength = headersArray.map(
-         (el: ColumnProperties) => Object.keys(el).length
-      );
-      const longestArrayIndex = headersArrayLength.indexOf(
-         Math.max(...headersArrayLength)
-      );
-      return headersArray[longestArrayIndex];
+   private _checkData() {
+      this._logger.log("Checking data types.");
+      if (!this._clientInputVerification.isDataStructureValid(this._lbData)) return;
+      this._logger.log(`Data is valid.`);
    }
 }
 
