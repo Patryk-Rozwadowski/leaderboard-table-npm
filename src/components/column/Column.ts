@@ -7,7 +7,7 @@ import {
 } from "../../common/common.types";
 import LeaderboardHeader from "../header/Header";
 import Header from "../header/Header";
-import ElementCreator from "../../factories/ElementCreator";
+import ElementCreator from "../../creators/ElementCreator";
 import Row from "../row/Row";
 import Logger from "../../common/Logger/Logger";
 import ElementController from "../../common/ElementController";

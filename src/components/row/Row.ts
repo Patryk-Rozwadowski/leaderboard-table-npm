@@ -1,4 +1,4 @@
-import ElementCreator from "../../factories/ElementCreator";
+import ElementCreator from "../../creators/ElementCreator";
 import { COMMON_STYLE_CLASS, SEMANTIC_TAGS } from "../style/common.enum";
 import { Component, Newable, SingleRowProperties } from "../../common/common.types";
 import Logger from "../../common/Logger/Logger";

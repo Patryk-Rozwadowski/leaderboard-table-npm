@@ -1,11 +1,6 @@
 import { SEMANTIC_TAGS } from "../components/style/common.enum";
 import { LbCSSClass, LbSemanticTag } from "../common/common.types";
 
-interface Column {
-   header: string;
-   content: string;
-}
-
 type TextElement = SEMANTIC_TAGS.PRIMARY_TEXT | SEMANTIC_TAGS.HEADER_TEXT;
 
 /**
@@ -46,5 +41,4 @@ class ElementCreator {
    }
 }
 
-export { Column };
 export default ElementCreator;

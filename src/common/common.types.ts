@@ -1,4 +1,4 @@
-import ElementCreator from "../factories/ElementCreator";
+import ElementCreator from "../creators/ElementCreator";
 import { ROW_CLASS_STYLE } from "../components/row/Row";
 import { COMMON_STYLE_CLASS, SEMANTIC_TAGS } from "../components/style/common.enum";
 import { SortableProperties } from "../components/row/types";
