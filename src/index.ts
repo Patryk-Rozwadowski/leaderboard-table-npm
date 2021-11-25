@@ -6,11 +6,7 @@ import { HeadersProps } from "./components/header/types";
 import { SortableProperties } from "./components/row/types";
 import { COMMON_STYLE_CLASS } from "./components/style/common.enum";
 import "./components/style/style.scss";
-
-export interface LeaderboardOptions {
-   headerTags: string | HTMLElement;
-   logs: boolean;
-}
+import { LeaderboardOptions } from "./controllers/OptionsController";
 
 interface LeaderboardConfig {
    rootContainer: HTMLElement;
@@ -47,25 +43,43 @@ interface PreParsedLeaderboardData {
 
 class Leaderboard {
    private readonly _rootContainer;
+   private readonly _leaderboardData: PreParsedLeaderboardData[];
+   private readonly _options: LeaderboardOptions;
    private _phasesContext: PhasesContext;
-   private _logger: Logger;
    private _parsedData: SortableProperties[];
+   private _logger: Logger;
 
    constructor({ rootContainer, leaderboardData, options }: LeaderboardConfig) {
       this._rootContainer = rootContainer;
+      this._leaderboardData = leaderboardData;
+      this._options = options;
       this._logger = new Logger(this as unknown as Leaderboard);
-
-      this._phasesContext = new PhasesContext(
-         new ParseData(rootContainer, leaderboardData, options)
-      );
    }
 
    public init(): void {
-      this._parsedData = this._phasesContext.execute();
+      this._addCssStylesToRootContainer();
+      this._parseData();
+      this._mountElements();
+   }
 
+   private _addCssStylesToRootContainer() {
       this._rootContainer.classList.add(COMMON_STYLE_CLASS.ROOT_CONTAINER);
+   }
 
-      this._phasesContext.transitionTo(new Mount(this._rootContainer, this._parsedData));
+   private _parseData() {
+      const parsePhase = new ParseData(
+         this._rootContainer,
+         this._leaderboardData,
+         this._options
+      );
+
+      this._phasesContext = new PhasesContext(parsePhase);
+      this._parsedData = this._phasesContext.execute();
+   }
+
+   private _mountElements() {
+      const mountPhase = new Mount(this._rootContainer, this._parsedData);
+      this._phasesContext.transitionTo(mountPhase);
       this._phasesContext.execute();
    }
 }
