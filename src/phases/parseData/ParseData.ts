@@ -6,10 +6,11 @@ import {
    Newable,
    SingleRowProperties
 } from "../../common/common.types";
-import { LeaderboardOptions, PreParsedLeaderboardData } from "../../index";
+import { PreParsedLeaderboardData } from "../../index";
 import PlaceSorter from "../../sorters/PlaceSorter";
 import ClientInputVerification from "../../common/ClientInputVerificator/ClientInputVerification";
 import DataParsingUtils from "../../utils/DataParsingUtils";
+import { LeaderboardOptions } from "../../controllers/OptionsController";
 
 type ValuesToSaveOrAppend = {
    columnsAccumulator: ColumnProperties[];
@@ -36,29 +37,26 @@ type ColumnsToParse = {
 };
 
 class ParseData extends PhasesState {
-   private _logger: Logger;
-   private _userOptions: LeaderboardOptions;
-   private _rootContainer: HTMLElement;
+   private readonly _logger: Logger;
+   private readonly _options: LeaderboardOptions;
+   private readonly _rootContainer: HTMLElement;
+   private readonly _contentForEmptyRows: string;
    private _sorter: PlaceSorter;
    private _clientInputVerification: ClientInputVerification;
    private _lbData: PreParsedLeaderboardData[];
-   private _contentForEmptyRows: string;
 
    constructor(
       rootContainer: HTMLElement,
       data: PreParsedLeaderboardData[],
-      userOptions: LeaderboardOptions
+      options: LeaderboardOptions
    ) {
       super();
-      this._sorter = new PlaceSorter(data);
       this._logger = new Logger(this as unknown as Newable);
       this._clientInputVerification = new ClientInputVerification(this._logger);
       this._rootContainer = rootContainer;
       this._lbData = data;
-      this._userOptions = userOptions;
-
-      // TODO: get this information from client's code
-      this._contentForEmptyRows = "-";
+      this._options = options;
+      this._contentForEmptyRows = options?.contentForEmptyRows || "";
    }
 
    public execute(): ColumnProperties[] {
@@ -129,11 +127,14 @@ class ParseData extends PhasesState {
    }
 
    public getOptions(): LeaderboardOptions {
-      return this._userOptions;
+      return this._options;
    }
 
    private _sort() {
-      if (this._userOptions) this._lbData = this._sorter.ascendant();
+      if (this._options?.sortByPlaces) {
+         this._sorter = new PlaceSorter(this._lbData);
+         this._lbData = this._sorter.ascendant();
+      }
    }
 
    private _appendNewRowToExistingHeader(val: ValuesToSaveOrAppend): void {

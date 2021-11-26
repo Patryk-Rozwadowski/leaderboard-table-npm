@@ -6,7 +6,7 @@ import { HeadersProps } from "./components/header/types";
 import { SortableProperties } from "./components/row/types";
 import { COMMON_STYLE_CLASS } from "./components/style/common.enum";
 import "./components/style/style.scss";
-import { LeaderboardOptions } from "./controllers/OptionsController";
+import OptionsController, { LeaderboardOptions } from "./controllers/OptionsController";
 
 interface LeaderboardConfig {
    rootContainer: HTMLElement;
@@ -44,19 +44,22 @@ interface PreParsedLeaderboardData {
 class Leaderboard {
    private readonly _rootContainer;
    private readonly _leaderboardData: PreParsedLeaderboardData[];
-   private readonly _options: LeaderboardOptions;
+   private _options: LeaderboardOptions;
+   private _clientOptions: LeaderboardOptions;
    private _phasesContext: PhasesContext;
    private _parsedData: SortableProperties[];
    private _logger: Logger;
 
    constructor({ rootContainer, leaderboardData, options }: LeaderboardConfig) {
+      this._clientOptions = options;
       this._rootContainer = rootContainer;
       this._leaderboardData = leaderboardData;
-      this._options = options;
       this._logger = new Logger(this as unknown as Leaderboard);
    }
 
    public init(): void {
+      this._options = new OptionsController(this._clientOptions).getOptions();
+
       this._addCssStylesToRootContainer();
       this._parseData();
       this._mountElements();
