@@ -1,55 +1,81 @@
+import { ColumnDomElement } from "../../creators/ColumnCreator";
+import ElementController from "../../common/ElementController";
 import {
    ColumnProperties,
    Component,
-   Newable,
-   RootElementConnector,
    SingleRowProperties
 } from "../../common/common.types";
-import LeaderboardHeader from "../header/Header";
-import Header from "../header/Header";
-import ElementCreator from "../../creators/ElementCreator";
 import Row from "../row/Row";
-import Logger from "../../common/Logger/Logger";
-import ElementController from "../../common/ElementController";
+import Header from "../header/Header";
+import LeaderboardHeader from "../header/Header";
 import { COMMON_STYLE_CLASS } from "../style/common.enum";
+import ElementCreator from "../../creators/ElementCreator";
 
-/**
- * Type used for defining column component which is ready to mount.
- * @type ColumnDomElement
- */
-type ColumnDomElement = {
-   container: HTMLElement;
-   rows: HTMLElement[];
-   header: HTMLElement;
-};
-
-class Column implements RootElementConnector, Component {
-   root: HTMLElement;
+class Column implements Component {
    _elementCreator: ElementCreator;
-   private _logger: Logger;
 
-   constructor(root: HTMLElement, private _lbData: ColumnProperties[]) {
-      this.root = root;
+   constructor(private _root: HTMLElement, private _columnData: ColumnProperties) {
       this._elementCreator = new ElementCreator();
-      this._logger = new Logger(this as unknown as Newable);
    }
 
-   public render(): HTMLElement[] {
-      return this._prepareColumns();
+   private _appendHeaderToColumnContainer(
+      columnContainer: HTMLElement,
+      columnHeaderElement: HTMLElement
+   ): void {
+      ElementController.appendElementsToContainer(columnContainer, columnHeaderElement);
    }
 
-   private _prepareColumns() {
-      return this._generateColumnsElements(this._lbData);
+   private _appendRowsToColumnContainer(
+      columnContainer: HTMLElement,
+      columnsRows: HTMLElement[]
+   ): void {
+      columnsRows.forEach((rowElement: HTMLElement) =>
+         ElementController.appendElementsToContainer(columnContainer, rowElement)
+      );
    }
 
    /**
-    * Generating DOM elements based on parsed data.
-    * @param columnsData   Parsed and prepared data
+    * Generate single DOM container for column with prepared styles.
     * @private
     */
-   private _generateColumnsElements(columnsData: ColumnProperties[]) {
-      return columnsData.map(
-         (column: ColumnProperties): HTMLElement => this._generateColumn(column)
+   private _generateColumnContainer(): HTMLElement {
+      return this._elementCreator
+         .container()
+         .appendStyles(COMMON_STYLE_CLASS.COLUMN_CONTAINER).getElement;
+   }
+
+   /**
+    * Generate Row components for single Column
+    * @param rows
+    * @private
+    * @return HTMLElement[]
+    */
+   private _generateRowComponentsArray(rows: SingleRowProperties[]): HTMLElement[] {
+      return rows.map(
+         (rowData: SingleRowProperties): HTMLElement =>
+            this._instantiateRowComponent(rowData)
+      );
+   }
+
+   private _instantiateRowComponent(rowData: SingleRowProperties): HTMLElement {
+      const instanceOfRow = new Row(this._root, rowData);
+      return instanceOfRow.render();
+   }
+
+   private _instantiateHeaderComponent(txt: string): Header {
+      return new LeaderboardHeader(this._root, txt);
+   }
+
+   /**
+    * Generate Row components
+    * @param rows
+    * @private
+    * @return HTMLElement[]
+    */
+   private _generateRowElementsArray(rows: SingleRowProperties[]): HTMLElement[] {
+      return rows.map(
+         (rowData: SingleRowProperties): HTMLElement =>
+            this._instantiateRowComponent(rowData)
       );
    }
 
@@ -59,8 +85,8 @@ class Column implements RootElementConnector, Component {
     * @private
     * @return HTMLElement
     */
-   private _generateColumn(column: ColumnProperties): HTMLElement {
-      const { header, rows } = column;
+   private _generateColumn(): HTMLElement {
+      const { header, rows } = this._columnData;
 
       const columnDOMElement = {
          container: this._generateColumnContainer(),
@@ -86,52 +112,8 @@ class Column implements RootElementConnector, Component {
       return container;
    }
 
-   /**
-    * Generate single DOM container for column with prepared styles.
-    * @private
-    */
-   private _generateColumnContainer(): HTMLElement {
-      return this._elementCreator
-         .container()
-         .appendStyles(COMMON_STYLE_CLASS.COLUMN_CONTAINER).getElement;
-   }
-
-   /**
-    * Generate Row components
-    * @param rows
-    * @private
-    * @return HTMLElement[]
-    */
-   private _generateRowElementsArray(rows: SingleRowProperties[]): HTMLElement[] {
-      return rows.map(
-         (rowData: SingleRowProperties): HTMLElement =>
-            this._instantiateRowComponent(rowData)
-      );
-   }
-
-   private _appendHeaderToColumnContainer(
-      columnContainer: HTMLElement,
-      columnHeaderElement: HTMLElement
-   ): void {
-      ElementController.appendElementsToContainer(columnContainer, columnHeaderElement);
-   }
-
-   private _appendRowsToColumnContainer(
-      columnContainer: HTMLElement,
-      columnsRows: HTMLElement[]
-   ): void {
-      columnsRows.forEach((rowElement: HTMLElement) =>
-         ElementController.appendElementsToContainer(columnContainer, rowElement)
-      );
-   }
-
-   private _instantiateRowComponent(rowData: SingleRowProperties): HTMLElement {
-      const instanceOfRow = new Row(this.root, rowData);
-      return instanceOfRow.render();
-   }
-
-   private _instantiateHeaderComponent(txt: string): Header {
-      return new LeaderboardHeader(this.root, txt);
+   render(): HTMLElement {
+      return this._generateColumn();
    }
 }
 

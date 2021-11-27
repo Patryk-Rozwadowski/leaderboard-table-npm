@@ -1,8 +1,8 @@
 import ElementCreator from "../../creators/ElementCreator";
-import Logger from "../../common/Logger/Logger";
 import { COMMON_STYLE_CLASS, SEMANTIC_TAGS } from "../style/common.enum";
 import { Component, Newable } from "../../common/common.types";
 import ElementController from "../../common/ElementController";
+import Logger from "../../common/Logger/Logger";
 
 enum HEADERS_LOGGER_MESSAGES {
    INIT = "Creating headers.",
@@ -11,11 +11,11 @@ enum HEADERS_LOGGER_MESSAGES {
 }
 
 class Header implements Component {
-   _logger: Logger;
    _elementCreator: ElementCreator;
+   private _logger: Logger;
    private _headersContainer: HTMLElement;
 
-   constructor(private root: HTMLElement, private clientHeaders: string | string[]) {
+   constructor(private root: HTMLElement, private clientHeaders: string) {
       this._logger = new Logger(this as unknown as Newable);
       this._elementCreator = new ElementCreator();
    }
@@ -26,14 +26,12 @@ class Header implements Component {
    }
 
    private _handler() {
-      this._logger.log(HEADERS_LOGGER_MESSAGES.INIT);
       this._createHeadersContainer();
       this._singleHeaderHandler();
    }
 
    private _singleHeaderHandler() {
-      this._logger.log(HEADERS_LOGGER_MESSAGES.SINGLE_HEADER);
-      this._createHeaderElement(this.clientHeaders as string);
+      this._createHeaderElement(this.clientHeaders);
    }
 
    private _createHeaderElement(text: string) {

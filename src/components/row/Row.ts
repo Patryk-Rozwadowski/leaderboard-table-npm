@@ -1,7 +1,6 @@
 import ElementCreator from "../../creators/ElementCreator";
 import { COMMON_STYLE_CLASS, SEMANTIC_TAGS } from "../style/common.enum";
-import { Component, Newable, SingleRowProperties } from "../../common/common.types";
-import Logger from "../../common/Logger/Logger";
+import { Component, SingleRowProperties } from "../../common/common.types";
 import ElementController from "../../common/ElementController";
 
 enum ROW_CLASS_STYLE {
@@ -19,14 +18,12 @@ interface RowContainers {
 class Row implements Component {
    _elementCreator: ElementCreator;
    _rowListContainer: HTMLElement;
-   _logger: Logger;
 
    constructor(
       private _rootContainer: HTMLElement,
       private _rowData: SingleRowProperties
    ) {
       this._elementCreator = new ElementCreator();
-      this._logger = new Logger(this as unknown as Newable);
    }
 
    public render(): HTMLElement {
