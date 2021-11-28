@@ -1,12 +1,5 @@
 import { ColumnProperties, SingleRowProperties } from "../common/common.types";
-
-type Query = (source: string[], sourceElement: ColumnProperties) => boolean;
-
-type ColumnQueries = {
-   columns: ColumnProperties[];
-   columnsToCheck: string[];
-   query: Query;
-};
+import ColumnQuery from "../controllers/ColumnQueriesProps";
 
 class DataParsingUtils {
    public static extractHeadersFromAcc(headersAccumulator: ColumnProperties[]): string[] {
@@ -38,27 +31,14 @@ class DataParsingUtils {
    }
 
    /**
-    * Getting column by header from source which contains columns.
-    * @param columns
-    * @param source
-    * @param query
-    * @private
+    * @param columns          - All parsed columns
+    * @param columnsToCheck   - Client's headers, which are needed to be checked
     */
-   public static getColumnByQuery({
-      columns,
-      columnsToCheck,
-      query
-   }: ColumnQueries): ColumnProperties[] {
-      return columns.filter((sourceElement: ColumnProperties) =>
-         query(columnsToCheck, sourceElement)
-      );
-   }
-
    public static columnsNotInCurrentIteration(
       columns: ColumnProperties[],
       columnsToCheck: string[]
    ): ColumnProperties[] {
-      return DataParsingUtils.getColumnByQuery({
+      return ColumnQuery.getColumnByQuery({
          columns,
          columnsToCheck,
          query: DataParsingUtils.columnsNotIncludesHeader
@@ -67,7 +47,7 @@ class DataParsingUtils {
 
    public static findElementWithMostKeys(columns: ColumnProperties[]): ColumnProperties {
       const headersArrayLength = columns.map(
-         (el: ColumnProperties) => Object.keys(el).length
+         (column: ColumnProperties) => Object.keys(column).length
       );
       const longestArrayIndex = headersArrayLength.indexOf(
          Math.max(...headersArrayLength)

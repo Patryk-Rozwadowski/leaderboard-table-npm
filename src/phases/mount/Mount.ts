@@ -1,7 +1,7 @@
 import PhasesState from "../PhasesState";
 import Logger from "../../common/Logger/Logger";
 import { Newable } from "../../common/common.types";
-import ColumnCreator from "../../creators/ColumnCreator";
+import ColumnCreator from "../../components/column/ColumnCreator";
 
 class Mount extends PhasesState {
    private _logger: Logger;

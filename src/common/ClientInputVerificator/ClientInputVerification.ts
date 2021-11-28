@@ -6,7 +6,9 @@ class ClientInputVerification {
 
    public isRootContainerValid(element: HTMLElement): boolean {
       if (typeof element === "undefined" || !(element instanceof HTMLElement)) {
-         throw new Error(`Expected e to be an HTMLElement, was ${typeof element}.`);
+         throw new Error(
+            `Expected ${element} to be an HTMLElement, was ${typeof element}.`
+         );
       }
       this._logger.log("Root element is valid.");
       return true;

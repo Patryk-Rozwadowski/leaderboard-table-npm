@@ -1,5 +1,3 @@
-import { ColumnDomElement } from "../../creators/ColumnCreator";
-import ElementController from "../../common/ElementController";
 import {
    ColumnProperties,
    Component,
@@ -10,6 +8,7 @@ import Header from "../header/Header";
 import LeaderboardHeader from "../header/Header";
 import { COMMON_STYLE_CLASS } from "../style/common.enum";
 import ElementCreator from "../../creators/ElementCreator";
+import ColumnAppender from "./ColumnAppender";
 
 class Column implements Component {
    _elementCreator: ElementCreator;
@@ -18,20 +17,8 @@ class Column implements Component {
       this._elementCreator = new ElementCreator();
    }
 
-   private _appendHeaderToColumnContainer(
-      columnContainer: HTMLElement,
-      columnHeaderElement: HTMLElement
-   ): void {
-      ElementController.appendElementsToContainer(columnContainer, columnHeaderElement);
-   }
-
-   private _appendRowsToColumnContainer(
-      columnContainer: HTMLElement,
-      columnsRows: HTMLElement[]
-   ): void {
-      columnsRows.forEach((rowElement: HTMLElement) =>
-         ElementController.appendElementsToContainer(columnContainer, rowElement)
-      );
+   public render(): HTMLElement {
+      return this._generateColumn();
    }
 
    /**
@@ -42,19 +29,6 @@ class Column implements Component {
       return this._elementCreator
          .container()
          .appendStyles(COMMON_STYLE_CLASS.COLUMN_CONTAINER).getElement;
-   }
-
-   /**
-    * Generate Row components for single Column
-    * @param rows
-    * @private
-    * @return HTMLElement[]
-    */
-   private _generateRowComponentsArray(rows: SingleRowProperties[]): HTMLElement[] {
-      return rows.map(
-         (rowData: SingleRowProperties): HTMLElement =>
-            this._instantiateRowComponent(rowData)
-      );
    }
 
    private _instantiateRowComponent(rowData: SingleRowProperties): HTMLElement {
@@ -80,8 +54,7 @@ class Column implements Component {
    }
 
    /**
-    * Generate single Column component
-    * @param column
+    * Generate single Column component based on _columnData field.
     * @private
     * @return HTMLElement
     */
@@ -94,26 +67,9 @@ class Column implements Component {
          header: this._instantiateHeaderComponent(header).render()
       };
 
-      return this._prepareAndGetReadyColumnElement(columnDOMElement);
-   }
-
-   /**
-    * Method which append header and rows to column container. Returning column
-    * component ready to mount.
-    * @param columnDOMElement {ColumnDomElement}
-    * @private
-    */
-   private _prepareAndGetReadyColumnElement(
-      columnDOMElement: ColumnDomElement
-   ): HTMLElement {
-      const { container, rows, header } = columnDOMElement;
-      this._appendHeaderToColumnContainer(container, header);
-      this._appendRowsToColumnContainer(container, rows);
-      return container;
-   }
-
-   render(): HTMLElement {
-      return this._generateColumn();
+      // Append rows and header to column's DOM container.
+      ColumnAppender.appendHeaderAndRowToColumnContainer(columnDOMElement);
+      return columnDOMElement.container;
    }
 }
 

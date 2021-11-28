@@ -1,7 +1,11 @@
-import { ColumnProperties, Newable, RootElementConnector } from "../common/common.types";
-import ElementCreator from "./ElementCreator";
-import Logger from "../common/Logger/Logger";
-import Column from "../components/column/Column";
+import {
+   ColumnProperties,
+   Newable,
+   RootElementConnector
+} from "../../common/common.types";
+import ElementCreator from "../../creators/ElementCreator";
+import Logger from "../../common/Logger/Logger";
+import Column from "./Column";
 
 /**
  * Type used for defining column component which is ready to mount.
