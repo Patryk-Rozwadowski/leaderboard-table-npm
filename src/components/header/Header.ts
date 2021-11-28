@@ -4,12 +4,6 @@ import { Component, Newable } from "../../common/common.types";
 import ElementController from "../../common/ElementController";
 import Logger from "../../common/Logger/Logger";
 
-enum HEADERS_LOGGER_MESSAGES {
-   INIT = "Creating headers.",
-   SINGLE_HEADER = "Creating single header.",
-   MULTIPLE_HEADERS = "Creating multiple headers."
-}
-
 class Header implements Component {
    _elementCreator: ElementCreator;
    private _logger: Logger;
@@ -22,6 +16,7 @@ class Header implements Component {
 
    public render(): HTMLElement {
       this._handler();
+      this._logger.groupEnd();
       return this._headersContainer;
    }
 

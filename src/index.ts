@@ -7,6 +7,7 @@ import { SortableProperties } from "./components/row/types";
 import { COMMON_STYLE_CLASS } from "./components/style/common.enum";
 import "./components/style/style.scss";
 import OptionsController, { LeaderboardOptions } from "./controllers/OptionsController";
+import { Newable } from "./common/common.types";
 
 interface LeaderboardConfig {
    rootContainer: HTMLElement;
@@ -54,7 +55,7 @@ class Leaderboard {
       this._clientOptions = options;
       this._rootContainer = rootContainer;
       this._leaderboardData = leaderboardData;
-      this._logger = new Logger(this as unknown as Leaderboard);
+      this._logger = new Logger(this as unknown as Newable);
    }
 
    public init(): void {

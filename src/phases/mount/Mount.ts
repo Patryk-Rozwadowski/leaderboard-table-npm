@@ -5,7 +5,7 @@ import ColumnCreator from "../../components/column/ColumnCreator";
 
 class Mount extends PhasesState {
    private _logger: Logger;
-   private _componentToMount: HTMLElement[] = [];
+   private _columnsToMount: HTMLElement[] = [];
    private _column: ColumnCreator;
 
    constructor(private readonly _rootContainer: HTMLElement, private _data: any) {
@@ -20,10 +20,10 @@ class Mount extends PhasesState {
    }
 
    private _mountAllElementsToRoot() {
-      this._componentToMount.forEach((component) => {
+      this._columnsToMount.forEach((component) => {
          this._rootContainer.appendChild(component);
       });
-      this._logger.log(`${this._componentToMount.length} components mounted.`);
+      this._logger.log(`${this._columnsToMount.length} columns mounted.`);
    }
 
    private _addAllComponentsToQueue() {
@@ -34,7 +34,7 @@ class Mount extends PhasesState {
    private _addComponentToMount(component: HTMLElement[]) {
       if (Array.isArray(component)) {
          component.forEach((el) => {
-            this._componentToMount.push(el);
+            this._columnsToMount.push(el);
 
             // TODO nice to have better logger with better component's name instead of nodeName
             this._logger.log(`Add ${el.nodeName} to mount queue.`);

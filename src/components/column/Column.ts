@@ -1,6 +1,7 @@
 import {
    ColumnProperties,
    Component,
+   Newable,
    SingleRowProperties
 } from "../../common/common.types";
 import Row from "../row/Row";
@@ -9,12 +10,14 @@ import LeaderboardHeader from "../header/Header";
 import { COMMON_STYLE_CLASS } from "../style/common.enum";
 import ElementCreator from "../../creators/ElementCreator";
 import ColumnAppender from "./ColumnAppender";
+import Logger from "../../common/Logger/Logger";
 
 class Column implements Component {
    _elementCreator: ElementCreator;
-
+   private _logger: Logger;
    constructor(private _root: HTMLElement, private _columnData: ColumnProperties) {
       this._elementCreator = new ElementCreator();
+      this._logger = new Logger(this as unknown as Newable, false);
    }
 
    public render(): HTMLElement {
@@ -59,16 +62,18 @@ class Column implements Component {
     * @return HTMLElement
     */
    private _generateColumn(): HTMLElement {
+      this._logger.group(this.constructor.name);
       const { header, rows } = this._columnData;
 
       const columnDOMElement = {
          container: this._generateColumnContainer(),
-         rows: this._generateRowElementsArray(rows),
-         header: this._instantiateHeaderComponent(header).render()
+         header: this._instantiateHeaderComponent(header).render(),
+         rows: this._generateRowElementsArray(rows)
       };
 
       // Append rows and header to column's DOM container.
       ColumnAppender.appendHeaderAndRowToColumnContainer(columnDOMElement);
+      this._logger.groupEnd();
       return columnDOMElement.container;
    }
 }

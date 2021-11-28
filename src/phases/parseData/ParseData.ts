@@ -60,7 +60,6 @@ class ParseData extends PhasesState {
    }
 
    public execute(): ColumnProperties[] {
-      this._logger.groupEnd();
       this._userInputValidation();
       this._sort();
 
@@ -92,6 +91,7 @@ class ParseData extends PhasesState {
             };
 
             this._fillMissingRowsPOST(columnsToFillWithRows);
+            this._logger.groupEnd();
             return columnsAccumulator;
          },
          []

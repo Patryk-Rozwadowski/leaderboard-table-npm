@@ -1,15 +1,12 @@
 import { Newable } from "../common.types";
-import Leaderboard from "../../index";
-import Row from "../../components/row/Row";
-import Header from "../../components/header/Header";
 
 class Logger {
    private readonly _contextName: string;
 
-   constructor(private readonly _context: Newable | Leaderboard | Row | Header) {
+   constructor(private readonly _context: Newable, initGroup = true) {
       this._context = _context;
       this._contextName = this._context.constructor.name;
-      this.initialStateGroup();
+      if (initGroup) this.initialStateGroup();
    }
 
    public log(msg: string): void {
@@ -29,10 +26,6 @@ class Logger {
    }
 
    private initialStateGroup() {
-      if (this._context instanceof Leaderboard) {
-         this.group("State");
-         return;
-      }
       this.group(this._contextName);
    }
 }
