@@ -19,28 +19,31 @@ class Mount extends PhasesState {
       this._mountAllElementsToRoot();
    }
 
-   private _mountAllElementsToRoot() {
-      this._columnsToMount.forEach((component) => {
-         this._rootContainer.appendChild(component);
-      });
+   private _mountAllElementsToRoot(): void {
+      this._columnsToMount.forEach((component) => this._mountComponentToRoot(component));
       this._logger.log(`${this._columnsToMount.length} columns mounted.`);
    }
 
-   private _addAllComponentsToQueue() {
-      // TODO: move it to director
-      this._addComponentToMount(this._column.render());
+   private _mountComponentToRoot(component: HTMLElement): void {
+      this._rootContainer.appendChild(component);
    }
 
-   private _addComponentToMount(component: HTMLElement[]) {
-      if (Array.isArray(component)) {
-         component.forEach((el) => {
-            this._columnsToMount.push(el);
+   private _addAllComponentsToQueue(): void {
+      // TODO: move it to components director
+      this._addComponentsToMountQueue(this._column.render());
+   }
 
-            // TODO nice to have better logger with better component's name instead of nodeName
-            this._logger.log(`Add ${el.nodeName} to mount queue.`);
-         });
-         return;
-      }
+   private _addComponentsToMountQueue(components: HTMLElement[]) {
+      components.forEach((component: HTMLElement): void =>
+         this._addComponentToMountQueue(component)
+      );
+   }
+
+   private _addComponentToMountQueue(component: HTMLElement): void {
+      this._columnsToMount.push(component);
+
+      // TODO nice to have better logger with better component's name instead of nodeName
+      this._logger.log(`Add ${component.nodeName} to mount queue.`);
    }
 }
 
