@@ -1,5 +1,5 @@
-import { ColumnProperties, SingleRowProperties } from "../common/common.types";
-import ColumnQuery from "../controllers/ColumnQueriesProps";
+import { ColumnProperties, SingleRowProperties } from "../../../common/common.types";
+import ColumnQuery from "../../../controllers/ColumnQueriesProps";
 
 class DataParsingUtils {
    public static extractHeadersFromAcc(headersAccumulator: ColumnProperties[]): string[] {
@@ -14,13 +14,14 @@ class DataParsingUtils {
    /**
     * Get all columns which doesn't have specific header.
     * @param source  - Array of columns
-    * @param accEl   - Header which is has to be found
+    * @param column   - Header which is has to be found
     */
    public static columnsNotIncludesHeader(
       source: SingleRowProperties[],
-      accEl: { header: string }
+      column: ColumnProperties
    ): boolean {
-      return !source.includes(accEl.header);
+      const { header } = column;
+      return !source.includes(header);
    }
 
    public static insertValuesToColumnRows(

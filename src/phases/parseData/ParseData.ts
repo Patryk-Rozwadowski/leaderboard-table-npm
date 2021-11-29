@@ -9,7 +9,7 @@ import {
 import { PreParsedLeaderboardData } from "../../index";
 import PlaceSorter from "../../sorters/PlaceSorter";
 import ClientInputVerification from "../../common/ClientInputVerificator/ClientInputVerification";
-import DataParsingUtils from "../../utils/DataParsingUtils";
+import DataParsingUtils from "./utils/DataParsingUtils";
 import { LeaderboardOptions } from "../../controllers/OptionsController";
 
 type ValuesToSaveOrAppend = {
