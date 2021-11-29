@@ -28,3 +28,18 @@ Leaderboard will take size of its parent size (width and height). To be able use
 
 2. Create root div element with class in your HTML file: 
 	`<div class="root"></div>`
+	
+
+## API
+
+| Leaderboard properties | Type | Default Value | Description              |
+| -------------  | --------    | - |----------------------        |
+| `rootContainer`| HTMLElement | - |  Your root container for leaderboard. |
+| `leaderboardData`| Object | - | Object with data which you want to put into Leaderboard |
+| `options`| Object |- | Options object |
+
+| Options | Type | Default Value | Description |
+| -------------  | -------- | - |----------------------        |
+| `headerTags`| String | "h5" | Display the help window. |
+| `logs`| boolean | false | Display the help window. |
+| `contentForEmptyRows`| String | "" | Display the help window. |
