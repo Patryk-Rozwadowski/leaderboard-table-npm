@@ -102,6 +102,7 @@ class ParseData extends PhasesState {
       const { clientHeaders, columnsAccumulator, currentColumn, iteration } = data;
 
       clientHeaders.forEach((clientHeader: string): void => {
+         // TODO: extract to method
          const isHeaderAlreadyExistsInAcc = columnsAccumulator.findIndex(
             (element: HeaderKey) => {
                return element.header === clientHeader;
@@ -118,6 +119,7 @@ class ParseData extends PhasesState {
             singleRowValuesForHeader
          };
 
+         // TODO: extract to method
          if (isHeaderAlreadyExistsInAcc !== -1) {
             this._appendNewRowToExistingHeader(valuesToSaveOrAppend);
          } else {
@@ -131,6 +133,7 @@ class ParseData extends PhasesState {
    }
 
    private _sort() {
+      // TODO: extract to method
       if (this._options?.sortByPlaces) {
          this._sorter = new PlaceSorter(this._lbData);
          this._lbData = this._sorter.ascendant();
@@ -140,6 +143,7 @@ class ParseData extends PhasesState {
    private _appendNewRowToExistingHeader(val: ValuesToSaveOrAppend): void {
       const { columnsAccumulator, header, singleRowValuesForHeader } = val;
       const headerIndexInAcc = columnsAccumulator.findIndex((element: HeaderKey) => {
+         // TODO: extract to method
          return element.header === header;
       });
 
@@ -201,6 +205,8 @@ class ParseData extends PhasesState {
       DataParsingUtils.insertValuesToColumnRows(columnToSave, singleRowValuesForHeader);
       columnsAccumulator.push(columnToSave);
    }
+   
+   // TODO: improve method name
    private _fillMissingRowsPRE(column: ColumnProperties, nOfArrays: number) {
       const emptyRows = DataParsingUtils.createNOfEmptyArrays(nOfArrays);
       const arraysToFillWithContent = this._insertContentIntoRows(emptyRows);
@@ -220,6 +226,8 @@ class ParseData extends PhasesState {
 
    private _checkData() {
       this._logger.log("Checking data types.");
+      
+      // TODO: extract to variable
       if (!this._clientInputVerification.isDataStructureValid(this._lbData)) return;
       this._logger.log(`Data is valid.`);
    }
