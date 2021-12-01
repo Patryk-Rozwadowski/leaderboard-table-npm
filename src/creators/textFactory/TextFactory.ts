@@ -9,13 +9,14 @@ type TextElementToCreate = { tag: SEMANTIC_TAGS; text: string };
 
 enum TextFactoryLogMsg {
    CREATING_HEADER_TEXT = "Creating header text.",
+   CREATING_SUB_HEADER_TEXT = "Creating sub-header text.",
    CREATING_PRIMARY_TEXT = "Creating primary text.",
    CREATING_SECONDARY_TEXT = "Creating secondary text."
 }
 
 enum TEXT_STYLE_CLASS {
    HEADER_PRIMARY = "lb_header_text_primary",
-   HEADER_SECONDARY = "lb_header_text_secondary",
+   SUB_HEADER = "lb_header_text_secondary",
 
    TEXT_PRIMARY = "lb_text_primary",
    TEXT_SECONDARY = "lb_text_secondary"
@@ -45,6 +46,14 @@ class TextFactory extends ComponentFactory {
    private _textStylesAppendHandler(tag: SEMANTIC_TAGS): void {
       switch (tag) {
          case SEMANTIC_TAGS.HEADER_TEXT:
+            this._appendStylesToHeaderText();
+            break;
+
+         case SEMANTIC_TAGS.SUB_HEADER_TEXT:
+            this._appendStylesToSubHeaderText();
+            break;
+
+         case SEMANTIC_TAGS.PRIMARY_TEXT:
             this._appendStylesToPrimaryText();
             break;
 
@@ -52,6 +61,19 @@ class TextFactory extends ComponentFactory {
             this._appendStylesToSecondaryText();
             break;
       }
+   }
+
+   private _appendStylesToHeaderText(): void {
+      this._logger.log(TextFactoryLogMsg.CREATING_HEADER_TEXT);
+      ElementController.appendStyles(
+         this._getTextElement,
+         TEXT_STYLE_CLASS.HEADER_PRIMARY
+      );
+   }
+
+   private _appendStylesToSubHeaderText(): void {
+      this._logger.log(TextFactoryLogMsg.CREATING_SUB_HEADER_TEXT);
+      ElementController.appendStyles(this._getTextElement, TEXT_STYLE_CLASS.SUB_HEADER);
    }
 
    private _appendStylesToPrimaryText(): void {
@@ -63,7 +85,7 @@ class TextFactory extends ComponentFactory {
       this._logger.log(TextFactoryLogMsg.CREATING_SECONDARY_TEXT);
       ElementController.appendStyles(
          this._getTextElement,
-         TEXT_STYLE_CLASS.HEADER_SECONDARY
+         TEXT_STYLE_CLASS.TEXT_SECONDARY
       );
    }
 }

@@ -3,6 +3,7 @@ enum SEMANTIC_TAGS {
    CONTAINER_PRIMARY = "div",
    CONTAINER_ROW = "div",
    HEADER_TEXT = "h2",
+   SUB_HEADER_TEXT = "h3",
    PRIMARY_TEXT = "p",
    SECONDARY_TEXT = "p"
 }
