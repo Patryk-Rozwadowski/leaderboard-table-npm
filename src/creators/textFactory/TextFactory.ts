@@ -1,9 +1,10 @@
-import { SEMANTIC_TAGS } from "../../components/style/common.enum";
 import ComponentFactory from "../ComponentFactory";
 import TextContentController from "./TextContentController";
 import Logger from "../../common/Logger/Logger";
 import { Newable } from "../../common/common.types";
 import ElementController from "../../common/ElementController";
+import { SEMANTIC_TAGS } from "../../components/style/semanticTags/semanticContainerTags.enum";
+import { TYPOGRAPHY_STYLE_CLASS } from "../../components/style/classes/textStyles.enum";
 
 type TextElementToCreate = { tag: SEMANTIC_TAGS; text: string };
 
@@ -12,14 +13,6 @@ enum TextFactoryLogMsg {
    CREATING_SUB_HEADER_TEXT = "Creating sub-header text.",
    CREATING_PRIMARY_TEXT = "Creating primary text.",
    CREATING_SECONDARY_TEXT = "Creating secondary text."
-}
-
-enum TEXT_STYLE_CLASS {
-   HEADER_PRIMARY = "lb_header_text_primary",
-   SUB_HEADER = "lb_header_text_secondary",
-
-   TEXT_PRIMARY = "lb_text_primary",
-   TEXT_SECONDARY = "lb_text_secondary"
 }
 
 class TextFactory extends ComponentFactory {
@@ -38,7 +31,7 @@ class TextFactory extends ComponentFactory {
          textElement,
          text
       );
-      this._setElementToCreate(textElementWithContent);
+      this._setElementToProcess(textElementWithContent);
       this._textStylesAppendHandler(tag);
       return textElementWithContent;
    }
@@ -67,28 +60,33 @@ class TextFactory extends ComponentFactory {
       this._logger.log(TextFactoryLogMsg.CREATING_HEADER_TEXT);
       ElementController.appendStyles(
          this._getTextElement,
-         TEXT_STYLE_CLASS.HEADER_PRIMARY
+         TYPOGRAPHY_STYLE_CLASS.HEADER_PRIMARY
       );
    }
 
    private _appendStylesToSubHeaderText(): void {
       this._logger.log(TextFactoryLogMsg.CREATING_SUB_HEADER_TEXT);
-      ElementController.appendStyles(this._getTextElement, TEXT_STYLE_CLASS.SUB_HEADER);
+      ElementController.appendStyles(
+         this._getTextElement,
+         TYPOGRAPHY_STYLE_CLASS.SUB_HEADER
+      );
    }
 
    private _appendStylesToPrimaryText(): void {
       this._logger.log(TextFactoryLogMsg.CREATING_PRIMARY_TEXT);
-      ElementController.appendStyles(this._getTextElement, TEXT_STYLE_CLASS.TEXT_PRIMARY);
+      ElementController.appendStyles(
+         this._getTextElement,
+         TYPOGRAPHY_STYLE_CLASS.TEXT_PRIMARY
+      );
    }
 
    private _appendStylesToSecondaryText(): void {
       this._logger.log(TextFactoryLogMsg.CREATING_SECONDARY_TEXT);
       ElementController.appendStyles(
          this._getTextElement,
-         TEXT_STYLE_CLASS.TEXT_SECONDARY
+         TYPOGRAPHY_STYLE_CLASS.TEXT_SECONDARY
       );
    }
 }
 
-export { TEXT_STYLE_CLASS };
 export default TextFactory;

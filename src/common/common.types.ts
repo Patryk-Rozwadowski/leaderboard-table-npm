@@ -1,7 +1,7 @@
 import ElementFactory from "../creators/ElementFactory";
 import { ROW_CLASS_STYLE } from "../components/row/Row";
-import { COMMON_STYLE_CLASS } from "../components/style/common.enum";
-import { TEXT_STYLE_CLASS } from "../creators/textFactory/TextFactory";
+import { COMMON_STYLE_CLASS } from "../components/style/classes/commonStyles.enum";
+import { TYPOGRAPHY_STYLE_CLASS } from "../components/style/classes/textStyles.enum";
 
 type Newable = { new (...args: any): any };
 
@@ -39,7 +39,7 @@ interface Component extends Creator {
    render(): HTMLElement | HTMLElement[];
 }
 
-type LbCSSClass = ROW_CLASS_STYLE | COMMON_STYLE_CLASS | TEXT_STYLE_CLASS;
+type LbCSSClass = ROW_CLASS_STYLE | COMMON_STYLE_CLASS | TYPOGRAPHY_STYLE_CLASS;
 
 export {
    Newable,

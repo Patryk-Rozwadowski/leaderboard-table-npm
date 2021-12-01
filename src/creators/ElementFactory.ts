@@ -1,6 +1,7 @@
-import { SEMANTIC_TAGS, SEMANTIC_TEXT_TAGS } from "../components/style/common.enum";
+import { SEMANTIC_TEXT_TAGS } from "../components/style/semanticTags/semanticTextTags.enum";
 import TextFactory from "./textFactory/TextFactory";
 import { LbCSSClass } from "../common/common.types";
+import { SEMANTIC_TAGS } from "../components/style/semanticTags/semanticContainerTags.enum";
 
 /**
  * @class ElementFactory is used whenever is need to create

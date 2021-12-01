@@ -1,5 +1,5 @@
-import { SEMANTIC_TAGS } from "../components/style/common.enum";
 import { LbCSSClass } from "../common/common.types";
+import { SEMANTIC_TAGS } from "../components/style/semanticTags/semanticContainerTags.enum";
 
 abstract class ComponentFactory {
    protected _tag: SEMANTIC_TAGS;
@@ -17,7 +17,7 @@ abstract class ComponentFactory {
       return this._element;
    }
 
-   protected _setElementToCreate(elementToCreate: HTMLElement): void {
+   protected _setElementToProcess(elementToCreate: HTMLElement): void {
       this._element = elementToCreate;
    }
 }

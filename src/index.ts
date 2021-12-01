@@ -4,10 +4,10 @@ import ParseData from "./phases/parseData/ParseData";
 import PhasesContext from "./phases/context/phases/PhasesContext";
 import { HeadersProps } from "./components/header/types";
 import { SortableProperties } from "./components/row/types";
-import { COMMON_STYLE_CLASS } from "./components/style/common.enum";
 import "./components/style/style.scss";
 import OptionsController, { LeaderboardOptions } from "./controllers/OptionsController";
 import { Newable } from "./common/common.types";
+import { COMMON_STYLE_CLASS } from "./components/style/classes/commonStyles.enum";
 
 interface LeaderboardConfig {
    rootContainer: HTMLElement;

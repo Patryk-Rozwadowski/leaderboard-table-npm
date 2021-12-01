@@ -1,8 +1,8 @@
 import ElementFactory from "../../creators/ElementFactory";
-import { SEMANTIC_TAGS } from "../style/common.enum";
 import { Component, Newable, SingleRowProperties } from "../../common/common.types";
 import ElementController from "../../common/ElementController";
 import Logger from "../../common/Logger/Logger";
+import { SEMANTIC_TAGS } from "../style/semanticTags/semanticContainerTags.enum";
 
 enum ROW_CLASS_STYLE {
    ROW_LIST_CONTAINER = "lb_row_wrapper",
