@@ -1,5 +1,5 @@
-import ElementCreator from "../../creators/ElementCreator";
-import { COMMON_STYLE_CLASS, SEMANTIC_TAGS } from "../style/common.enum";
+import ElementFactory from "../../creators/ElementFactory";
+import { SEMANTIC_TAGS } from "../style/common.enum";
 import { Component, Newable, SingleRowProperties } from "../../common/common.types";
 import ElementController from "../../common/ElementController";
 import Logger from "../../common/Logger/Logger";
@@ -17,7 +17,7 @@ interface RowContainers {
 }
 
 class Row implements Component {
-   _elementCreator: ElementCreator;
+   _elementCreator: ElementFactory;
    _rowListContainer: HTMLElement;
    private _logger: Logger;
 
@@ -25,7 +25,7 @@ class Row implements Component {
       private _rootContainer: HTMLElement,
       private _rowData: SingleRowProperties
    ) {
-      this._elementCreator = new ElementCreator();
+      this._elementCreator = new ElementFactory();
       this._logger = new Logger(this as unknown as Newable);
    }
 
@@ -66,9 +66,7 @@ class Row implements Component {
    }
 
    private _createRowTexts(txt: string): HTMLElement {
-      return this._elementCreator
-         .createText(SEMANTIC_TAGS.PRIMARY_TEXT, txt)
-         .appendStyles(COMMON_STYLE_CLASS.TEXT_PRIMARY).getElement;
+      return this._elementCreator.createText(SEMANTIC_TAGS.PRIMARY_TEXT, txt);
    }
 }
 

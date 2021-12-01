@@ -3,7 +3,7 @@ import {
    Newable,
    RootElementConnector
 } from "../../common/common.types";
-import ElementCreator from "../../creators/ElementCreator";
+import ElementFactory from "../../creators/ElementFactory";
 import Logger from "../../common/Logger/Logger";
 import Column from "./Column";
 
@@ -19,12 +19,12 @@ export type ColumnDomElement = {
 
 class ColumnCreator implements RootElementConnector {
    root: HTMLElement;
-   _elementCreator: ElementCreator;
+   _elementCreator: ElementFactory;
    private readonly _logger: Logger;
 
    constructor(root: HTMLElement, private _lbData: ColumnProperties[]) {
       this.root = root;
-      this._elementCreator = new ElementCreator();
+      this._elementCreator = new ElementFactory();
       this._logger = new Logger(this as unknown as Newable);
    }
 

@@ -1,17 +1,17 @@
-import ElementCreator from "../../creators/ElementCreator";
+import ElementFactory from "../../creators/ElementFactory";
 import { COMMON_STYLE_CLASS, SEMANTIC_TAGS } from "../style/common.enum";
 import { Component, Newable } from "../../common/common.types";
 import ElementController from "../../common/ElementController";
 import Logger from "../../common/Logger/Logger";
 
 class Header implements Component {
-   _elementCreator: ElementCreator;
+   _elementCreator: ElementFactory;
    private _logger: Logger;
    private _headersContainer: HTMLElement;
 
    constructor(private root: HTMLElement, private clientHeaders: string) {
       this._logger = new Logger(this as unknown as Newable);
-      this._elementCreator = new ElementCreator();
+      this._elementCreator = new ElementFactory();
    }
 
    public render(): HTMLElement {
@@ -30,9 +30,7 @@ class Header implements Component {
    }
 
    private _createHeaderElement(text: string) {
-      const headerTag = this._elementCreator
-         .createText(SEMANTIC_TAGS.HEADER_TEXT, text)
-         .appendStyles(COMMON_STYLE_CLASS.HEADER_PRIMARY).getElement;
+      const headerTag = this._elementCreator.createText(SEMANTIC_TAGS.HEADER_TEXT, text);
       ElementController.appendElementsToContainer(this._headersContainer, headerTag);
    }
 

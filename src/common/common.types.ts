@@ -1,7 +1,7 @@
-import ElementCreator from "../creators/ElementCreator";
+import ElementFactory from "../creators/ElementFactory";
 import { ROW_CLASS_STYLE } from "../components/row/Row";
-import { COMMON_STYLE_CLASS, SEMANTIC_TAGS } from "../components/style/common.enum";
-import { SortableProperties } from "../components/row/types";
+import { COMMON_STYLE_CLASS } from "../components/style/common.enum";
+import { TEXT_STYLE_CLASS } from "../creators/textFactory/TextFactory";
 
 type Newable = { new (...args: any): any };
 
@@ -11,7 +11,7 @@ type Newable = { new (...args: any): any };
  *    new Leaderboard elements.
  */
 interface Creator {
-   _elementCreator: ElementCreator;
+   _elementCreator: ElementFactory;
 }
 
 /*
@@ -24,11 +24,6 @@ interface RootElementConnector {
 
 // Single pre parsed client column
 type SingleRowProperties = { [key: string]: string | number } | string;
-
-type ClientColumns = {
-   [key: string]: string;
-}[] &
-   SortableProperties;
 
 /**
  * @type ColumnProperties type for column data which is after whole
@@ -44,18 +39,15 @@ interface Component extends Creator {
    render(): HTMLElement | HTMLElement[];
 }
 
-type LbCSSClass = ROW_CLASS_STYLE | COMMON_STYLE_CLASS;
-type LbSemanticTag = SEMANTIC_TAGS;
+type LbCSSClass = ROW_CLASS_STYLE | COMMON_STYLE_CLASS | TEXT_STYLE_CLASS;
 
 export {
    Newable,
    Creator,
    LbCSSClass,
-   LbSemanticTag,
    RootElementConnector,
    Component,
    ColumnProperties,
    HeaderKey,
-   SingleRowProperties,
-   ClientColumns
+   SingleRowProperties
 };

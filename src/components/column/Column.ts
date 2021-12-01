@@ -8,15 +8,15 @@ import Row from "../row/Row";
 import Header from "../header/Header";
 import LeaderboardHeader from "../header/Header";
 import { COMMON_STYLE_CLASS } from "../style/common.enum";
-import ElementCreator from "../../creators/ElementCreator";
+import ElementFactory from "../../creators/ElementFactory";
 import ColumnAppender from "./ColumnAppender";
 import Logger from "../../common/Logger/Logger";
 
 class Column implements Component {
-   _elementCreator: ElementCreator;
+   _elementCreator: ElementFactory;
    private _logger: Logger;
    constructor(private _root: HTMLElement, private _columnData: ColumnProperties) {
-      this._elementCreator = new ElementCreator();
+      this._elementCreator = new ElementFactory();
       this._logger = new Logger(this as unknown as Newable, false);
    }
 
