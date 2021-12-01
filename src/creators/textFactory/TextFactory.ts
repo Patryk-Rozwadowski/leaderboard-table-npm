@@ -2,9 +2,9 @@ import ComponentFactory from "../ComponentFactory";
 import TextContentController from "./TextContentController";
 import Logger from "../../common/Logger/Logger";
 import { Newable } from "../../common/common.types";
-import ElementController from "../../common/ElementController";
+import ElementController from "../../controllers/ElementController";
 import { SEMANTIC_TAGS } from "../../components/style/semanticTags/semanticContainerTags.enum";
-import { TYPOGRAPHY_STYLE_CLASS } from "../../components/style/classes/textStyles.enum";
+import { TYPOGRAPHY_STYLE_CLASS } from "../../components/style/classes/typographyStyle.enum";
 
 type TextElementToCreate = { tag: SEMANTIC_TAGS; text: string };
 

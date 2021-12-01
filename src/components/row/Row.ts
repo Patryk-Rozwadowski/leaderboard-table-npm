@@ -1,6 +1,6 @@
 import ElementFactory from "../../creators/ElementFactory";
 import { Component, Newable, SingleRowProperties } from "../../common/common.types";
-import ElementController from "../../common/ElementController";
+import ElementController from "../../controllers/ElementController";
 import Logger from "../../common/Logger/Logger";
 import { SEMANTIC_TAGS } from "../style/semanticTags/semanticContainerTags.enum";
 

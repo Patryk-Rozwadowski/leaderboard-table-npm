@@ -1,11 +1,10 @@
-import { LbCSSClass } from "./common.types";
+import { LbCSSClass } from "../common/common.types";
 
 class ElementController {
    public static appendElementsToContainer(
       container: HTMLElement,
       ...elements: HTMLElement[]
    ): void {
-      // TODO: fix mutation
       elements.forEach((element) => container.appendChild(element));
    }
 

@@ -1,4 +1,4 @@
-import { ColumnProperties } from "../common/common.types";
+import { ColumnProperties } from "../../common/common.types";
 
 type ColumnQueriesProps = {
    columns: ColumnProperties[];

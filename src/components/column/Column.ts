@@ -10,7 +10,7 @@ import LeaderboardHeader from "../header/Header";
 import ElementFactory from "../../creators/ElementFactory";
 import ColumnAppender from "./ColumnAppender";
 import Logger from "../../common/Logger/Logger";
-import { COMMON_STYLE_CLASS } from "../style/classes/commonStyles.enum";
+import { COMMON_STYLE_CLASS } from "../style/classes/commonStyle.enum";
 
 class Column implements Component {
    _elementCreator: ElementFactory;

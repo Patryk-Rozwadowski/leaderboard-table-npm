@@ -1,8 +1,8 @@
 import ElementFactory from "../../creators/ElementFactory";
 import { Component, Newable } from "../../common/common.types";
-import ElementController from "../../common/ElementController";
+import ElementController from "../../controllers/ElementController";
 import Logger from "../../common/Logger/Logger";
-import { COMMON_STYLE_CLASS } from "../style/classes/commonStyles.enum";
+import { COMMON_STYLE_CLASS } from "../style/classes/commonStyle.enum";
 import { SEMANTIC_TAGS } from "../style/semanticTags/semanticContainerTags.enum";
 
 class Header implements Component {

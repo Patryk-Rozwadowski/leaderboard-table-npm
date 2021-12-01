@@ -7,7 +7,7 @@ import { SortableProperties } from "./components/row/types";
 import "./components/style/style.scss";
 import OptionsController, { LeaderboardOptions } from "./controllers/OptionsController";
 import { Newable } from "./common/common.types";
-import { COMMON_STYLE_CLASS } from "./components/style/classes/commonStyles.enum";
+import { COMMON_STYLE_CLASS } from "./components/style/classes/commonStyle.enum";
 
 interface LeaderboardConfig {
    rootContainer: HTMLElement;

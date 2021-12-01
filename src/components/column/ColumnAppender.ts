@@ -1,4 +1,4 @@
-import ElementController from "../../common/ElementController";
+import ElementController from "../../controllers/ElementController";
 import { ColumnDomElement } from "./ColumnCreator";
 
 class ColumnAppender {
