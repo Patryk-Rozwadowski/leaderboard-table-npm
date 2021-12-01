@@ -1,4 +1,4 @@
-import ElementFactory from "../../creators/ElementFactory";
+import ElementFactory from "../../factories/ElementFactory";
 import { Component, Newable, SingleRowProperties } from "../../common/common.types";
 import ElementController from "../../controllers/ElementController";
 import Logger from "../../common/Logger/Logger";

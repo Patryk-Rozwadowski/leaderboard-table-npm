@@ -7,7 +7,7 @@ import {
 import Row from "../row/Row";
 import Header from "../header/Header";
 import LeaderboardHeader from "../header/Header";
-import ElementFactory from "../../creators/ElementFactory";
+import ElementFactory from "../../factories/ElementFactory";
 import ColumnAppender from "./ColumnAppender";
 import Logger from "../../common/Logger/Logger";
 import { COMMON_STYLE_CLASS } from "../style/classes/commonStyle.enum";

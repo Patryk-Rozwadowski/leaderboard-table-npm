@@ -3,7 +3,7 @@ import {
    Newable,
    RootElementConnector
 } from "../../common/common.types";
-import ElementFactory from "../../creators/ElementFactory";
+import ElementFactory from "../../factories/ElementFactory";
 import Logger from "../../common/Logger/Logger";
 import Column from "./Column";
 

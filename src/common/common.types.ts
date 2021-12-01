@@ -1,4 +1,4 @@
-import ElementFactory from "../creators/ElementFactory";
+import ElementFactory from "../factories/ElementFactory";
 import { ROW_CLASS_STYLE } from "../components/row/Row";
 import { COMMON_STYLE_CLASS } from "../components/style/classes/commonStyle.enum";
 import { TYPOGRAPHY_STYLE_CLASS } from "../components/style/classes/typographyStyle.enum";
