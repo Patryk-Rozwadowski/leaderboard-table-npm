@@ -1,8 +1,6 @@
-import { SEMANTIC_TAGS } from "../components/style/common.enum";
+import { SEMANTIC_TAGS, SEMANTIC_TEXT_TAGS } from "../components/style/common.enum";
 import TextFactory from "./textFactory/TextFactory";
 import { LbCSSClass } from "../common/common.types";
-
-type TextElement = SEMANTIC_TAGS.PRIMARY_TEXT | SEMANTIC_TAGS.HEADER_TEXT;
 
 /**
  * @class ElementFactory is used whenever is need to create
@@ -27,7 +25,7 @@ class ElementFactory {
       return this;
    }
 
-   public createText(tag: SEMANTIC_TAGS = SEMANTIC_TAGS.PRIMARY_TEXT, text: string) {
+   public createText(tag: SEMANTIC_TEXT_TAGS, text: string) {
       const textProps = {
          tag,
          text
