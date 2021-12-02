@@ -45,7 +45,7 @@ interface PreParsedLeaderboardData {
 class Leaderboard {
    private readonly _rootContainer;
    private readonly _leaderboardData: PreParsedLeaderboardData[];
-   private _options: LeaderboardOptions;
+   private _options: OptionsController;
    private _clientOptions: LeaderboardOptions;
    private _phasesContext: PhasesContext;
    private _parsedData: SortableProperties[];
@@ -59,7 +59,7 @@ class Leaderboard {
    }
 
    public init(): void {
-      this._options = new OptionsController(this._clientOptions).getOptions();
+      this._options = new OptionsController(this._clientOptions);
 
       this._addCssStylesToRootContainer();
       this._parseData();

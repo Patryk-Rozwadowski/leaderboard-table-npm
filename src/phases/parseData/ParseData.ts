@@ -10,7 +10,7 @@ import { PreParsedLeaderboardData } from "../../index";
 import PlaceSorter from "../../sorters/PlaceSorter";
 import ClientInputVerification from "../../common/ClientInputVerificator/ClientInputVerification";
 import DataParsingUtils from "./utils/DataParsingUtils";
-import { LeaderboardOptions } from "../../controllers/OptionsController";
+import OptionsController from "../../controllers/OptionsController";
 
 type ValuesToSaveOrAppend = {
    columnsAccumulator: ColumnProperties[];
@@ -38,7 +38,7 @@ type ColumnsToParse = {
 
 class ParseData extends PhasesState {
    private readonly _logger: Logger;
-   private readonly _options: LeaderboardOptions;
+   private readonly _options: OptionsController;
    private readonly _rootContainer: HTMLElement;
    private readonly _contentForEmptyRows: string;
    private _sorter: PlaceSorter;
@@ -48,7 +48,7 @@ class ParseData extends PhasesState {
    constructor(
       rootContainer: HTMLElement,
       data: PreParsedLeaderboardData[],
-      options: LeaderboardOptions
+      options: OptionsController
    ) {
       super();
       this._logger = new Logger(this as unknown as Newable);
@@ -56,7 +56,7 @@ class ParseData extends PhasesState {
       this._rootContainer = rootContainer;
       this._lbData = data;
       this._options = options;
-      this._contentForEmptyRows = options?.contentForEmptyRows || "";
+      this._contentForEmptyRows = options._userOptions.contentForEmptyRows || "";
    }
 
    public execute(): ColumnProperties[] {
@@ -128,13 +128,15 @@ class ParseData extends PhasesState {
       });
    }
 
-   public getOptions(): LeaderboardOptions {
+   public getOptions(): OptionsController {
       return this._options;
    }
 
    private _sort() {
       // TODO: extract to method
-      if (this._options?.sortByPlaces) {
+      if (this._options.sortByPlaces) {
+         // TODO: extract to enum messages
+         this._logger.log("Sorting by Places");
          this._sorter = new PlaceSorter(this._lbData);
          this._lbData = this._sorter.ascendant();
       }
@@ -142,13 +144,17 @@ class ParseData extends PhasesState {
 
    private _appendNewRowToExistingHeader(val: ValuesToSaveOrAppend): void {
       const { columnsAccumulator, header, singleRowValuesForHeader } = val;
-      const headerIndexInAcc = columnsAccumulator.findIndex((element: HeaderKey) => {
-         // TODO: extract to method
-         return element.header === header;
-      });
+
+      const headerIndexInAcc = columnsAccumulator.findIndex((column: ColumnProperties) =>
+         this._isColumnHeader(column, header)
+      );
 
       const existingHeaderInAcc = columnsAccumulator[headerIndexInAcc];
       existingHeaderInAcc.rows.push(singleRowValuesForHeader);
+   }
+
+   private _isColumnHeader(column: ColumnProperties, header: string) {
+      return column.header === header;
    }
 
    /**
@@ -205,7 +211,7 @@ class ParseData extends PhasesState {
       DataParsingUtils.insertValuesToColumnRows(columnToSave, singleRowValuesForHeader);
       columnsAccumulator.push(columnToSave);
    }
-   
+
    // TODO: improve method name
    private _fillMissingRowsPRE(column: ColumnProperties, nOfArrays: number) {
       const emptyRows = DataParsingUtils.createNOfEmptyArrays(nOfArrays);
@@ -226,7 +232,7 @@ class ParseData extends PhasesState {
 
    private _checkData() {
       this._logger.log("Checking data types.");
-      
+
       // TODO: extract to variable
       if (!this._clientInputVerification.isDataStructureValid(this._lbData)) return;
       this._logger.log(`Data is valid.`);
