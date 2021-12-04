@@ -3,6 +3,10 @@ import { Newable } from "../common.types";
 class Logger {
    private readonly _contextName: string;
 
+   /**
+    * @param _context   - Context where Logger is suppose to Log messages.
+    * @param initGroup  - If logger should create group for picked _context.
+    */
    constructor(private readonly _context: Newable, initGroup = true) {
       this._context = _context;
       this._contextName = this._context.constructor.name;

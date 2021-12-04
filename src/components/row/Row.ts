@@ -1,4 +1,4 @@
-import ElementFactory from "../../factories/ElementFactory";
+import ComponentCreator from "../../factories/Component/ComponentCreator";
 import { Component, Newable, SingleRowProperties } from "../../common/common.types";
 import ElementController from "../../controllers/ElementController";
 import Logger from "../../common/Logger/Logger";
@@ -17,7 +17,7 @@ interface RowContainers {
 }
 
 class Row implements Component {
-   _elementCreator: ElementFactory;
+   _elementCreator: ComponentCreator;
    _rowListContainer: HTMLElement;
    private _logger: Logger;
 
@@ -25,7 +25,7 @@ class Row implements Component {
       private _rootContainer: HTMLElement,
       private _rowData: SingleRowProperties
    ) {
-      this._elementCreator = new ElementFactory();
+      this._elementCreator = new ComponentCreator();
       this._logger = new Logger(this as unknown as Newable);
    }
 

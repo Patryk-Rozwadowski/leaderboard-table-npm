@@ -1,4 +1,4 @@
-import ElementFactory from "../factories/ElementFactory";
+import ComponentCreator from "../factories/Component/ComponentCreator";
 import { ROW_CLASS_STYLE } from "../components/row/Row";
 import { COMMON_STYLE_CLASS } from "../components/style/classes/commonStyle.enum";
 import { TYPOGRAPHY_STYLE_CLASS } from "../components/style/classes/typographyStyle.enum";
@@ -11,7 +11,7 @@ type Newable = { new (...args: any): any };
  *    new Leaderboard elements.
  */
 interface Creator {
-   _elementCreator: ElementFactory;
+   _elementCreator: ComponentCreator;
 }
 
 /*

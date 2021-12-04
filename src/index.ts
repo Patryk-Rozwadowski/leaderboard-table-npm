@@ -2,7 +2,6 @@ import Mount from "./phases/mount/Mount";
 import Logger from "./common/Logger/Logger";
 import ParseData from "./phases/parseData/ParseData";
 import PhasesContext from "./phases/context/phases/PhasesContext";
-import { HeadersProps } from "./components/header/types";
 import { SortableProperties } from "./components/row/types";
 import "./components/style/style.scss";
 import OptionsController, { LeaderboardOptions } from "./controllers/OptionsController";
@@ -13,7 +12,6 @@ interface LeaderboardConfig {
    rootContainer: HTMLElement;
    leaderboardData: PreParsedLeaderboardData[];
    options: LeaderboardOptions;
-   headers: HeadersProps;
 }
 
 /**
@@ -43,10 +41,10 @@ interface PreParsedLeaderboardData {
 }
 
 class Leaderboard {
+   private readonly _clientOptions: LeaderboardOptions;
    private readonly _rootContainer;
    private readonly _leaderboardData: PreParsedLeaderboardData[];
    private _options: OptionsController;
-   private _clientOptions: LeaderboardOptions;
    private _phasesContext: PhasesContext;
    private _parsedData: SortableProperties[];
    private _logger: Logger;

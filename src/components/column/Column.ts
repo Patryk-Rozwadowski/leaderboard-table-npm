@@ -5,18 +5,18 @@ import {
    SingleRowProperties
 } from "../../common/common.types";
 import Row from "../row/Row";
-import Header from "../header/Header";
-import LeaderboardHeader from "../header/Header";
-import ElementFactory from "../../factories/ElementFactory";
-import ColumnAppender from "./ColumnAppender";
+import ComponentCreator from "../../factories/Component/ComponentCreator";
+import ColumnAppender from "../../services/column/ColumnAppender";
 import Logger from "../../common/Logger/Logger";
 import { COMMON_STYLE_CLASS } from "../style/classes/commonStyle.enum";
+import { SEMANTIC_TEXT_TAGS } from "../style/semanticTags/semanticTextTags.enum";
 
 class Column implements Component {
-   _elementCreator: ElementFactory;
+   _elementCreator: ComponentCreator;
    private _logger: Logger;
+
    constructor(private _root: HTMLElement, private _columnData: ColumnProperties) {
-      this._elementCreator = new ElementFactory();
+      this._elementCreator = new ComponentCreator();
       this._logger = new Logger(this as unknown as Newable, false);
    }
 
@@ -39,8 +39,8 @@ class Column implements Component {
       return instanceOfRow.render();
    }
 
-   private _instantiateHeaderComponent(txt: string): Header {
-      return new LeaderboardHeader(this._root, txt);
+   private _instantiateHeaderComponent(txt: string): HTMLElement {
+      return this._elementCreator.createText(SEMANTIC_TEXT_TAGS.HEADER_TEXT, txt);
    }
 
    /**
@@ -67,7 +67,7 @@ class Column implements Component {
 
       const columnDOMElement = {
          container: this._generateColumnContainer(),
-         header: this._instantiateHeaderComponent(header).render(),
+         header: this._instantiateHeaderComponent(header),
          rows: this._generateRowElementsArray(rows)
       };
 

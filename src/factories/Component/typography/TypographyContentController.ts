@@ -1,4 +1,4 @@
-class TextContentController {
+class TypographyContentController {
    public fillTextWithContent(textElement: HTMLElement, text: string): HTMLElement {
       const textElementToFill = textElement;
       textElementToFill.textContent = `${text}`;
@@ -6,4 +6,4 @@ class TextContentController {
    }
 }
 
-export default TextContentController;
+export default TypographyContentController;
