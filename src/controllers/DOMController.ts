@@ -2,7 +2,6 @@ import { LbCSSClass } from "../common/common.types";
 import { SEMANTIC_TAGS } from "../style/semanticTags/semanticContainerTags.enum";
 
 class DOMController {
-   _tag: SEMANTIC_TAGS;
    _element: HTMLElement;
 
    get getElement(): HTMLElement {
@@ -28,6 +27,16 @@ class DOMController {
          else this._element.appendChild(element);
       });
       return this._element;
+   }
+
+   static appendChildrenToContainer(
+      container: HTMLElement,
+      ...elements: HTMLElement[]
+   ): void {
+      elements.forEach((element) => {
+         if (Array.isArray(element)) element.forEach((el) => container.appendChild(el));
+         else container.appendChild(element);
+      });
    }
 
    appendStyles(...cssStyleClasses: LbCSSClass[]): HTMLElement {

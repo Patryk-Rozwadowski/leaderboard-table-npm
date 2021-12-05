@@ -5,8 +5,9 @@ import { Newable } from "../../common/common.types";
 import { SEMANTIC_TAGS } from "../../style/semanticTags/semanticContainerTags.enum";
 import { TYPOGRAPHY_STYLE_CLASS } from "../../style/classes/typographyStyle.enum";
 import ComponentStyleController from "../../controllers/ComponentStyleController";
+import { SEMANTIC_TEXT_TAGS } from "../../style/semanticTags/semanticTextTags.enum";
 
-type TextElementToCreate = { tag: SEMANTIC_TAGS; text: string };
+type TextElementToCreate = { tag: SEMANTIC_TAGS<SEMANTIC_TEXT_TAGS>; text: string };
 
 enum TypographyFactoryLogMsg {
    CREATING_HEADER_TEXT = "Creating header text.",
@@ -35,28 +36,28 @@ class TypographyFactory {
          text
       );
       this._DOMController.setElementToProcess(textElementWithContent);
-      this._stylesAppendHandler(tag);
+      this._appendStyles(tag);
       return textElementWithContent;
    }
 
-   private _stylesAppendHandler(semanticTag: SEMANTIC_TAGS): void {
+   private _appendStyles(semanticTag: SEMANTIC_TAGS): void {
       switch (semanticTag) {
-         case SEMANTIC_TAGS.HEADER_TEXT:
+         case SEMANTIC_TEXT_TAGS.HEADER_TEXT:
             this._logger.log(TypographyFactoryLogMsg.CREATING_HEADER_TEXT);
             this._DOMController.appendStyles(TYPOGRAPHY_STYLE_CLASS.HEADER_PRIMARY);
             break;
 
-         case SEMANTIC_TAGS.SUB_HEADER_TEXT:
+         case SEMANTIC_TEXT_TAGS.SUB_HEADER_TEXT:
             this._logger.log(TypographyFactoryLogMsg.CREATING_SUB_HEADER_TEXT);
             this._DOMController.appendStyles(TYPOGRAPHY_STYLE_CLASS.SUB_HEADER);
             break;
 
-         case SEMANTIC_TAGS.PRIMARY_TEXT:
+         case SEMANTIC_TEXT_TAGS.PRIMARY_TEXT:
             this._logger.log(TypographyFactoryLogMsg.CREATING_PRIMARY_TEXT);
             this._DOMController.appendStyles(TYPOGRAPHY_STYLE_CLASS.TEXT_PRIMARY);
             break;
 
-         case SEMANTIC_TAGS.SECONDARY_TEXT:
+         case SEMANTIC_TEXT_TAGS.SECONDARY_TEXT:
             this._logger.log(TypographyFactoryLogMsg.CREATING_SECONDARY_TEXT);
             this._DOMController.appendStyles(TYPOGRAPHY_STYLE_CLASS.TEXT_SECONDARY);
             break;
