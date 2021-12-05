@@ -10,17 +10,19 @@ import Logger from "../../common/Logger/Logger";
 import { COMMON_STYLE_CLASS } from "../../style/classes/commonStyle.enum";
 import { SEMANTIC_TEXT_TAGS } from "../../style/semanticTags/semanticTextTags.enum";
 import DOMController from "../../controllers/DOMController";
-import ColumnAppender from "../../services/column/ColumnAppender";
+import ColumnController from "./ColumnController";
 
 class Column implements Component {
    _elementCreator: ElementCreator;
    private _logger: Logger;
    private _DOMController: DOMController;
+   private _columnController: ColumnController;
 
    constructor(private _root: HTMLElement, private _columnData: ColumnProperties) {
       this._elementCreator = new ElementCreator();
       this._logger = new Logger(this as unknown as Newable, false);
       this._DOMController = new DOMController();
+      this._columnController = new ColumnController();
    }
 
    public create(): HTMLElement {
@@ -75,9 +77,10 @@ class Column implements Component {
       };
 
       // Append rows and header to column's DOM container.
-      ColumnAppender.appendHeaderAndRowToColumnContainer(columnDOMElement);
+      const columnContainerWithHeaderAndRows =
+         this._columnController.appendHeaderAndRowToColumnContainer(columnDOMElement);
       this._logger.groupEnd();
-      return columnDOMElement.container;
+      return columnContainerWithHeaderAndRows;
    }
 }
 

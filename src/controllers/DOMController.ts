@@ -18,11 +18,16 @@ class DOMController {
       return this._element;
    }
 
-   static appendChildrenToContainer(
+   appendChildrenToContainer(
       container: HTMLElement,
       ...elements: HTMLElement[]
-   ): void {
-      elements.forEach((element) => container.appendChild(element));
+   ): HTMLElement {
+      elements.forEach((element) => {
+         if (Array.isArray(element))
+            element.forEach((el) => this._element.appendChild(el));
+         else this._element.appendChild(element);
+      });
+      return this._element;
    }
 
    appendStyles(...cssStyleClasses: LbCSSClass[]): HTMLElement {

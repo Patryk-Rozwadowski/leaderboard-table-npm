@@ -49,8 +49,8 @@ class Row {
       const { contentContainer } = this._createRowContainers();
       const textContent = this._createRowTexts(this._rowData?.toString());
 
-      DOMController.appendChildrenToContainer(contentContainer, textContent);
-      DOMController.appendChildrenToContainer(rowWrapper, contentContainer);
+      this._DOMController.appendChildrenToContainer(contentContainer, textContent);
+      this._DOMController.appendChildrenToContainer(rowWrapper, contentContainer);
 
       this._rowListContainer.appendChild(rowWrapper);
    }

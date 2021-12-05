@@ -1,6 +1,6 @@
 import { ColumnProperties } from "../../common/common.types";
 
-type ColumnQueriesProps = {
+type ColumnQueries = {
    columns: ColumnProperties[];
    columnsToCheck: string[];
    query: Query;
@@ -20,12 +20,12 @@ class ColumnQuery {
       columns,
       columnsToCheck,
       query
-   }: ColumnQueriesProps): ColumnProperties[] {
+   }: ColumnQueries): ColumnProperties[] {
       return columns.filter((sourceElement: ColumnProperties) =>
          query(columnsToCheck, sourceElement)
       );
    }
 }
 
-export { Query, ColumnQueriesProps };
+export { Query, ColumnQueries };
 export default ColumnQuery;

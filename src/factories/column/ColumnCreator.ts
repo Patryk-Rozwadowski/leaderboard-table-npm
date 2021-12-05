@@ -9,8 +9,8 @@ import Column from "./Column";
  */
 export type ColumnDomElement = {
    container: HTMLElement;
-   rows: HTMLElement[];
    header: HTMLElement;
+   rows: HTMLElement[];
 };
 
 class ColumnCreator {
