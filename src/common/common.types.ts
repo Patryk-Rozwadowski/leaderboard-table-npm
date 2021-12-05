@@ -1,7 +1,7 @@
-import ComponentCreator from "../factories/Component/ComponentCreator";
-import { ROW_CLASS_STYLE } from "../components/row/Row";
-import { COMMON_STYLE_CLASS } from "../components/style/classes/commonStyle.enum";
-import { TYPOGRAPHY_STYLE_CLASS } from "../components/style/classes/typographyStyle.enum";
+import ElementCreator from "../factories/ElementCreator";
+import { ROW_CLASS_STYLE } from "../factories/row/Row";
+import { COMMON_STYLE_CLASS } from "../style/classes/commonStyle.enum";
+import { TYPOGRAPHY_STYLE_CLASS } from "../style/classes/typographyStyle.enum";
 
 type Newable = { new (...args: any): any };
 
@@ -11,15 +11,7 @@ type Newable = { new (...args: any): any };
  *    new Leaderboard elements.
  */
 interface Creator {
-   _elementCreator: ComponentCreator;
-}
-
-/*
- * RootElementConnect
- *     Type for every class which operates directly with root container.
- */
-interface RootElementConnector {
-   root: HTMLElement;
+   _elementCreator: ElementCreator;
 }
 
 // Single pre parsed client column
@@ -36,7 +28,7 @@ type ColumnProperties = {
 type HeaderKey = { header: string };
 
 interface Component extends Creator {
-   render(): HTMLElement | HTMLElement[];
+   create(): HTMLElement | HTMLElement[];
 }
 
 type LbCSSClass = ROW_CLASS_STYLE | COMMON_STYLE_CLASS | TYPOGRAPHY_STYLE_CLASS;
@@ -45,7 +37,6 @@ export {
    Newable,
    Creator,
    LbCSSClass,
-   RootElementConnector,
    Component,
    ColumnProperties,
    HeaderKey,

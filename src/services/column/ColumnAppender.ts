@@ -1,5 +1,5 @@
 import ElementController from "../../controllers/ElementController";
-import { ColumnDomElement } from "./ColumnCreator";
+import { ColumnDomElement } from "../../factories/column/ColumnCreator";
 
 class ColumnAppender {
    public static appendHeaderToColumnContainer(

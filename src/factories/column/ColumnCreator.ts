@@ -1,11 +1,7 @@
-import {
-   ColumnProperties,
-   Newable,
-   RootElementConnector
-} from "../../common/common.types";
-import ComponentCreator from "../../factories/Component/ComponentCreator";
+import { ColumnProperties, Newable } from "../../common/common.types";
+import ElementCreator from "../ElementCreator";
 import Logger from "../../common/Logger/Logger";
-import Column from "../../components/column/Column";
+import Column from "./Column";
 
 /**
  * Type used for defining column component which is ready to mount.
@@ -17,14 +13,14 @@ export type ColumnDomElement = {
    header: HTMLElement;
 };
 
-class ColumnCreator implements RootElementConnector {
-   root: HTMLElement;
-   _elementCreator: ComponentCreator;
+class ColumnCreator {
+   private root: HTMLElement;
+   private _elementCreator: ElementCreator;
    private readonly _logger: Logger;
 
    constructor(root: HTMLElement, private _lbData: ColumnProperties[]) {
       this.root = root;
-      this._elementCreator = new ComponentCreator();
+      this._elementCreator = new ElementCreator();
       this._logger = new Logger(this as unknown as Newable);
    }
 
@@ -54,7 +50,7 @@ class ColumnCreator implements RootElementConnector {
     * @return HTMLElement
     */
    private _generateColumn(columnData: ColumnProperties): HTMLElement | HTMLElement[] {
-      return new Column(this.root, columnData).render();
+      return new Column(this.root, columnData).create();
    }
 }
 

@@ -1,8 +1,8 @@
-import ComponentCreator from "../../factories/Component/ComponentCreator";
-import { Component, Newable, SingleRowProperties } from "../../common/common.types";
-import ElementController from "../../controllers/ElementController";
+import ElementCreator from "../ElementCreator";
+import { Newable, SingleRowProperties } from "../../common/common.types";
 import Logger from "../../common/Logger/Logger";
-import { SEMANTIC_TAGS } from "../style/semanticTags/semanticContainerTags.enum";
+import { SEMANTIC_TAGS } from "../../style/semanticTags/semanticContainerTags.enum";
+import DOMController from "../../controllers/DOMController";
 
 enum ROW_CLASS_STYLE {
    ROW_LIST_CONTAINER = "lb_row_wrapper",
@@ -16,20 +16,22 @@ interface RowContainers {
    contentContainer: HTMLElement;
 }
 
-class Row implements Component {
-   _elementCreator: ComponentCreator;
-   _rowListContainer: HTMLElement;
+class Row {
+   private _elementCreator: ElementCreator;
+   private _rowListContainer: HTMLElement;
    private _logger: Logger;
+   private _DOMController: DOMController;
 
    constructor(
       private _rootContainer: HTMLElement,
       private _rowData: SingleRowProperties
    ) {
-      this._elementCreator = new ComponentCreator();
+      this._elementCreator = new ElementCreator();
       this._logger = new Logger(this as unknown as Newable);
+      this._DOMController = new DOMController();
    }
 
-   public render(): HTMLElement {
+   public create(): HTMLElement {
       this._rowListContainer = this._elementCreator
          .container(SEMANTIC_TAGS.CONTAINER_ROW)
          .appendStyles(ROW_CLASS_STYLE.ROW_LIST_CONTAINER).getElement;
@@ -47,8 +49,8 @@ class Row implements Component {
       const { contentContainer } = this._createRowContainers();
       const textContent = this._createRowTexts(this._rowData?.toString());
 
-      ElementController.appendElementsToContainer(contentContainer, textContent);
-      ElementController.appendElementsToContainer(rowWrapper, contentContainer);
+      DOMController.appendChildrenToContainer(contentContainer, textContent);
+      DOMController.appendChildrenToContainer(rowWrapper, contentContainer);
 
       this._rowListContainer.appendChild(rowWrapper);
    }

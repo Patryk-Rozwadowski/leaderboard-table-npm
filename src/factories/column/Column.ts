@@ -5,22 +5,25 @@ import {
    SingleRowProperties
 } from "../../common/common.types";
 import Row from "../row/Row";
-import ComponentCreator from "../../factories/Component/ComponentCreator";
-import ColumnAppender from "../../services/column/ColumnAppender";
+import ElementCreator from "../ElementCreator";
 import Logger from "../../common/Logger/Logger";
-import { COMMON_STYLE_CLASS } from "../style/classes/commonStyle.enum";
-import { SEMANTIC_TEXT_TAGS } from "../style/semanticTags/semanticTextTags.enum";
+import { COMMON_STYLE_CLASS } from "../../style/classes/commonStyle.enum";
+import { SEMANTIC_TEXT_TAGS } from "../../style/semanticTags/semanticTextTags.enum";
+import DOMController from "../../controllers/DOMController";
+import ColumnAppender from "../../services/column/ColumnAppender";
 
 class Column implements Component {
-   _elementCreator: ComponentCreator;
+   _elementCreator: ElementCreator;
    private _logger: Logger;
+   private _DOMController: DOMController;
 
    constructor(private _root: HTMLElement, private _columnData: ColumnProperties) {
-      this._elementCreator = new ComponentCreator();
+      this._elementCreator = new ElementCreator();
       this._logger = new Logger(this as unknown as Newable, false);
+      this._DOMController = new DOMController();
    }
 
-   public render(): HTMLElement {
+   public create(): HTMLElement {
       return this._generateColumn();
    }
 
@@ -36,7 +39,7 @@ class Column implements Component {
 
    private _instantiateRowComponent(rowData: SingleRowProperties): HTMLElement {
       const instanceOfRow = new Row(this._root, rowData);
-      return instanceOfRow.render();
+      return instanceOfRow.create();
    }
 
    private _instantiateHeaderComponent(txt: string): HTMLElement {

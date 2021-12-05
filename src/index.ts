@@ -2,11 +2,11 @@ import Mount from "./phases/mount/Mount";
 import Logger from "./common/Logger/Logger";
 import ParseData from "./phases/parseData/ParseData";
 import PhasesContext from "./phases/context/phases/PhasesContext";
-import { SortableProperties } from "./components/row/types";
-import "./components/style/style.scss";
+import { SortableProperties } from "./factories/row/types";
+import "./style/style.scss";
 import OptionsController, { LeaderboardOptions } from "./controllers/OptionsController";
 import { Newable } from "./common/common.types";
-import { COMMON_STYLE_CLASS } from "./components/style/classes/commonStyle.enum";
+import { COMMON_STYLE_CLASS } from "./style/classes/commonStyle.enum";
 
 interface LeaderboardConfig {
    rootContainer: HTMLElement;
