@@ -1,0 +1,15 @@
+import { SEMANTIC_TYPOGRAPHY_TAGS } from "./typography.enum";
+import { COMPONENT_TYPES, SEMANTIC_CONTAINER_TAGS } from "./container.enum";
+import { SEMANTIC_ROW_TAGS } from "./row.enum";
+import { SEMANTIC_COLUMN_TAGS } from "./column.enum";
+
+export const SEMANTIC_TAGS_ = {
+   [COMPONENT_TYPES.CONTAINER]: { ...SEMANTIC_CONTAINER_TAGS },
+   [COMPONENT_TYPES.TYPOGRAPHY]: { ...SEMANTIC_TYPOGRAPHY_TAGS },
+   [COMPONENT_TYPES.COLUMN]: { ...SEMANTIC_ROW_TAGS },
+   [COMPONENT_TYPES.ROW]: { ...SEMANTIC_COLUMN_TAGS }
+};
+
+export type SEMANTIC_TAGS<T extends COMPONENT_TYPES> = {
+   [k in COMPONENT_TYPES]: typeof SEMANTIC_TAGS_[T];
+};

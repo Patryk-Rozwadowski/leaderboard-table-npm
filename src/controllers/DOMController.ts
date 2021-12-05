@@ -1,5 +1,5 @@
 import { LbCSSClass } from "../common/common.types";
-import { SEMANTIC_TAGS } from "../style/semanticTags/semanticContainerTags.enum";
+import { COMPONENT_TYPES } from "../style/semanticTags/container.enum";
 
 class DOMController {
    _element: HTMLElement;
@@ -12,7 +12,7 @@ class DOMController {
       this._element = elementToCreate;
    }
 
-   createDOMElementWithTag(tag: SEMANTIC_TAGS): HTMLElement {
+   createDOMElementWithTag<T extends COMPONENT_TYPES>(tag: T): HTMLElement {
       this._element = document.createElement(tag);
       return this._element;
    }

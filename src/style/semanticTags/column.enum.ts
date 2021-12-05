@@ -1,0 +1,3 @@
+enum SEMANTIC_COLUMN_TAGS {}
+
+export { SEMANTIC_COLUMN_TAGS };

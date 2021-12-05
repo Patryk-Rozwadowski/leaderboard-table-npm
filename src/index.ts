@@ -6,7 +6,7 @@ import { SortableProperties } from "./factories/row/types";
 import "./style/style.scss";
 import OptionsController, { LeaderboardOptions } from "./controllers/OptionsController";
 import { Newable } from "./common/common.types";
-import { COMMON_STYLE_CLASS } from "./style/classes/commonStyle.enum";
+import { CONTAINER_STYLE_CLASS } from "./style/styleClasses";
 
 interface LeaderboardConfig {
    rootContainer: HTMLElement;
@@ -65,7 +65,7 @@ class Leaderboard {
    }
 
    private _addCssStylesToRootContainer() {
-      this._rootContainer.classList.add(COMMON_STYLE_CLASS.ROOT_CONTAINER);
+      this._rootContainer.classList.add(CONTAINER_STYLE_CLASS.ROOT_CONTAINER);
    }
 
    private _parseData() {

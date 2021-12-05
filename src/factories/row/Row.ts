@@ -1,16 +1,9 @@
 import ElementCreator from "../ElementCreator";
 import { Newable, SingleRowProperties } from "../../common/common.types";
 import Logger from "../../common/Logger/Logger";
-import { SEMANTIC_CONTAINER_TAGS } from "../../style/semanticTags/semanticContainerTags.enum";
+import { COMPONENT_TYPES } from "../../style/semanticTags/container.enum";
 import DOMController from "../../controllers/DOMController";
-import { SEMANTIC_TEXT_TAGS } from "../../style/semanticTags/semanticTextTags.enum";
-
-enum ROW_CLASS_STYLE {
-   ROW_LIST_CONTAINER = "lb_row_wrapper",
-   ROW_CONTAINER = "lb_row",
-   PLACE_CONTAINER = "lb_row_place",
-   CONTENT_CONTAINER = "lb_row_content"
-}
+import { ROW_CLASS_STYLE } from "../../style/styleClasses/row.enum";
 
 interface RowContainers {
    placeContainer: HTMLElement;
@@ -34,7 +27,7 @@ class Row {
 
    public create(): HTMLElement {
       this._rowListContainer = this._elementCreator
-         .container(SEMANTIC_CONTAINER_TAGS.CONTAINER_ROW)
+         .container(COMPONENT_TYPES.CONTAINER)
          .appendStyles(ROW_CLASS_STYLE.ROW_LIST_CONTAINER).getElement;
 
       this._createRow();
@@ -44,7 +37,7 @@ class Row {
 
    private _createRow() {
       const rowWrapper = this._elementCreator
-         .container(SEMANTIC_CONTAINER_TAGS.CONTAINER_ROW)
+         .container(COMPONENT_TYPES.CONTAINER)
          .appendStyles(ROW_CLASS_STYLE.ROW_CONTAINER).getElement;
 
       const { contentContainer } = this._createRowContainers();
@@ -58,18 +51,18 @@ class Row {
 
    private _createRowContainers(): RowContainers {
       const placeContainer = this._elementCreator
-         .container(SEMANTIC_CONTAINER_TAGS.CONTAINER_ROW)
+         .container(COMPONENT_TYPES.ROW)
          .appendStyles(ROW_CLASS_STYLE.PLACE_CONTAINER).getElement;
 
       const contentContainer = this._elementCreator
-         .container(SEMANTIC_CONTAINER_TAGS.CONTAINER_ROW)
+         .container(COMPONENT_TYPES.ROW)
          .appendStyles(ROW_CLASS_STYLE.CONTENT_CONTAINER).getElement;
 
       return { placeContainer, contentContainer };
    }
 
    private _createRowTexts(txt: string): HTMLElement {
-      return this._elementCreator.createText(SEMANTIC_TEXT_TAGS.PRIMARY_TEXT, txt);
+      return this._elementCreator.createText(COMPONENT_TYPES.TYPOGRAPHY, txt);
    }
 }
 

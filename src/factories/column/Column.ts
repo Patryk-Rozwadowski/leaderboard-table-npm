@@ -7,10 +7,10 @@ import {
 import Row from "../row/Row";
 import ElementCreator from "../ElementCreator";
 import Logger from "../../common/Logger/Logger";
-import { COMMON_STYLE_CLASS } from "../../style/classes/commonStyle.enum";
-import { SEMANTIC_TEXT_TAGS } from "../../style/semanticTags/semanticTextTags.enum";
 import DOMController from "../../controllers/DOMController";
 import ColumnController from "./ColumnController";
+import { CONTAINER_STYLE_CLASS } from "../../style/styleClasses";
+import { COMPONENT_TYPES } from "../../style/semanticTags/container.enum";
 
 class Column implements Component {
    _elementCreator: ElementCreator;
@@ -35,8 +35,8 @@ class Column implements Component {
     */
    private _generateColumnContainer(): HTMLElement {
       return this._elementCreator
-         .container()
-         .appendStyles(COMMON_STYLE_CLASS.COLUMN_CONTAINER).getElement;
+         .container(COMPONENT_TYPES.COLUMN)
+         .appendStyles(CONTAINER_STYLE_CLASS.COLUMN_CONTAINER).getElement;
    }
 
    private _instantiateRowComponent(rowData: SingleRowProperties): HTMLElement {
@@ -45,7 +45,7 @@ class Column implements Component {
    }
 
    private _instantiateHeaderComponent(txt: string): HTMLElement {
-      return this._elementCreator.createText(SEMANTIC_TEXT_TAGS.HEADER_TEXT, txt);
+      return this._elementCreator.createText(COMPONENT_TYPES.TYPOGRAPHY, txt);
    }
 
    /**

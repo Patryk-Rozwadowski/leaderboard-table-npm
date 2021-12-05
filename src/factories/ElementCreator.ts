@@ -1,10 +1,6 @@
-import { SEMANTIC_TEXT_TAGS } from "../style/semanticTags/semanticTextTags.enum";
 import TypographyFactory from "./typography/TypographyFactory";
 import { LbCSSClass } from "../common/common.types";
-import {
-   SEMANTIC_CONTAINER_TAGS,
-   SEMANTIC_TAGS
-} from "../style/semanticTags/semanticContainerTags.enum";
+import { COMPONENT_TYPES } from "../style/semanticTags/container.enum";
 import DOMController from "../controllers/DOMController";
 
 /**
@@ -26,14 +22,12 @@ class ElementCreator {
    }
 
    // TODO: move to container factory
-   container(
-      tag: SEMANTIC_TAGS = SEMANTIC_CONTAINER_TAGS.CONTAINER_PRIMARY
-   ): ElementCreator {
+   container(tag: COMPONENT_TYPES): ElementCreator {
       this._element = this._DOMController.createDOMElementWithTag(tag);
       return this;
    }
 
-   createText(tag: SEMANTIC_TEXT_TAGS, text: string): HTMLElement {
+   createText(tag: COMPONENT_TYPES.TYPOGRAPHY, text: string): HTMLElement {
       const textProps = {
          tag,
          text
