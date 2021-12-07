@@ -3,10 +3,11 @@ import TypographyController from "./TypographyController";
 import Logger from "../../common/Logger/Logger";
 import { Newable } from "../../common/common.types";
 import ComponentStyleController from "../../controllers/ComponentStyleController";
-import { COMPONENT_TYPES } from "../../style/semanticTags/container.enum";
+import { SEMANTIC_TAGS } from "../../style/semanticTags";
+import { TYPOGRAPHY_STYLE_CLASS } from "../../style/styleClasses/typography.enum";
 
 type TextElementToCreate = {
-   tag: COMPONENT_TYPES.TYPOGRAPHY;
+   tag: SEMANTIC_TAGS;
    text: string;
 };
 
@@ -32,7 +33,9 @@ class TypographyFactory {
          text
       );
       this._DOMController.setElementToProcess(textElementWithContent);
-      this._componentStyleController.appendStyles(tag);
+
+      // TODO: extract to method
+      this._componentStyleController.appendStyles(TYPOGRAPHY_STYLE_CLASS.HEADER_PRIMARY);
       return textElementWithContent;
    }
 }

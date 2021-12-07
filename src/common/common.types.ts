@@ -1,7 +1,7 @@
 import ElementCreator from "../factories/ElementCreator";
 import { ROW_CLASS_STYLE } from "../factories/row/Row";
 import { TYPOGRAPHY_STYLE_CLASS } from "../style/styleClasses/typography.enum";
-import { CONTAINER_STYLE_CLASS } from "../style/styleClasses";
+import { CONTAINER_STYLE_CLASS } from "../style/styleClasses/container.enum";
 
 type Newable = { new (...args: any): any };
 

@@ -1,5 +1,4 @@
-import { LbCSSClass } from "../common/common.types";
-import { COMPONENT_TYPES } from "../style/semanticTags/container.enum";
+import { SEMANTIC_TAGS } from "../style/semanticTags";
 
 class DOMController {
    _element: HTMLElement;
@@ -12,7 +11,7 @@ class DOMController {
       this._element = elementToCreate;
    }
 
-   createDOMElementWithTag<T extends COMPONENT_TYPES>(tag: T): HTMLElement {
+   createDOMElementWithTag(tag: SEMANTIC_TAGS): HTMLElement {
       this._element = document.createElement(tag);
       return this._element;
    }
@@ -39,7 +38,7 @@ class DOMController {
       });
    }
 
-   appendStyles(...cssStyleClasses: LbCSSClass[]): HTMLElement {
+   appendStyles(...cssStyleClasses: string[]): HTMLElement {
       cssStyleClasses.forEach((style) => this._element.classList.add(style));
       return this._element;
    }

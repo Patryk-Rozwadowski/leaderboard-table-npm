@@ -1,6 +1,11 @@
+import DOMController from "./DOMController";
+import { TYPOGRAPHY_STYLE_CLASS } from "../style/styleClasses/typography.enum";
+
 class ComponentStyleController {
-   constructor() {
-      console.log("Init");
+   constructor(private _DOMController: DOMController) {}
+
+   appendStyles(semanticType: TYPOGRAPHY_STYLE_CLASS): void {
+      this._DOMController.appendStyles(semanticType);
    }
 }
 

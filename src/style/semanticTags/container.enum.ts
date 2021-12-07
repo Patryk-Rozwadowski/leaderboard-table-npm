@@ -6,7 +6,7 @@ enum SEMANTIC_CONTAINER_TAGS {
 enum COMPONENT_TYPES {
    CONTAINER = "container",
    TYPOGRAPHY = "typography",
-   COLUMN = "column",
    ROW = "row"
 }
+
 export { SEMANTIC_CONTAINER_TAGS, COMPONENT_TYPES };

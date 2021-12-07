@@ -9,8 +9,8 @@ import ElementCreator from "../ElementCreator";
 import Logger from "../../common/Logger/Logger";
 import DOMController from "../../controllers/DOMController";
 import ColumnController from "./ColumnController";
-import { CONTAINER_STYLE_CLASS } from "../../style/styleClasses";
-import { COMPONENT_TYPES } from "../../style/semanticTags/container.enum";
+import { CONTAINER_STYLE_CLASS } from "../../style/styleClasses/container.enum";
+import { SEMANTIC_TAGS } from "../../style/semanticTags";
 
 class Column implements Component {
    _elementCreator: ElementCreator;
@@ -35,7 +35,7 @@ class Column implements Component {
     */
    private _generateColumnContainer(): HTMLElement {
       return this._elementCreator
-         .container(COMPONENT_TYPES.COLUMN)
+         .container(SEMANTIC_TAGS.COLUMN)
          .appendStyles(CONTAINER_STYLE_CLASS.COLUMN_CONTAINER).getElement;
    }
 
@@ -45,7 +45,7 @@ class Column implements Component {
    }
 
    private _instantiateHeaderComponent(txt: string): HTMLElement {
-      return this._elementCreator.createText(COMPONENT_TYPES.TYPOGRAPHY, txt);
+      return this._elementCreator.createText(SEMANTIC_TAGS.HEADER_TEXT, txt);
    }
 
    /**

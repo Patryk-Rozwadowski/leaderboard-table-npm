@@ -1,9 +1,9 @@
 import ElementCreator from "../ElementCreator";
 import { Newable, SingleRowProperties } from "../../common/common.types";
 import Logger from "../../common/Logger/Logger";
-import { COMPONENT_TYPES } from "../../style/semanticTags/container.enum";
 import DOMController from "../../controllers/DOMController";
 import { ROW_CLASS_STYLE } from "../../style/styleClasses/row.enum";
+import { SEMANTIC_TAGS } from "../../style/semanticTags";
 
 interface RowContainers {
    placeContainer: HTMLElement;
@@ -27,7 +27,7 @@ class Row {
 
    public create(): HTMLElement {
       this._rowListContainer = this._elementCreator
-         .container(COMPONENT_TYPES.CONTAINER)
+         .container(SEMANTIC_TAGS.CONTAINER_ROW)
          .appendStyles(ROW_CLASS_STYLE.ROW_LIST_CONTAINER).getElement;
 
       this._createRow();
@@ -37,7 +37,7 @@ class Row {
 
    private _createRow() {
       const rowWrapper = this._elementCreator
-         .container(COMPONENT_TYPES.CONTAINER)
+         .container(SEMANTIC_TAGS.CONTAINER_ROW)
          .appendStyles(ROW_CLASS_STYLE.ROW_CONTAINER).getElement;
 
       const { contentContainer } = this._createRowContainers();
@@ -51,18 +51,18 @@ class Row {
 
    private _createRowContainers(): RowContainers {
       const placeContainer = this._elementCreator
-         .container(COMPONENT_TYPES.ROW)
+         .container(SEMANTIC_TAGS.CONTAINER_ROW)
          .appendStyles(ROW_CLASS_STYLE.PLACE_CONTAINER).getElement;
 
       const contentContainer = this._elementCreator
-         .container(COMPONENT_TYPES.ROW)
+         .container(SEMANTIC_TAGS.CONTAINER_ROW)
          .appendStyles(ROW_CLASS_STYLE.CONTENT_CONTAINER).getElement;
 
       return { placeContainer, contentContainer };
    }
 
    private _createRowTexts(txt: string): HTMLElement {
-      return this._elementCreator.createText(COMPONENT_TYPES.TYPOGRAPHY, txt);
+      return this._elementCreator.createText(SEMANTIC_TAGS.PRIMARY_TEXT, txt);
    }
 }
 

@@ -6,7 +6,7 @@ import { SortableProperties } from "./factories/row/types";
 import "./style/style.scss";
 import OptionsController, { LeaderboardOptions } from "./controllers/OptionsController";
 import { Newable } from "./common/common.types";
-import { CONTAINER_STYLE_CLASS } from "./style/styleClasses";
+import { CONTAINER_STYLE_CLASS } from "./style/styleClasses/container.enum";
 
 interface LeaderboardConfig {
    rootContainer: HTMLElement;

@@ -1,7 +1,7 @@
 import TypographyFactory from "./typography/TypographyFactory";
 import { LbCSSClass } from "../common/common.types";
-import { COMPONENT_TYPES } from "../style/semanticTags/container.enum";
 import DOMController from "../controllers/DOMController";
+import { SEMANTIC_TAGS } from "../style/semanticTags";
 
 /**
  * @class ElementCreator is facade and it's used whenever is need to create
@@ -22,12 +22,12 @@ class ElementCreator {
    }
 
    // TODO: move to container factory
-   container(tag: COMPONENT_TYPES): ElementCreator {
+   container(tag: SEMANTIC_TAGS): ElementCreator {
       this._element = this._DOMController.createDOMElementWithTag(tag);
       return this;
    }
 
-   createText(tag: COMPONENT_TYPES.TYPOGRAPHY, text: string): HTMLElement {
+   createText(tag: SEMANTIC_TAGS, text: string): HTMLElement {
       const textProps = {
          tag,
          text
