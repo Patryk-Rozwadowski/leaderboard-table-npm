@@ -39,7 +39,9 @@ class DOMController {
    }
 
    appendStyles(...cssStyleClasses: string[]): HTMLElement {
-      cssStyleClasses.forEach((style) => this._element.classList.add(style));
+      cssStyleClasses.forEach((cssStyleClass) =>
+         this._element.classList.add(cssStyleClass)
+      );
       return this._element;
    }
 }

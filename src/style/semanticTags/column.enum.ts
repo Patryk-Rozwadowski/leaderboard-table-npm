@@ -1,5 +1,5 @@
 enum SEMANTIC_COLUMN_TAGS {
-   COLUMN = "column"
+   COLUMN = "div"
 }
 
 export { SEMANTIC_COLUMN_TAGS };

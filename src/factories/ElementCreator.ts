@@ -1,44 +1,59 @@
 import TypographyFactory from "./typography/TypographyFactory";
-import { LbCSSClass } from "../common/common.types";
 import DOMController from "../controllers/DOMController";
 import { SEMANTIC_TAGS } from "../style/semanticTags";
+import ContainerFactory from "./container/ContainerFactory";
+import { CONTAINER_STYLE_CLASS } from "../style/styleClasses/container.enum";
+import { COMPONENT_STYLES } from "../style/styleClasses";
+
+type TextElementToCreate = {
+   tag: SEMANTIC_TAGS;
+   text: string;
+};
+
+interface ElementCreatorActions {
+   DOMController: DOMController;
+   typographyFactory: TypographyFactory;
+   containerFactory: ContainerFactory;
+   createContainer(
+      tag: SEMANTIC_TAGS,
+      containerStyle: CONTAINER_STYLE_CLASS
+   ): HTMLElement;
+   createText(tag: SEMANTIC_TAGS, text: string): HTMLElement;
+}
+
+export interface FactoryActions {
+   DOMController: DOMController;
+   create(tag: SEMANTIC_TAGS, ...options: any): HTMLElement;
+}
 
 /**
  * @class ElementCreator is facade and it's used whenever is need to create
  * native DOM elements.
  */
-class ElementCreator {
-   private _DOMController;
-   private _textFactory: TypographyFactory;
+class ElementCreator implements ElementCreatorActions {
+   DOMController: DOMController;
+   containerFactory: FactoryActions;
+
+   // TODO: Fix typography factor type
+   typographyFactory: any;
    private _element: HTMLElement;
 
    constructor() {
-      this._DOMController = new DOMController();
-      this._textFactory = new TypographyFactory();
+      this.DOMController = new DOMController();
+      this.typographyFactory = new TypographyFactory(this.DOMController);
+      this.containerFactory = new ContainerFactory(this.DOMController);
    }
 
    get getElement(): HTMLElement {
       return this._element;
    }
 
-   // TODO: move to container factory
-   container(tag: SEMANTIC_TAGS): ElementCreator {
-      this._element = this._DOMController.createDOMElementWithTag(tag);
-      return this;
+   createContainer(tag: SEMANTIC_TAGS, containerStyle: COMPONENT_STYLES): HTMLElement {
+      return this.containerFactory.create(tag, containerStyle);
    }
 
    createText(tag: SEMANTIC_TAGS, text: string): HTMLElement {
-      const textProps = {
-         tag,
-         text
-      };
-      return this._textFactory.create(textProps);
-   }
-
-   appendStyles(...styleArgs: LbCSSClass[]): ElementCreator {
-      styleArgs.map((style) => this._element.classList.add(style));
-      return this;
+      return this.typographyFactory.create(tag, text);
    }
 }
-
 export default ElementCreator;

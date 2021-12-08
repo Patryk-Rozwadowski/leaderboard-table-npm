@@ -1,6 +1,5 @@
 import {
    ColumnProperties,
-   Component,
    Newable,
    SingleRowProperties
 } from "../../common/common.types";
@@ -9,10 +8,10 @@ import ElementCreator from "../ElementCreator";
 import Logger from "../../common/Logger/Logger";
 import DOMController from "../../controllers/DOMController";
 import ColumnController from "./ColumnController";
-import { CONTAINER_STYLE_CLASS } from "../../style/styleClasses/container.enum";
 import { SEMANTIC_TAGS } from "../../style/semanticTags";
+import { CONTAINER_STYLE_CLASS } from "../../style/styleClasses/container.enum";
 
-class Column implements Component {
+class Column {
    _elementCreator: ElementCreator;
    private _logger: Logger;
    private _DOMController: DOMController;
@@ -34,18 +33,15 @@ class Column implements Component {
     * @private
     */
    private _generateColumnContainer(): HTMLElement {
-      return this._elementCreator
-         .container(SEMANTIC_TAGS.COLUMN)
-         .appendStyles(CONTAINER_STYLE_CLASS.COLUMN_CONTAINER).getElement;
+      return this._elementCreator.createContainer(
+         SEMANTIC_TAGS.COLUMN,
+         CONTAINER_STYLE_CLASS.COLUMN_CONTAINER
+      );
    }
 
    private _instantiateRowComponent(rowData: SingleRowProperties): HTMLElement {
       const instanceOfRow = new Row(this._root, rowData);
       return instanceOfRow.create();
-   }
-
-   private _instantiateHeaderComponent(txt: string): HTMLElement {
-      return this._elementCreator.createText(SEMANTIC_TAGS.HEADER_TEXT, txt);
    }
 
    /**
@@ -72,7 +68,9 @@ class Column implements Component {
 
       const columnDOMElement = {
          container: this._generateColumnContainer(),
-         header: this._instantiateHeaderComponent(header),
+
+         // TODO: Dynamic class taken from options rather than predefined style
+         header: this._elementCreator.createText(SEMANTIC_TAGS.HEADER_TEXT, header),
          rows: this._generateRowElementsArray(rows)
       };
 
