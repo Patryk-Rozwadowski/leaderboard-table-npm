@@ -43,3 +43,7 @@ Leaderboard will take size of its parent size (width and height). To be able use
 | `headerTags`| String | "h5" | Display the help window. |
 | `logs`| boolean | false | Display the help window. |
 | `contentForEmptyRows`| String | "" | Display the help window. |
+
+| Methods | Description |
+| --------| ------------|
+| init()  | Method for leaderboard initialization |
