@@ -5,11 +5,6 @@ import DOMController from "../../controllers/DOMController";
 import { SEMANTIC_TAGS } from "../../style/semanticTags";
 import { COMPONENT_STYLES } from "../../style/styleClasses";
 
-interface RowContainers {
-   contentContainer: HTMLElement;
-   rowContainer: HTMLElement;
-}
-
 class Row implements ComponentFactory<Row> {
    DOMController: DOMController;
 
@@ -27,27 +22,24 @@ class Row implements ComponentFactory<Row> {
    }
 
    public create(): HTMLElement {
-      this._rowListContainer = this._createMainRowContainer();
-      this._createRow();
+      this._rowListContainer = this._createCellContainer();
+      this._createCell();
       this._logger.groupEnd();
       return this._rowListContainer;
    }
 
-   private _createMainRowContainer() {
+   private _createCellContainer() {
       return this._elementCreator.createContainer(
-         SEMANTIC_TAGS.CONTAINER_ROW,
-         COMPONENT_STYLES.CONTENT_CONTAINER
+         SEMANTIC_TAGS.CELL_CONTAINER,
+         COMPONENT_STYLES.CELL_CONTAINER
       );
    }
 
-   private _createRow() {
-      const { rowContainer, contentContainer } = this._createRowContainers();
+   private _createCell() {
+      const contentContainer = this._createRowContentContainer();
       const textContent = this._rowContentText();
-
       DOMController.appendChildrenToContainer(contentContainer, textContent);
-      DOMController.appendChildrenToContainer(rowContainer, contentContainer);
-
-      this._rowListContainer.appendChild(rowContainer);
+      this._rowListContainer.appendChild(contentContainer);
    }
 
    private _rowContentText(): HTMLElement {
@@ -57,24 +49,10 @@ class Row implements ComponentFactory<Row> {
       );
    }
 
-   private _createRowContainers(): RowContainers {
-      const rowContainer = this._createRowContainer();
-      const contentContainer = this._createRowContentContainer();
-
-      return { rowContainer, contentContainer };
-   }
-
-   private _createRowContainer(): HTMLElement {
-      return this._elementCreator.createContainer(
-         SEMANTIC_TAGS.CONTAINER_ROW,
-         COMPONENT_STYLES.ROW_CONTAINER
-      );
-   }
-
    private _createRowContentContainer(): HTMLElement {
       return this._elementCreator.createContainer(
-         SEMANTIC_TAGS.CONTAINER_ROW,
-         COMPONENT_STYLES.CONTENT_CONTAINER
+         SEMANTIC_TAGS.CELL_CONTAINER,
+         COMPONENT_STYLES.CELL
       );
    }
 }
