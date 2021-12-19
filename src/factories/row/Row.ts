@@ -10,7 +10,7 @@ interface RowContainers {
    rowContainer: HTMLElement;
 }
 
-class Row implements ComponentFactory {
+class Row implements ComponentFactory<Row> {
    DOMController: DOMController;
 
    private _elementCreator: ElementCreator;

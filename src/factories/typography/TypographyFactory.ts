@@ -4,10 +4,10 @@ import Logger from "../../common/Logger/Logger";
 import { Newable } from "../../common/common.types";
 import ComponentStyleController from "../../controllers/ComponentStyleController";
 import { TYPOGRAPHY_STYLE_CLASS } from "../../style/styleClasses/typography.enum";
-import { FactoryActions } from "../ElementCreator";
+import { ComponentFactory } from "../ElementCreator";
 import { SEMANTIC_TAGS } from "../../style/semanticTags";
 
-class TypographyFactory implements FactoryActions {
+class TypographyFactory implements ComponentFactory<TypographyFactory> {
    private _textContentController: TypographyController;
    private _componentStyleController: ComponentStyleController;
    private _logger: Logger;

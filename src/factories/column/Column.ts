@@ -4,23 +4,23 @@ import {
    SingleRowProperties
 } from "../../common/common.types";
 import Row from "../row/Row";
-import ElementCreator from "../ElementCreator";
+import ElementCreator, { ComponentFactory } from "../ElementCreator";
 import Logger from "../../common/Logger/Logger";
 import DOMController from "../../controllers/DOMController";
 import ColumnController from "./ColumnController";
 import { SEMANTIC_TAGS } from "../../style/semanticTags";
 import { CONTAINER_STYLE_CLASS } from "../../style/styleClasses/container.enum";
 
-class Column {
-   _elementCreator: ElementCreator;
+class Column implements ComponentFactory<Column> {
+   DOMController: DOMController;
+   private _elementCreator: ElementCreator;
    private _logger: Logger;
-   private _DOMController: DOMController;
    private _columnController: ColumnController;
 
    constructor(private _root: HTMLElement, private _columnData: ColumnProperties) {
+      this.DOMController = new DOMController();
       this._elementCreator = new ElementCreator();
       this._logger = new Logger(this as unknown as Newable, false);
-      this._DOMController = new DOMController();
       this._columnController = new ColumnController();
    }
 

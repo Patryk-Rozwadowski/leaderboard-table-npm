@@ -5,11 +5,6 @@ import ContainerFactory from "./container/ContainerFactory";
 import { CONTAINER_STYLE_CLASS } from "../style/styleClasses/container.enum";
 import { COMPONENT_STYLES } from "../style/styleClasses";
 
-type TextElementToCreate = {
-   tag: SEMANTIC_TAGS;
-   text: string;
-};
-
 interface ElementCreatorActions {
    DOMController: DOMController;
    typographyFactory: TypographyFactory;
@@ -21,10 +16,10 @@ interface ElementCreatorActions {
    createText(tag: SEMANTIC_TAGS, text: string): HTMLElement;
 }
 
-export interface FactoryActions {
+type ComponentFactory<T> = {
    DOMController: DOMController;
    create(tag: SEMANTIC_TAGS, ...options: any): HTMLElement;
-}
+} & T;
 
 /**
  * @class ElementCreator is facade and it's used whenever is need to create
@@ -32,10 +27,8 @@ export interface FactoryActions {
  */
 class ElementCreator implements ElementCreatorActions {
    DOMController: DOMController;
-   containerFactory: FactoryActions;
-
-   // TODO: Fix typography factor type
-   typographyFactory: any;
+   containerFactory: ComponentFactory<ContainerFactory>;
+   typographyFactory: ComponentFactory<TypographyFactory>;
    private _element: HTMLElement;
 
    constructor() {
@@ -56,4 +49,6 @@ class ElementCreator implements ElementCreatorActions {
       return this.typographyFactory.create(tag, text);
    }
 }
+
+export { ComponentFactory };
 export default ElementCreator;
