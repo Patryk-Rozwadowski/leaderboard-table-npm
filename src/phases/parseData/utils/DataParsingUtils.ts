@@ -28,7 +28,7 @@ class DataParsingUtils {
       column: ColumnProperties,
       value: SingleRowProperties
    ): void {
-      column.rows.push(value);
+      column.cells.push(value);
    }
 
    /**

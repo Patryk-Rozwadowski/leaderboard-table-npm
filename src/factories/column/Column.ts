@@ -1,11 +1,6 @@
-import {
-   ColumnProperties,
-   Newable,
-   SingleRowProperties
-} from "../../common/common.types";
-import Row from "../row/Row";
+import { ColumnProperties, SingleRowProperties } from "../../common/common.types";
+import Cell from "../cell/Cell";
 import ElementCreator, { ComponentFactory } from "../ElementCreator";
-import Logger from "../../common/Logger/Logger";
 import DOMController from "../../controllers/DOMController";
 import ColumnController from "./ColumnController";
 import { SEMANTIC_TAGS } from "../../style/semanticTags";
@@ -14,13 +9,11 @@ import { CONTAINER_STYLE_CLASS } from "../../style/styleClasses/container.enum";
 class Column implements ComponentFactory<Column> {
    DOMController: DOMController;
    private _elementCreator: ElementCreator;
-   private _logger: Logger;
    private _columnController: ColumnController;
 
    constructor(private _root: HTMLElement, private _columnData: ColumnProperties) {
       this.DOMController = new DOMController();
       this._elementCreator = new ElementCreator();
-      this._logger = new Logger(this as unknown as Newable, false);
       this._columnController = new ColumnController();
    }
 
@@ -39,21 +32,20 @@ class Column implements ComponentFactory<Column> {
       );
    }
 
-   private _instantiateRowComponent(rowData: SingleRowProperties): HTMLElement {
-      const instanceOfRow = new Row(this._root, rowData);
-      return instanceOfRow.create();
+   private _instantiateCellComponent(rowData: SingleRowProperties): HTMLElement {
+      return new Cell(this._root, rowData).create();
    }
 
    /**
     * Generate Row components
-    * @param rows
+    * @param cells
     * @private
     * @return HTMLElement[]
     */
-   private _generateRowElementsArray(rows: SingleRowProperties[]): HTMLElement[] {
-      return rows.map(
+   private _generateCellElementsArray(cells: SingleRowProperties[]): HTMLElement[] {
+      return cells.map(
          (rowData: SingleRowProperties): HTMLElement =>
-            this._instantiateRowComponent(rowData)
+            this._instantiateCellComponent(rowData)
       );
    }
 
@@ -63,22 +55,20 @@ class Column implements ComponentFactory<Column> {
     * @return HTMLElement
     */
    private _generateColumn(): HTMLElement {
-      this._logger.group(this.constructor.name);
-      const { header, rows } = this._columnData;
+      const { header, cells } = this._columnData;
 
       const columnDOMElement = {
          container: this._generateColumnContainer(),
 
          // TODO: Dynamic class taken from options rather than predefined style
          header: this._elementCreator.createText(SEMANTIC_TAGS.HEADER_TEXT, header),
-         rows: this._generateRowElementsArray(rows)
+         cells: this._generateCellElementsArray(cells)
       };
 
       // Append rows and header to column's DOM container.
-      const columnContainerWithHeaderAndRows =
-         this._columnController.appendHeaderAndRowToColumnContainer(columnDOMElement);
-      this._logger.groupEnd();
-      return columnContainerWithHeaderAndRows;
+      return this._columnController.appendHeaderAndCellToColumnContainer(
+         columnDOMElement
+      );
    }
 }
 

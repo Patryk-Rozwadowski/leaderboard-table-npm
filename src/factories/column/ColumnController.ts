@@ -1,4 +1,3 @@
-import { ColumnDomElement } from "./ColumnCreator";
 import DOMController from "../../controllers/DOMController";
 
 class ColumnController {
@@ -14,10 +13,14 @@ class ColumnController {
     * @param columnDOMElement {ColumnDomElement}
     * @private
     */
-   appendHeaderAndRowToColumnContainer(columnDOMElement: ColumnDomElement): HTMLElement {
-      const { container, rows, header } = columnDOMElement;
+   appendHeaderAndCellToColumnContainer(columnDOMElement: {
+      container: HTMLElement;
+      cells: HTMLElement[];
+      header: HTMLElement;
+   }): HTMLElement {
+      const { container, cells, header } = columnDOMElement;
       const columnContainer: HTMLElement = container;
-      const rowsArray: HTMLElement[] = rows;
+      const rowsArray: HTMLElement[] = cells;
       this._DOMController.setElementToProcess(columnContainer);
 
       // Typescript wrong error about spread operator in method appendChildrenToContainer

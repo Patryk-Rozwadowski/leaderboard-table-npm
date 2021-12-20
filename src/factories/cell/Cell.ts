@@ -1,11 +1,11 @@
 import ElementCreator, { ComponentFactory } from "../ElementCreator";
-import { Newable, SingleRowProperties } from "../../common/common.types";
+import { SingleRowProperties } from "../../common/common.types";
 import Logger from "../../common/Logger/Logger";
 import DOMController from "../../controllers/DOMController";
 import { SEMANTIC_TAGS } from "../../style/semanticTags";
 import { COMPONENT_STYLES } from "../../style/styleClasses";
 
-class Row implements ComponentFactory<Row> {
+class Cell implements ComponentFactory<Cell> {
    DOMController: DOMController;
 
    private _elementCreator: ElementCreator;
@@ -17,14 +17,12 @@ class Row implements ComponentFactory<Row> {
       private _rowData: SingleRowProperties
    ) {
       this._elementCreator = new ElementCreator();
-      this._logger = new Logger(this as unknown as Newable);
       this.DOMController = new DOMController();
    }
 
    public create(): HTMLElement {
       this._rowListContainer = this._createCellContainer();
       this._createCell();
-      this._logger.groupEnd();
       return this._rowListContainer;
    }
 
@@ -57,4 +55,4 @@ class Row implements ComponentFactory<Row> {
    }
 }
 
-export default Row;
+export default Cell;

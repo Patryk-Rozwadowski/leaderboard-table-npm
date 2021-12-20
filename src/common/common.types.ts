@@ -8,7 +8,7 @@ type SingleRowProperties = { [key: string]: string | number } | string;
  * data parsing process and ready to use.
  */
 type ColumnProperties = {
-   rows: SingleRowProperties[];
+   cells: SingleRowProperties[];
 } & HeaderKey;
 
 type HeaderKey = { header: string };

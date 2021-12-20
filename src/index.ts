@@ -2,7 +2,7 @@ import Mount from "./phases/mount/Mount";
 import Logger from "./common/Logger/Logger";
 import ParseData from "./phases/parseData/ParseData";
 import PhasesContext from "./phases/context/phases/PhasesContext";
-import { SortableProperties } from "./factories/row/types";
+import { SortableProperties } from "./factories/cell/types";
 import "./style/style.scss";
 import OptionsController, { LeaderboardOptions } from "./controllers/OptionsController";
 import { Newable } from "./common/common.types";

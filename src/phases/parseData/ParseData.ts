@@ -121,7 +121,7 @@ class ParseData extends PhasesState {
 
          // TODO: extract to method
          if (isHeaderAlreadyExistsInAcc !== -1) {
-            this._appendNewRowToExistingHeader(valuesToSaveOrAppend);
+            this._appendNewCellToExistingHeader(valuesToSaveOrAppend);
          } else {
             this._appendNewHeaderAndRowToAcc(valuesToSaveOrAppend, iteration);
          }
@@ -142,19 +142,15 @@ class ParseData extends PhasesState {
       }
    }
 
-   private _appendNewRowToExistingHeader(val: ValuesToSaveOrAppend): void {
+   private _appendNewCellToExistingHeader(val: ValuesToSaveOrAppend): void {
       const { columnsAccumulator, header, singleRowValuesForHeader } = val;
 
-      const headerIndexInAcc = columnsAccumulator.findIndex((column: ColumnProperties) =>
-         this._isColumnHeader(column, header)
+      const headerIndexInAcc = columnsAccumulator.findIndex(
+         (column: ColumnProperties) => column.header === header
       );
 
       const existingHeaderInAcc = columnsAccumulator[headerIndexInAcc];
-      existingHeaderInAcc.rows.push(singleRowValuesForHeader);
-   }
-
-   private _isColumnHeader(column: ColumnProperties, header: string) {
-      return column.header === header;
+      existingHeaderInAcc.cells.push(singleRowValuesForHeader);
    }
 
    /**
@@ -186,11 +182,11 @@ class ParseData extends PhasesState {
     */
    private _insertColumnsWithMissingRows(missingRow: MissingRow): void {
       const { columns, index, content } = missingRow;
-      columns.forEach((column) => column.rows.splice(index, 0, content));
+      columns.forEach((column) => column.cells.splice(index, 0, content));
    }
 
    /**
-    * Appending new header with its single row value to data which will be used
+    * Appending new header with its single cell value to data which will be used
     * for rendering.
     * @param headersAccumulator
     * @param header
@@ -204,7 +200,7 @@ class ParseData extends PhasesState {
    ) {
       const columnToSave = {
          header,
-         rows: []
+         cells: []
       } as ColumnProperties;
 
       this._fillMissingRowsPRE(columnToSave, nOfArrays);
@@ -216,7 +212,7 @@ class ParseData extends PhasesState {
    private _fillMissingRowsPRE(column: ColumnProperties, nOfArrays: number) {
       const emptyRows = DataParsingUtils.createNOfEmptyArrays(nOfArrays);
       const arraysToFillWithContent = this._insertContentIntoRows(emptyRows);
-      column.rows.push(...arraysToFillWithContent);
+      column.cells.push(...arraysToFillWithContent);
    }
 
    private _insertContentIntoRows(rows: string[] | unknown[]) {
@@ -233,8 +229,11 @@ class ParseData extends PhasesState {
    private _checkData() {
       this._logger.log("Checking data types.");
 
-      // TODO: extract to variable
-      if (!this._clientInputVerification.isDataStructureValid(this._lbData)) return;
+      const isInvalidData = !this._clientInputVerification.isDataStructureValid(
+         this._lbData
+      );
+
+      if (isInvalidData) return;
       this._logger.log(`Data is valid.`);
    }
 }
