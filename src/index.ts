@@ -8,12 +8,6 @@ import OptionsController, { LeaderboardOptions } from "./controllers/OptionsCont
 import { Newable } from "./common/common.types";
 import { CONTAINER_STYLE_CLASS } from "./style/styleClasses/container.enum";
 
-interface LeaderboardConfig {
-   rootContainer: HTMLElement;
-   leaderboardData: PreParsedLeaderboardData[];
-   options: LeaderboardOptions;
-}
-
 /**
  *  @interface PreParsedLeaderboardData this interface is used for client data type.
  */
