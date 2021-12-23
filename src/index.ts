@@ -43,8 +43,12 @@ class Leaderboard {
    private _parsedData: SortableProperties[];
    private _logger: Logger;
 
-   constructor({ rootContainer, leaderboardData, options }: LeaderboardConfig) {
-      this._clientOptions = options;
+   constructor(
+      rootContainer: HTMLElement,
+      leaderboardData: PreParsedLeaderboardData[],
+      options: LeaderboardOptions
+   ) {
+      this._clientOptions = options || {};
       this._rootContainer = rootContainer;
       this._leaderboardData = leaderboardData;
       this._logger = new Logger(this as unknown as Newable);

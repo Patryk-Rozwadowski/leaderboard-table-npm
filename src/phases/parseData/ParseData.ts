@@ -56,7 +56,7 @@ class ParseData extends PhasesState {
       this._rootContainer = rootContainer;
       this._lbData = data;
       this._options = options;
-      this._contentForEmptyRows = options._userOptions.contentForEmptyRows || "";
+      this._contentForEmptyRows = options.contentForEmptyRows || "";
    }
 
    public execute(): ColumnProperties[] {

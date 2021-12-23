@@ -1,19 +1,19 @@
 interface LeaderboardOptions {
-   headerTags: string | HTMLElement;
-   logs: boolean;
-   contentForEmptyRows: string;
-   sortByPlaces: boolean;
-   sortByPoints: boolean;
+   headerTags?: string | HTMLElement;
+   logs?: boolean;
+   contentForEmptyRows?: string;
+   sortByPlaces?: boolean;
+   sortByPoints?: boolean;
 }
 
 class OptionsController implements LeaderboardOptions {
-   headerTags: string | HTMLElement;
-   logs: boolean;
-   contentForEmptyRows: string;
-   sortByPlaces: boolean;
-   sortByPoints: boolean;
+   headerTags?: string | HTMLElement;
+   logs?: boolean;
+   contentForEmptyRows?: string;
+   sortByPlaces?: boolean;
+   sortByPoints?: boolean;
 
-   constructor(public _userOptions: LeaderboardOptions) {
+   constructor(private _userOptions: LeaderboardOptions) {
       const { sortByPlaces, contentForEmptyRows, sortByPoints, headerTags, logs } =
          _userOptions;
 
