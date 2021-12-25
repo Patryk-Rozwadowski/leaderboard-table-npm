@@ -11,6 +11,8 @@ import { CONTAINER_STYLE_CLASS } from "./style/styleClasses/container.enum";
 /**
  *  @interface PreParsedLeaderboardData this interface is used for client data type.
  */
+
+// TODO check PreParsedLeaderboardData
 interface PreParsedLeaderboardData {
    /**
     * @type header is REQUIRED - header is used for each column for arrays of rows.
@@ -51,11 +53,11 @@ class Leaderboard {
       this._clientOptions = options || {};
       this._rootContainer = rootContainer;
       this._leaderboardData = leaderboardData;
-      this._logger = new Logger(this as unknown as Newable);
    }
 
    public init(): void {
       this._options = new OptionsController(this._clientOptions);
+      this._initLogger();
 
       this._addCssStylesToRootContainer();
       this._parseData();
@@ -70,17 +72,24 @@ class Leaderboard {
       const parsePhase = new ParseData(
          this._rootContainer,
          this._leaderboardData,
-         this._options
+         this._options,
+         this._logger
       );
 
-      this._phasesContext = new PhasesContext(parsePhase);
+      this._phasesContext = new PhasesContext(parsePhase, this._logger);
       this._parsedData = this._phasesContext.execute();
    }
 
    private _mountElements() {
-      const mountPhase = new Mount(this._rootContainer, this._parsedData);
+      const mountPhase = new Mount(this._rootContainer, this._parsedData, this._logger);
       this._phasesContext.transitionTo(mountPhase);
       this._phasesContext.execute();
+   }
+
+   private _initLogger() {
+      if (!this._options.logs) return;
+      const initGroup = true;
+      this._logger = new Logger(this as unknown as Newable, initGroup);
    }
 }
 

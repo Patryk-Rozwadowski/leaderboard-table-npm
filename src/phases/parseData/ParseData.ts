@@ -37,26 +37,23 @@ type ColumnsToParse = {
 };
 
 class ParseData extends PhasesState {
-   private readonly _logger: Logger;
    private readonly _options: OptionsController;
-   private readonly _rootContainer: HTMLElement;
    private readonly _contentForEmptyRows: string;
    private _sorter: PlaceSorter;
    private _clientInputVerification: ClientInputVerification;
    private _lbData: PreParsedLeaderboardData[];
 
    constructor(
-      rootContainer: HTMLElement,
+      private _rootContainer: HTMLElement,
       data: PreParsedLeaderboardData[],
-      options: OptionsController
+      options: OptionsController,
+      private _logger: Logger | null
    ) {
       super();
-      this._logger = new Logger(this as unknown as Newable);
-      this._clientInputVerification = new ClientInputVerification(this._logger);
-      this._rootContainer = rootContainer;
       this._lbData = data;
       this._options = options;
       this._contentForEmptyRows = options.contentForEmptyRows || "";
+      this._initLogger();
    }
 
    public execute(): ColumnProperties[] {
@@ -67,7 +64,7 @@ class ParseData extends PhasesState {
    }
 
    private _parseData(): ColumnProperties[] {
-      this._logger.log(`Started parsing data.`);
+      this._logger?.log(`Started parsing data.`);
       return this._lbData.reduce(
          (
             columnsAccumulator: ColumnProperties[],
@@ -91,7 +88,7 @@ class ParseData extends PhasesState {
             };
 
             this._fillMissingRowsPOST(columnsToFillWithRows);
-            this._logger.groupEnd();
+            this._logger?.groupEnd();
             return columnsAccumulator;
          },
          []
@@ -133,11 +130,8 @@ class ParseData extends PhasesState {
    }
 
    private _sort() {
-      // TODO: extract to method
       if (this._options.sortByPlaces) {
-         // TODO: extract to enum messages
-         this._logger.log("Sorting by Places");
-         this._sorter = new PlaceSorter(this._lbData);
+         this._sorter = new PlaceSorter(this._lbData, this._logger);
          this._lbData = this._sorter.ascendant();
       }
    }
@@ -220,21 +214,29 @@ class ParseData extends PhasesState {
    }
 
    private _userInputValidation() {
-      this._logger.log(`User's input validation.`);
+      this._logger?.log(`User's input validation.`);
       if (this._clientInputVerification.isRootContainerValid(this._rootContainer)) {
          this._checkData();
       }
    }
 
    private _checkData() {
-      this._logger.log("Checking data types.");
+      this._logger?.log("Checking data types.");
 
       const isInvalidData = !this._clientInputVerification.isDataStructureValid(
          this._lbData
       );
 
       if (isInvalidData) return;
-      this._logger.log(`Data is valid.`);
+      this._logger?.log(`Data is valid.`);
+   }
+
+   private _initLogger() {
+      this._logger = this._options.logs ? new Logger(this as unknown as Newable) : null;
+      if (!this._logger) {
+         this._clientInputVerification = new ClientInputVerification();
+      }
+      this._clientInputVerification = new ClientInputVerification(this._logger);
    }
 }
 

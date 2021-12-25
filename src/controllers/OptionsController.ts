@@ -32,6 +32,7 @@ class OptionsController implements LeaderboardOptions {
    }
 
    private _logOptions() {
+      if (!this.logs) return;
       const optionsStringArray: string[] = Object.entries(this._userOptions).map(
          (el) => "" + "\n" + el.join(" : ")
       );

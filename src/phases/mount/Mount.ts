@@ -1,16 +1,17 @@
 import PhasesState from "../PhasesState";
 import Logger from "../../common/Logger/Logger";
-import { Newable } from "../../common/common.types";
 import ColumnCreator from "../../factories/column/ColumnCreator";
 
 class Mount extends PhasesState {
-   private _logger: Logger;
    private _columnsToMount: HTMLElement[] = [];
    private _column: ColumnCreator;
 
-   constructor(private readonly _rootContainer: HTMLElement, private _data: any) {
+   constructor(
+      private readonly _rootContainer: HTMLElement,
+      private _data: any,
+      private _logger: Logger
+   ) {
       super();
-      this._logger = new Logger(this as unknown as Newable);
       this._column = new ColumnCreator(this._rootContainer, this._data);
    }
 
@@ -21,7 +22,7 @@ class Mount extends PhasesState {
 
    private _mountAllElementsToRoot(): void {
       this._columnsToMount.forEach((component) => this._mountComponentToRoot(component));
-      this._logger.log(`${this._columnsToMount.length} columns mounted.`);
+      this._logger?.log(`${this._columnsToMount.length} columns mounted.`);
    }
 
    private _mountComponentToRoot(component: HTMLElement): void {
@@ -43,7 +44,7 @@ class Mount extends PhasesState {
       this._columnsToMount.push(component);
 
       // TODO nice to have better logger with better component's name instead of nodeName
-      this._logger.log(`Add ${component.nodeName} to mount queue.`);
+      this._logger?.log(`Add ${component.nodeName} to mount queue.`);
    }
 }
 
