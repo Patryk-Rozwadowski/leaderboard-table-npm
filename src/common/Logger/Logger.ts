@@ -7,7 +7,7 @@ class Logger {
     * @param _context   - Context where Logger is suppose to Log messages.
     * @param initGroup  - If logger should create group for picked _context.
     */
-   constructor(private readonly _context: Newable, initGroup = true) {
+   constructor(private readonly _context: Newable, initGroup = false) {
       this._context = _context;
       this._contextName = this._context.constructor.name;
       if (initGroup) this.initialStateGroup();
