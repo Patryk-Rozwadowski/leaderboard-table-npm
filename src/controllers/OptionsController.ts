@@ -1,3 +1,6 @@
+import Logger from "../common/Logger/Logger";
+import { Newable } from "../common/common.types";
+
 interface LeaderboardOptions {
    headerTags?: string | HTMLElement;
    logs?: boolean;
@@ -12,6 +15,7 @@ class OptionsController implements LeaderboardOptions {
    contentForEmptyRows?: string;
    sortByPlaces?: boolean;
    sortByPoints?: boolean;
+   _logger: Logger;
 
    constructor(private _userOptions: LeaderboardOptions) {
       const { sortByPlaces, contentForEmptyRows, sortByPoints, headerTags, logs } =
@@ -22,6 +26,16 @@ class OptionsController implements LeaderboardOptions {
       this.sortByPlaces = sortByPlaces;
       this.sortByPoints = sortByPoints;
       this.logs = logs;
+      this._logger = new Logger(this as unknown as Newable);
+
+      this._logOptions();
+   }
+
+   private _logOptions() {
+      const optionsStringArray: string[] = Object.entries(this._userOptions).map(
+         (el) => "" + "\n" + el
+      );
+      this._logger.log("Options: " + optionsStringArray);
    }
 }
 
