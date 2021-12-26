@@ -4,25 +4,25 @@ import { Newable } from "../common/common.types";
 interface LeaderboardOptions {
    headerTags?: string | HTMLElement;
    logs?: boolean;
-   contentForEmptyRows?: string;
+   contentForEmptyCells: string;
    sortByPlaces?: boolean;
    sortByPoints?: boolean;
 }
 
 class OptionsController implements LeaderboardOptions {
+   contentForEmptyCells: string;
    headerTags?: string | HTMLElement;
    logs?: boolean;
-   contentForEmptyRows?: string;
    sortByPlaces?: boolean;
    sortByPoints?: boolean;
    _logger: Logger;
 
    constructor(private _userOptions: LeaderboardOptions) {
-      const { sortByPlaces, contentForEmptyRows, sortByPoints, headerTags, logs } =
+      const { sortByPlaces, contentForEmptyCells, sortByPoints, headerTags, logs } =
          _userOptions;
 
       this.headerTags = headerTags;
-      this.contentForEmptyRows = contentForEmptyRows;
+      this.contentForEmptyCells = contentForEmptyCells || "";
       this.sortByPlaces = sortByPlaces;
       this.sortByPoints = sortByPoints;
       this.logs = logs;

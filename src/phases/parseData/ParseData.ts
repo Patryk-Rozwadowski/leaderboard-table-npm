@@ -52,7 +52,7 @@ class ParseData extends PhasesState {
       super();
       this._lbData = data;
       this._options = options;
-      this._contentForEmptyRows = options.contentForEmptyRows || "";
+      this._contentForEmptyRows = options.contentForEmptyCells;
       this._initLogger();
    }
 
@@ -222,7 +222,6 @@ class ParseData extends PhasesState {
 
    private _checkData() {
       this._logger?.log("Checking data types.");
-
       const isInvalidData = !this._clientInputVerification.isDataStructureValid(
          this._lbData
       );
