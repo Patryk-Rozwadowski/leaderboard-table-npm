@@ -1,5 +1,5 @@
 import ElementCreator, { ComponentFactory } from "../ElementCreator";
-import { SingleRowProperties } from "../../common/common.types";
+import { SingleCellPropertiesClient } from "../../common/common.types";
 import Logger from "../../common/Logger/Logger";
 import DOMController from "../../controllers/DOMController";
 import { SEMANTIC_TAGS } from "../../style/semanticTags";
@@ -14,7 +14,7 @@ class Cell implements ComponentFactory<Cell> {
 
    constructor(
       private _rootContainer: HTMLElement,
-      private _rowData: SingleRowProperties
+      private _rowData: SingleCellPropertiesClient
    ) {
       this._elementCreator = new ElementCreator();
       this.DOMController = new DOMController();

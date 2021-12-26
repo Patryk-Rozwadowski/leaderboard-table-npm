@@ -2,9 +2,8 @@ import PhasesState from "../PhasesState";
 import Logger from "../../common/Logger/Logger";
 import {
    ColumnProperties,
-   HeaderKey,
    Newable,
-   SingleRowProperties
+   SingleCellPropertiesClient
 } from "../../common/common.types";
 import { PreParsedLeaderboardData } from "../../index";
 import PlaceSorter from "../../sorters/PlaceSorter";
@@ -14,8 +13,9 @@ import OptionsController from "../../controllers/OptionsController";
 
 type ValuesToSaveOrAppend = {
    columnsAccumulator: ColumnProperties[];
-   singleRowValuesForHeader: SingleRowProperties;
-} & HeaderKey;
+   singleRowValuesForHeader: SingleCellPropertiesClient;
+   header: string;
+};
 
 type MissingRow = {
    columns: ColumnProperties[];
@@ -87,7 +87,7 @@ class ParseData extends PhasesState {
                indexForEmptyArray: index
             };
 
-            this._fillMissingRowsPOST(columnsToFillWithRows);
+            this._fillMissingCellsWithIndex(columnsToFillWithRows);
             this._logger?.groupEnd();
             return columnsAccumulator;
          },
@@ -101,14 +101,14 @@ class ParseData extends PhasesState {
       clientHeaders.forEach((clientHeader: string): void => {
          // TODO: extract to method
          const isHeaderAlreadyExistsInAcc = columnsAccumulator.findIndex(
-            (element: HeaderKey) => {
-               return element.header === clientHeader;
+            (column: ColumnProperties) => {
+               return column.header === clientHeader;
             }
          );
 
          const singleRowValuesForHeader = currentColumn[
             clientHeader
-         ] as unknown as SingleRowProperties;
+         ] as unknown as SingleCellPropertiesClient;
 
          const valuesToSaveOrAppend: ValuesToSaveOrAppend = {
             columnsAccumulator,
@@ -153,7 +153,9 @@ class ParseData extends PhasesState {
     * @private
     * @param columnsToFillWithRows
     */
-   private _fillMissingRowsPOST(columnsToFillWithRows: ColumnsToFillWithRows): void {
+   private _fillMissingCellsWithIndex(
+      columnsToFillWithRows: ColumnsToFillWithRows
+   ): void {
       const { allColumns, indexForEmptyArray, columnsToCheck } = columnsToFillWithRows;
       const columnsNotInCurrentIteration = DataParsingUtils.columnsNotInCurrentIteration(
          allColumns,
@@ -197,15 +199,21 @@ class ParseData extends PhasesState {
          cells: []
       } as ColumnProperties;
 
-      this._fillMissingRowsPRE(columnToSave, nOfArrays);
+      this._addEmptyCells(columnToSave, nOfArrays);
       DataParsingUtils.insertValuesToColumnRows(columnToSave, singleRowValuesForHeader);
       columnsAccumulator.push(columnToSave);
    }
 
-   // TODO: improve method name
-   private _fillMissingRowsPRE(column: ColumnProperties, nOfArrays: number) {
-      const emptyRows = DataParsingUtils.createNOfEmptyArrays(nOfArrays);
-      const arraysToFillWithContent = this._insertContentIntoRows(emptyRows);
+   /**
+    * Method is used for filling columns with empty cells, without any content.
+    * Use case: first initialization of columns based on client's header.
+    * @param column
+    * @param nOfArrays
+    * @private
+    */
+   private _addEmptyCells(column: ColumnProperties, nOfArrays: number) {
+      const emptyCells = DataParsingUtils.createNOfEmptyArrays(nOfArrays);
+      const arraysToFillWithContent = this._insertContentIntoRows(emptyCells);
       column.cells.push(...arraysToFillWithContent);
    }
 
