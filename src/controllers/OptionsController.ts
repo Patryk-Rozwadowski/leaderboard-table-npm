@@ -23,7 +23,7 @@ class OptionsController implements LeaderboardOptions {
 
       this.headerTags = headerTags;
       this.contentForEmptyCells = contentForEmptyCells || "";
-      this.sortByPlaces = sortByPlaces;
+      this.sortByPlaces = sortByPlaces || true;
       this.sortByPoints = sortByPoints;
       this.logs = logs;
       this._logger = new Logger(this as unknown as Newable);
@@ -31,10 +31,14 @@ class OptionsController implements LeaderboardOptions {
       this._logOptions();
    }
 
+   private static _logOption(option: string[]) {
+      return "" + "\n" + option.join(" : ");
+   }
+
    private _logOptions() {
       if (!this.logs) return;
       const optionsStringArray: string[] = Object.entries(this._userOptions).map(
-         (el) => "" + "\n" + el.join(" : ")
+         OptionsController._logOption
       );
       this._logger.log("Options: " + optionsStringArray);
    }
