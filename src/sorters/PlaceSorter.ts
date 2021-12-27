@@ -7,17 +7,18 @@ class PlaceSorter {
       private _logger: Logger | null
    ) {}
 
-   private static sortByPlacesAsc(
-      data: PreParsedLeaderboardData[]
-   ): PreParsedLeaderboardData[] {
-      return data.sort((a, b) => {
-         return a.place - b.place;
-      });
-   }
-
    public ascendant(): PreParsedLeaderboardData[] {
       this._logger?.log("Sorting ascendant places.");
       return PlaceSorter.sortByPlacesAsc(this.dataToSort);
+   }
+
+   private static sortByPlacesAsc(
+      data: PreParsedLeaderboardData[]
+   ): PreParsedLeaderboardData[] {
+      const dataToSort = data;
+      return dataToSort.sort((a, b) => {
+         return a.place - b.place;
+      });
    }
 }
 

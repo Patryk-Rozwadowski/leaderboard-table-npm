@@ -1,4 +1,4 @@
-import { ColumnProperties, SingleCellPropertiesClient } from "../../common/common.types";
+import { ColumnProperties, SingleCellProperties } from "../../common/common.types";
 import Cell from "../cell/Cell";
 import ElementCreator, { ComponentFactory } from "../ElementCreator";
 import DOMController from "../../controllers/DOMController";
@@ -32,7 +32,7 @@ class Column implements ComponentFactory<Column> {
       );
    }
 
-   private _instantiateCellComponent(rowData: SingleCellPropertiesClient): HTMLElement {
+   private _instantiateCellComponent(rowData: SingleCellProperties): HTMLElement {
       return new Cell(this._root, rowData).create();
    }
 
@@ -42,11 +42,9 @@ class Column implements ComponentFactory<Column> {
     * @private
     * @return HTMLElement[]
     */
-   private _generateCellElementsArray(
-      cells: SingleCellPropertiesClient[]
-   ): HTMLElement[] {
+   private _generateCellElementsArray(cells: SingleCellProperties[]): HTMLElement[] {
       return cells.map(
-         (rowData: SingleCellPropertiesClient): HTMLElement =>
+         (rowData: SingleCellProperties): HTMLElement =>
             this._instantiateCellComponent(rowData)
       );
    }

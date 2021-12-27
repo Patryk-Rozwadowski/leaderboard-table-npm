@@ -1,36 +1,40 @@
-import { Newable } from "../common.types";
-
 class Logger {
-   private readonly _contextName: string;
+   private _contextName: string;
+   private _context: any;
+   private _isOn: boolean;
+
+   public setState(isOn: boolean): Logger {
+      this._isOn = isOn;
+      return this;
+   }
 
    /**
     * @param _context   - Context where Logger is suppose to Log messages.
-    * @param initGroup  - If logger should create group for picked _context.
     */
-   constructor(private readonly _context: Newable, initGroup = false) {
-      this._context = _context;
+   public setContext(context: any): void {
+      if (!this._isOn) return;
+      this._context = context;
       this._contextName = this._context.constructor.name;
-      if (initGroup) this.initialStateGroup();
    }
 
    public log(msg: string): void {
+      if (!this._isOn) return;
       console.log(`${this._contextName}: ${msg}`);
    }
 
    public group(label: string): void {
+      if (!this._isOn) return;
       console.group(label);
    }
 
    public groupEnd(): void {
+      if (!this._isOn) return;
       console.groupEnd();
    }
 
    public error(msg: string): void {
+      if (!this._isOn) return;
       console.trace(msg);
-   }
-
-   private initialStateGroup() {
-      this.group(this._contextName);
    }
 }
 

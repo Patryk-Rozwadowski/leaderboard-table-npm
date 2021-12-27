@@ -1,19 +1,16 @@
 import PhasesState from "../PhasesState";
 import Logger from "../../common/Logger/Logger";
-import {
-   ColumnProperties,
-   Newable,
-   SingleCellPropertiesClient
-} from "../../common/common.types";
+import { ColumnProperties, SingleCellProperties } from "../../common/common.types";
 import { PreParsedLeaderboardData } from "../../index";
 import PlaceSorter from "../../sorters/PlaceSorter";
 import ClientInputVerification from "../../common/ClientInputVerificator/ClientInputVerification";
 import DataParsingUtils from "./utils/DataParsingUtils";
 import OptionsController from "../../controllers/OptionsController";
+import { lbLogger } from "../../common/Logger/lbLogger";
 
 type ValuesToSaveOrAppend = {
    columnsAccumulator: ColumnProperties[];
-   singleRowValuesForHeader: SingleCellPropertiesClient;
+   singleRowValuesForHeader: SingleCellProperties;
    header: string;
 };
 
@@ -38,7 +35,7 @@ type ColumnsToParse = {
 
 class ParseData extends PhasesState {
    private readonly _options: OptionsController;
-   private readonly _contentForEmptyRows: string;
+   private readonly _logger: Logger;
    private _sorter: PlaceSorter;
    private _clientInputVerification: ClientInputVerification;
    private _lbData: PreParsedLeaderboardData[];
@@ -46,20 +43,21 @@ class ParseData extends PhasesState {
    constructor(
       private _rootContainer: HTMLElement,
       data: PreParsedLeaderboardData[],
-      options: OptionsController,
-      private _logger: Logger | null
+      options: OptionsController
    ) {
       super();
       this._lbData = data;
       this._options = options;
-      this._contentForEmptyRows = options.contentForEmptyCells;
-      this._initLogger();
+      this._logger = lbLogger;
    }
 
    public execute(): ColumnProperties[] {
       this._userInputValidation();
       this._sort();
+      return this._getParsedData();
+   }
 
+   private _getParsedData() {
       return this._parseData();
    }
 
@@ -97,7 +95,6 @@ class ParseData extends PhasesState {
 
    private _parseClientColumns(data: ColumnsToParse) {
       const { clientHeaders, columnsAccumulator, currentColumn, iteration } = data;
-
       clientHeaders.forEach((clientHeader: string): void => {
          // TODO: extract to method
          const isHeaderAlreadyExistsInAcc = columnsAccumulator.findIndex(
@@ -106,9 +103,10 @@ class ParseData extends PhasesState {
             }
          );
 
+         const headerAlreadyExists = isHeaderAlreadyExistsInAcc !== -1;
          const singleRowValuesForHeader = currentColumn[
             clientHeader
-         ] as unknown as SingleCellPropertiesClient;
+         ] as unknown as SingleCellProperties;
 
          const valuesToSaveOrAppend: ValuesToSaveOrAppend = {
             columnsAccumulator,
@@ -116,17 +114,12 @@ class ParseData extends PhasesState {
             singleRowValuesForHeader
          };
 
-         // TODO: extract to method
-         if (isHeaderAlreadyExistsInAcc !== -1) {
+         if (headerAlreadyExists) {
             this._appendNewCellToExistingHeader(valuesToSaveOrAppend);
          } else {
             this._appendNewHeaderAndRowToAcc(valuesToSaveOrAppend, iteration);
          }
       });
-   }
-
-   public getOptions(): OptionsController {
-      return this._options;
    }
 
    private _sort() {
@@ -165,7 +158,7 @@ class ParseData extends PhasesState {
       const missingRow = {
          columns: columnsNotInCurrentIteration,
          index: indexForEmptyArray,
-         content: this._contentForEmptyRows
+         content: this._options.contentForEmptyCells
       };
 
       this._insertColumnsWithMissingRows(missingRow);
@@ -218,10 +211,11 @@ class ParseData extends PhasesState {
    }
 
    private _insertContentIntoRows(rows: string[] | unknown[]) {
-      return rows.map(() => this._contentForEmptyRows);
+      return rows.map(() => this._options.contentForEmptyCells);
    }
 
    private _userInputValidation() {
+      this._clientInputVerification = new ClientInputVerification(this._logger);
       this._logger?.log(`User's input validation.`);
       if (this._clientInputVerification.isRootContainerValid(this._rootContainer)) {
          this._checkData();
@@ -236,14 +230,6 @@ class ParseData extends PhasesState {
 
       if (isInvalidData) return;
       this._logger?.log(`Data is valid.`);
-   }
-
-   private _initLogger() {
-      this._logger = this._options.logs ? new Logger(this as unknown as Newable) : null;
-      if (!this._logger) {
-         this._clientInputVerification = new ClientInputVerification();
-      }
-      this._clientInputVerification = new ClientInputVerification(this._logger);
    }
 }
 

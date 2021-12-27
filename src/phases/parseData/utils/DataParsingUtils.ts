@@ -1,7 +1,4 @@
-import {
-   ColumnProperties,
-   SingleCellPropertiesClient
-} from "../../../common/common.types";
+import { ColumnProperties, SingleCellProperties } from "../../../common/common.types";
 import ColumnQuery from "../../../factories/column/ColumnQueries";
 
 class DataParsingUtils {
@@ -20,7 +17,7 @@ class DataParsingUtils {
     * @param column   - Header which is has to be found
     */
    public static columnsNotIncludesHeader(
-      source: SingleCellPropertiesClient[],
+      source: SingleCellProperties[],
       column: ColumnProperties
    ): boolean {
       const { header } = column;
@@ -29,7 +26,7 @@ class DataParsingUtils {
 
    public static insertValuesToColumnRows(
       column: ColumnProperties,
-      value: SingleCellPropertiesClient
+      value: SingleCellProperties
    ): void {
       column.cells.push(value);
    }

@@ -1,5 +1,6 @@
 import Logger from "../common/Logger/Logger";
-import { Newable } from "../common/common.types";
+import PhasesState from "../phases/PhasesState";
+import { lbLogger } from "../common/Logger/lbLogger";
 
 interface LeaderboardOptions {
    headerTags?: string | HTMLElement;
@@ -9,15 +10,16 @@ interface LeaderboardOptions {
    sortByPoints?: boolean;
 }
 
-class OptionsController implements LeaderboardOptions {
+class OptionsController extends PhasesState implements LeaderboardOptions {
    contentForEmptyCells: string;
    headerTags?: string | HTMLElement;
    logs?: boolean;
    sortByPlaces?: boolean;
    sortByPoints?: boolean;
-   _logger: Logger;
+   private _logger: Logger;
 
    constructor(private _userOptions: LeaderboardOptions) {
+      super();
       const { sortByPlaces, contentForEmptyCells, sortByPoints, headerTags, logs } =
          _userOptions;
 
@@ -26,8 +28,10 @@ class OptionsController implements LeaderboardOptions {
       this.sortByPlaces = sortByPlaces || true;
       this.sortByPoints = sortByPoints;
       this.logs = logs;
-      this._logger = new Logger(this as unknown as Newable);
+      this._logger = lbLogger;
+   }
 
+   public execute(): void {
       this._logOptions();
    }
 
@@ -36,7 +40,6 @@ class OptionsController implements LeaderboardOptions {
    }
 
    private _logOptions() {
-      if (!this.logs) return;
       const optionsStringArray: string[] = Object.entries(this._userOptions).map(
          OptionsController._logOption
       );

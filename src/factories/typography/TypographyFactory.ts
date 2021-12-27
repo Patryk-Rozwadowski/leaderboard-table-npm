@@ -1,11 +1,11 @@
 import DOMController from "../../controllers/DOMController";
 import TypographyController from "./TypographyController";
 import Logger from "../../common/Logger/Logger";
-import { Newable } from "../../common/common.types";
 import ComponentStyleController from "../../controllers/ComponentStyleController";
 import { TYPOGRAPHY_STYLE_CLASS } from "../../style/styleClasses/typography.enum";
 import { ComponentFactory } from "../ElementCreator";
 import { SEMANTIC_TAGS } from "../../style/semanticTags";
+import { lbLogger } from "../../common/Logger/lbLogger";
 
 class TypographyFactory implements ComponentFactory<TypographyFactory> {
    private _textContentController: TypographyController;
@@ -15,7 +15,7 @@ class TypographyFactory implements ComponentFactory<TypographyFactory> {
    constructor(public DOMController: DOMController) {
       this._textContentController = new TypographyController();
       this._componentStyleController = new ComponentStyleController(this.DOMController);
-      this._logger = new Logger(this as unknown as Newable, false);
+      this._logger = lbLogger;
    }
 
    create(tag: SEMANTIC_TAGS, text: string): HTMLElement {

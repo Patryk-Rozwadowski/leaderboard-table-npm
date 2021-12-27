@@ -1,12 +1,12 @@
 import Mount from "./phases/mount/Mount";
-import Logger from "./common/Logger/Logger";
 import ParseData from "./phases/parseData/ParseData";
 import PhasesContext from "./phases/context/phases/PhasesContext";
 import { SortableProperties } from "./factories/cell/types";
 import "./style/style.scss";
 import OptionsController, { LeaderboardOptions } from "./controllers/OptionsController";
-import { Newable } from "./common/common.types";
 import { CONTAINER_STYLE_CLASS } from "./style/styleClasses/container.enum";
+import { lbLogger } from "./common/Logger/lbLogger";
+import Logger from "./common/Logger/Logger";
 
 /**
  *  @interface PreParsedLeaderboardData this interface is used for client data type.
@@ -40,10 +40,10 @@ class Leaderboard {
    private readonly _clientOptions: LeaderboardOptions;
    private readonly _rootContainer;
    private readonly _leaderboardData: PreParsedLeaderboardData[];
+   private readonly _logger: Logger | undefined;
    private _options: OptionsController;
    private _phasesContext: PhasesContext;
    private _parsedData: SortableProperties[];
-   private _logger: Logger;
 
    constructor(
       rootContainer: HTMLElement,
@@ -53,15 +53,23 @@ class Leaderboard {
       this._clientOptions = options || {};
       this._rootContainer = rootContainer;
       this._leaderboardData = leaderboardData;
+
+      this._logger = this._clientOptions.logs
+         ? lbLogger.setState(true)
+         : lbLogger.setState(false);
    }
 
    public init(): void {
-      this._options = new OptionsController(this._clientOptions);
-      this._initLogger();
-
+      this._parseOptions();
       this._addCssStylesToRootContainer();
       this._parseData();
       this._mountElements();
+   }
+
+   private _parseOptions() {
+      this._options = new OptionsController(this._clientOptions);
+      this._phasesContext = new PhasesContext(this._options, this._logger);
+      this._phasesContext.execute();
    }
 
    private _addCssStylesToRootContainer() {
@@ -72,24 +80,16 @@ class Leaderboard {
       const parsePhase = new ParseData(
          this._rootContainer,
          this._leaderboardData,
-         this._options,
-         this._logger
+         this._options
       );
-
-      this._phasesContext = new PhasesContext(parsePhase, this._logger);
+      this._phasesContext.transitionTo(parsePhase);
       this._parsedData = this._phasesContext.execute();
    }
 
    private _mountElements() {
-      const mountPhase = new Mount(this._rootContainer, this._parsedData, this._logger);
+      const mountPhase = new Mount(this._rootContainer, this._parsedData, this._options);
       this._phasesContext.transitionTo(mountPhase);
       this._phasesContext.execute();
-   }
-
-   private _initLogger() {
-      if (!this._options.logs) return;
-      const initGroup = true;
-      this._logger = new Logger(this as unknown as Newable, initGroup);
    }
 }
 

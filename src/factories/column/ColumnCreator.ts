@@ -1,7 +1,8 @@
-import { ColumnProperties, Newable } from "../../common/common.types";
+import { ColumnProperties } from "../../common/common.types";
 import ElementCreator from "../ElementCreator";
 import Logger from "../../common/Logger/Logger";
 import Column from "./Column";
+import { lbLogger } from "../../common/Logger/lbLogger";
 
 /**
  * Type used for defining column component which is ready to mount.
@@ -21,7 +22,7 @@ class ColumnCreator {
    constructor(root: HTMLElement, private _lbData: ColumnProperties[]) {
       this.root = root;
       this._elementCreator = new ElementCreator();
-      this._logger = new Logger(this as unknown as Newable);
+      this._logger = lbLogger;
    }
 
    public render(): HTMLElement[] {

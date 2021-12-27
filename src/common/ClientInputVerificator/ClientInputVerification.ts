@@ -5,7 +5,9 @@ class ClientInputVerification {
    constructor(private _logger?: Logger | null) {}
 
    public isRootContainerValid(element: HTMLElement): boolean {
-      if (typeof element === "undefined" || !(element instanceof HTMLElement)) {
+      const isRootUndefined = typeof element === "undefined";
+      const isNotInstanceOfHtmlElement = !(element instanceof HTMLElement);
+      if (isRootUndefined || isNotInstanceOfHtmlElement) {
          throw new Error(
             `Expected ${element} to be an HTMLElement, was ${typeof element}.`
          );
