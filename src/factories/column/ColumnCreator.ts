@@ -26,10 +26,10 @@ class ColumnCreator {
    }
 
    public render(): HTMLElement[] {
-      return this._prepareColumns() as HTMLElement[];
+      return this._prepareColumns();
    }
 
-   private _prepareColumns() {
+   private _prepareColumns(): HTMLElement[] {
       return this._generateColumnsElements(this._lbData);
    }
 
@@ -38,10 +38,8 @@ class ColumnCreator {
     * @param columnsData   Parsed and prepared data
     * @private
     */
-   private _generateColumnsElements(columnsData: ColumnProperties[]) {
-      return columnsData.map((column: ColumnProperties): HTMLElement | HTMLElement[] =>
-         this._generateColumn(column)
-      );
+   private _generateColumnsElements(columnsData: ColumnProperties[]): HTMLElement[] {
+      return columnsData.map((column: ColumnProperties) => this._generateColumn(column));
    }
 
    /**
@@ -50,7 +48,7 @@ class ColumnCreator {
     * @private
     * @return HTMLElement
     */
-   private _generateColumn(columnData: ColumnProperties): HTMLElement | HTMLElement[] {
+   private _generateColumn(columnData: ColumnProperties): HTMLElement {
       return new Column(this.root, columnData).create();
    }
 }
