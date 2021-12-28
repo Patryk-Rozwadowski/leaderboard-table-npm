@@ -1,5 +1,5 @@
 import { ColumnProperties, SingleCellProperties } from "../../../common/common.types";
-import ColumnQuery from "../../../factories/column/ColumnQueries";
+import ColumnQuery from "../../../controllers/column/ColumnQueries";
 
 class DataParsingUtils {
    public static extractHeadersFromAcc(headersAccumulator: ColumnProperties[]): string[] {

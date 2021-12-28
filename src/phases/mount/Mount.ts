@@ -3,6 +3,7 @@ import Logger from "../../common/Logger/Logger";
 import ColumnCreator from "../../factories/creators/ColumnCreator";
 import OptionsController from "../../controllers/OptionsController";
 import { lbLogger } from "../../common/Logger/lbLogger";
+import { ColumnProperties } from "../../common/common.types";
 
 class Mount extends PhasesState {
    private _columnsToMount: HTMLElement[] = [];
@@ -11,7 +12,7 @@ class Mount extends PhasesState {
 
    constructor(
       private readonly _rootContainer: HTMLElement,
-      private _data: any,
+      private _data: ColumnProperties[],
       private _options: OptionsController
    ) {
       super();

@@ -1,12 +1,12 @@
 import Mount from "./phases/mount/Mount";
 import ParseData from "./phases/parseData/ParseData";
 import PhasesContext from "./phases/context/phases/PhasesContext";
-import { SortableProperties } from "./factories/cell/types";
 import "./style/style.scss";
 import OptionsController, { LeaderboardOptions } from "./controllers/OptionsController";
 import { CONTAINER_STYLE_CLASS } from "./style/styleClasses/container.enum";
 import { lbLogger } from "./common/Logger/lbLogger";
 import Logger from "./common/Logger/Logger";
+import { ColumnProperties } from "./common/common.types";
 
 /**
  *  @interface PreParsedLeaderboardData this interface is used for client data type.
@@ -43,7 +43,7 @@ class Leaderboard {
    private readonly _logger: Logger | undefined;
    private _options: OptionsController;
    private _phasesContext: PhasesContext;
-   private _parsedData: SortableProperties[];
+   private _parsedData: ColumnProperties[];
 
    constructor(
       rootContainer: HTMLElement,
