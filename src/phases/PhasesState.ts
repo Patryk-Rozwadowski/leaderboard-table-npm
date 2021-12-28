@@ -1,6 +1,9 @@
 import { PhaseStateAction } from "./mount/types";
 import { StateActions } from "./types";
 import PhasesContext from "./context/phases/PhasesContext";
+import { ColumnProperties } from "../common/common.types";
+
+type ExecutePhaseReturnType = HTMLElement | HTMLElement[] | ColumnProperties[] | void;
 
 abstract class PhasesState implements StateActions, PhaseStateAction {
    protected context: PhasesContext;
@@ -9,7 +12,7 @@ abstract class PhasesState implements StateActions, PhaseStateAction {
       this.context = context;
    }
 
-   public abstract execute(): any;
+   public abstract execute(): ExecutePhaseReturnType;
 }
 
 export default PhasesState;
