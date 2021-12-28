@@ -1,8 +1,8 @@
 import { ColumnProperties, SingleCellProperties } from "../../common/common.types";
 import Cell from "../cell/Cell";
-import ElementCreator, { ComponentFactory } from "../ElementCreator";
+import ElementCreator, { ComponentFactory } from "../creators/ElementCreator";
 import DOMController from "../../controllers/DOMController";
-import ColumnController from "./ColumnController";
+import ColumnController from "../../controllers/column/ColumnController";
 import { SEMANTIC_TAGS } from "../../style/semanticTags";
 import { CONTAINER_STYLE_CLASS } from "../../style/styleClasses/container.enum";
 

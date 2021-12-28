@@ -1,4 +1,4 @@
-import DOMController from "../../controllers/DOMController";
+import DOMController from "../DOMController";
 
 class ColumnController {
    private _DOMController: DOMController;

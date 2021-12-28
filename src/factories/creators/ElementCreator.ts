@@ -1,9 +1,9 @@
-import TypographyFactory from "./typography/TypographyFactory";
-import DOMController from "../controllers/DOMController";
-import { SEMANTIC_TAGS } from "../style/semanticTags";
-import ContainerFactory from "./container/ContainerFactory";
-import { CONTAINER_STYLE_CLASS } from "../style/styleClasses/container.enum";
-import { COMPONENT_STYLES } from "../style/styleClasses";
+import TypographyFactory from "../typography/TypographyFactory";
+import DOMController from "../../controllers/DOMController";
+import { SEMANTIC_TAGS } from "../../style/semanticTags";
+import ContainerFactory from "../container/ContainerFactory";
+import { CONTAINER_STYLE_CLASS } from "../../style/styleClasses/container.enum";
+import { COMPONENT_STYLES } from "../../style/styleClasses";
 
 interface ElementCreatorActions {
    DOMController: DOMController;

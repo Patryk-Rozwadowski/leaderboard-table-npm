@@ -1,6 +1,5 @@
-import ElementCreator, { ComponentFactory } from "../ElementCreator";
+import ElementCreator, { ComponentFactory } from "../creators/ElementCreator";
 import { SingleCellProperties } from "../../common/common.types";
-import Logger from "../../common/Logger/Logger";
 import DOMController from "../../controllers/DOMController";
 import { SEMANTIC_TAGS } from "../../style/semanticTags";
 import { COMPONENT_STYLES } from "../../style/styleClasses";
@@ -10,7 +9,6 @@ class Cell implements ComponentFactory<Cell> {
 
    private _elementCreator: ElementCreator;
    private _rowListContainer: HTMLElement;
-   private _logger: Logger;
 
    constructor(
       private _rootContainer: HTMLElement,

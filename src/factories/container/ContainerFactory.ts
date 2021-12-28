@@ -1,4 +1,4 @@
-import { ComponentFactory } from "../ElementCreator";
+import { ComponentFactory } from "../creators/ElementCreator";
 import { SEMANTIC_TAGS } from "../../style/semanticTags";
 import DOMController from "../../controllers/DOMController";
 import { CONTAINER_STYLE_CLASS } from "../../style/styleClasses/container.enum";

@@ -1,7 +1,7 @@
 import { ColumnProperties } from "../../common/common.types";
-import ElementCreator from "../ElementCreator";
+import ElementCreator from "./ElementCreator";
 import Logger from "../../common/Logger/Logger";
-import Column from "./Column";
+import Column from "../column/Column";
 import { lbLogger } from "../../common/Logger/lbLogger";
 
 /**

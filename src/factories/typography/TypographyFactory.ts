@@ -3,7 +3,7 @@ import TypographyController from "./TypographyController";
 import Logger from "../../common/Logger/Logger";
 import ComponentStyleController from "../../controllers/ComponentStyleController";
 import { TYPOGRAPHY_STYLE_CLASS } from "../../style/styleClasses/typography.enum";
-import { ComponentFactory } from "../ElementCreator";
+import { ComponentFactory } from "../creators/ElementCreator";
 import { SEMANTIC_TAGS } from "../../style/semanticTags";
 import { lbLogger } from "../../common/Logger/lbLogger";
 

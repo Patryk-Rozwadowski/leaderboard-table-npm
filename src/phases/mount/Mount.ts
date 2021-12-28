@@ -1,6 +1,6 @@
 import PhasesState from "../PhasesState";
 import Logger from "../../common/Logger/Logger";
-import ColumnCreator from "../../factories/column/ColumnCreator";
+import ColumnCreator from "../../factories/creators/ColumnCreator";
 import OptionsController from "../../controllers/OptionsController";
 import { lbLogger } from "../../common/Logger/lbLogger";
 
