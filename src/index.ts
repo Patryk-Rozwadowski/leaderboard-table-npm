@@ -1,4 +1,4 @@
-import Mount from "./phases/mount/Mount";
+import Creation from "./phases/creation/Creation";
 import ParseData from "./phases/parseData/ParseData";
 import PhasesContext from "./phases/context/phases/PhasesContext";
 import "./style/style.scss";
@@ -87,7 +87,11 @@ class Leaderboard {
    }
 
    private _mountElements() {
-      const mountPhase = new Mount(this._rootContainer, this._parsedData, this._options);
+      const mountPhase = new Creation(
+         this._rootContainer,
+         this._parsedData,
+         this._options
+      );
       this._phasesContext.transitionTo(mountPhase);
       this._phasesContext.execute();
    }

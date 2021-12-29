@@ -5,7 +5,7 @@ import Column from "../column/Column";
 import { lbLogger } from "../../common/Logger/lbLogger";
 
 /**
- * Type used for defining column component which is ready to mount.
+ * Type used for defining column component which is ready to creation.
  * @type ColumnDomElement
  */
 export type ColumnDomElement = {
@@ -14,7 +14,7 @@ export type ColumnDomElement = {
    rows: HTMLElement[];
 };
 
-class ColumnCreator {
+class ColumnsCreator {
    private root: HTMLElement;
    private _elementCreator: ElementCreator;
    private readonly _logger: Logger;
@@ -53,4 +53,4 @@ class ColumnCreator {
    }
 }
 
-export default ColumnCreator;
+export default ColumnsCreator;

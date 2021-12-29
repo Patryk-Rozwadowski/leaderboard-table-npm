@@ -1,4 +1,4 @@
-import { PhaseStateAction } from "./mount/types";
+import { PhaseStateAction } from "./creation/types";
 import { StateActions } from "./types";
 import PhasesContext from "./context/phases/PhasesContext";
 import { ColumnProperties } from "../common/common.types";
