@@ -7,6 +7,7 @@ import { CONTAINER_STYLE_CLASS } from "./style/styleClasses/container.enum";
 import { lbLogger } from "./common/Logger/lbLogger";
 import Logger from "./common/Logger/Logger";
 import { ColumnProperties } from "./common/common.types";
+import { lbOptions } from "./common/options/lbOptions";
 
 /**
  *  @interface PreParsedLeaderboardData this interface is used for client data type.
@@ -53,23 +54,17 @@ class Leaderboard {
       this._clientOptions = options || {};
       this._rootContainer = rootContainer;
       this._leaderboardData = leaderboardData;
+      lbOptions.setOptions(options);
 
-      this._logger = this._clientOptions.logs
+      this._logger = lbOptions.getOptions().logs
          ? lbLogger.setState(true)
          : lbLogger.setState(false);
    }
 
    public init(): void {
-      this._parseOptions();
       this._addCssStylesToRootContainer();
       this._parseData();
       this._mountElements();
-   }
-
-   private _parseOptions() {
-      this._options = new OptionsController(this._clientOptions);
-      this._phasesContext = new PhasesContext(this._options, this._logger);
-      this._phasesContext.execute();
    }
 
    private _addCssStylesToRootContainer() {
@@ -77,21 +72,14 @@ class Leaderboard {
    }
 
    private _parseData() {
-      const parsePhase = new ParseData(
-         this._rootContainer,
-         this._leaderboardData,
-         this._options
-      );
+      const parsePhase = new ParseData(this._rootContainer, this._leaderboardData);
+      this._phasesContext = new PhasesContext(parsePhase, this._logger);
       this._phasesContext.transitionTo(parsePhase);
       this._parsedData = this._phasesContext.execute();
    }
 
    private _mountElements() {
-      const mountPhase = new Creation(
-         this._rootContainer,
-         this._parsedData,
-         this._options
-      );
+      const mountPhase = new Creation(this._rootContainer, this._parsedData);
       this._phasesContext.transitionTo(mountPhase);
       this._phasesContext.execute();
    }

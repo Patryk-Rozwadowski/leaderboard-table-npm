@@ -17,18 +17,32 @@ class OptionsController extends PhasesState implements LeaderboardOptions {
    sortByPlaces?: boolean;
    sortByPoints?: boolean;
    private _logger: Logger;
+   private _options: LeaderboardOptions;
 
-   constructor(private _userOptions: LeaderboardOptions) {
+   constructor() {
       super();
+      this._logger = lbLogger;
+   }
+
+   public setOptions(options: LeaderboardOptions): void {
       const { sortByPlaces, contentForEmptyCells, sortByPoints, headerTags, logs } =
-         _userOptions;
+         options;
 
       this.headerTags = headerTags;
       this.contentForEmptyCells = contentForEmptyCells || "";
       this.sortByPlaces = sortByPlaces || true;
       this.sortByPoints = sortByPoints;
       this.logs = logs;
-      this._logger = lbLogger;
+   }
+
+   public getOptions(): LeaderboardOptions {
+      return {
+         headerTags: this.headerTags,
+         contentForEmptyCells: this.contentForEmptyCells,
+         sortByPlaces: this.sortByPlaces,
+         sortByPoints: this.sortByPoints,
+         logs: this.logs
+      };
    }
 
    public execute(): void {
@@ -40,7 +54,7 @@ class OptionsController extends PhasesState implements LeaderboardOptions {
    }
 
    private _logOptions() {
-      const optionsStringArray: string[] = Object.entries(this._userOptions).map(
+      const optionsStringArray: string[] = Object.entries(this._options).map(
          OptionsController._logOption
       );
       this._logger.log("Options: " + optionsStringArray);

@@ -1,7 +1,6 @@
 import PhasesState from "../PhasesState";
 import Logger from "../../common/Logger/Logger";
 import ColumnsCreator from "../../factories/creators/ColumnsCreator";
-import OptionsController from "../../controllers/OptionsController";
 import { lbLogger } from "../../common/Logger/lbLogger";
 import { ColumnProperties } from "../../common/common.types";
 
@@ -12,8 +11,7 @@ class Creation extends PhasesState {
 
    constructor(
       private readonly _rootContainer: HTMLElement,
-      private _columnsData: ColumnProperties[],
-      private _options: OptionsController
+      private _columnsData: ColumnProperties[]
    ) {
       super();
       this._logger = lbLogger;

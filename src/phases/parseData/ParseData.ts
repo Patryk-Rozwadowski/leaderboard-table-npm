@@ -5,8 +5,8 @@ import { PreParsedLeaderboardData } from "../../index";
 import PlaceSorter from "../../sorters/PlaceSorter";
 import ClientInputVerification from "../../common/ClientInputVerificator/ClientInputVerification";
 import DataParsingUtils from "./utils/DataParsingUtils";
-import OptionsController from "../../controllers/OptionsController";
 import { lbLogger } from "../../common/Logger/lbLogger";
+import { lbOptions } from "../../common/options/lbOptions";
 
 type ValuesToSaveOrAppend = {
    columnsAccumulator: ColumnProperties[];
@@ -34,20 +34,14 @@ type ColumnsToParse = {
 };
 
 class ParseData extends PhasesState {
-   private readonly _options: OptionsController;
    private readonly _logger: Logger;
    private _sorter: PlaceSorter;
    private _clientInputVerification: ClientInputVerification;
    private _lbData: PreParsedLeaderboardData[];
 
-   constructor(
-      private _rootContainer: HTMLElement,
-      data: PreParsedLeaderboardData[],
-      options: OptionsController
-   ) {
+   constructor(private _rootContainer: HTMLElement, data: PreParsedLeaderboardData[]) {
       super();
       this._lbData = data;
-      this._options = options;
       this._logger = lbLogger;
    }
 
@@ -123,7 +117,7 @@ class ParseData extends PhasesState {
    }
 
    private _sort() {
-      if (this._options.sortByPlaces) {
+      if (lbOptions.getOptions().sortByPlaces) {
          this._sorter = new PlaceSorter(this._lbData, this._logger);
          this._lbData = this._sorter.ascendant();
       }
@@ -158,7 +152,7 @@ class ParseData extends PhasesState {
       const missingRow = {
          columns: columnsNotInCurrentIteration,
          index: indexForEmptyArray,
-         content: this._options.contentForEmptyCells
+         content: lbOptions.getOptions().contentForEmptyCells
       };
 
       this._insertColumnsWithMissingRows(missingRow);
@@ -211,7 +205,7 @@ class ParseData extends PhasesState {
    }
 
    private _insertContentIntoRows(rows: string[] | unknown[]) {
-      return rows.map(() => this._options.contentForEmptyCells);
+      return rows.map(() => lbOptions.getOptions().contentForEmptyCells);
    }
 
    private _userInputValidation() {
