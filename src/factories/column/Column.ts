@@ -5,6 +5,7 @@ import DOMController from "../../controllers/DOMController";
 import ColumnController from "../../controllers/column/ColumnController";
 import { SEMANTIC_TAGS } from "../../style/semanticTags";
 import { CONTAINER_STYLE_CLASS } from "../../style/styleClasses/container.enum";
+import { lbOptions } from "../../common/options/lbOptions";
 
 class Column implements ComponentFactory<Column> {
    DOMController: DOMController;
@@ -56,12 +57,10 @@ class Column implements ComponentFactory<Column> {
     */
    private _generateColumn(): HTMLElement {
       const { header, cells } = this._columnData;
-
+      const headerTag = lbOptions.getOptions().headerTags;
       const columnDOMElement = {
          container: this._generateColumnContainer(),
-
-         // TODO: Dynamic class taken from options rather than predefined style
-         header: this._elementCreator.createText(SEMANTIC_TAGS.HEADER_TEXT, header),
+         header: this._elementCreator.createText(headerTag as SEMANTIC_TAGS, header),
          cells: this._generateCellElementsArray(cells)
       };
 
