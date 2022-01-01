@@ -9,7 +9,7 @@ class ClientInputVerification {
       const isNotInstanceOfHtmlElement = !(element instanceof HTMLElement);
       if (isRootUndefined || isNotInstanceOfHtmlElement) {
          throw new Error(
-            `Expected ${element} to be an HTMLElement, was ${typeof element}.`
+            `Expected root element to be an HTMLElement, was ${typeof element}.`
          );
       }
       this._logger?.log("Root element is valid.");
