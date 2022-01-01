@@ -2,7 +2,7 @@ import Creation from "./phases/creation/Creation";
 import ParseData from "./phases/parseData/ParseData";
 import PhasesContext from "./phases/context/phases/PhasesContext";
 import "./style/style.scss";
-import OptionsController, { LeaderboardOptions } from "./controllers/OptionsController";
+import { LeaderboardOptions } from "./common/options/Options";
 import { CONTAINER_STYLE_CLASS } from "./style/styleClasses/container.enum";
 import { lbLogger } from "./common/Logger/lbLogger";
 import Logger from "./common/Logger/Logger";
@@ -38,11 +38,9 @@ interface PreParsedLeaderboardData {
 }
 
 class Leaderboard {
-   private readonly _clientOptions: LeaderboardOptions;
    private readonly _rootContainer;
    private readonly _leaderboardData: PreParsedLeaderboardData[];
    private readonly _logger: Logger | undefined;
-   private _options: OptionsController;
    private _phasesContext: PhasesContext;
    private _parsedData: ColumnProperties[];
 
@@ -51,7 +49,6 @@ class Leaderboard {
       leaderboardData: PreParsedLeaderboardData[],
       options: LeaderboardOptions
    ) {
-      this._clientOptions = options || {};
       this._rootContainer = rootContainer;
       this._leaderboardData = leaderboardData;
       lbOptions.setOptions(options);

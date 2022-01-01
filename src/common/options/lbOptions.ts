@@ -1,5 +1,5 @@
-import OptionsController from "../../controllers/OptionsController";
+import Options from "./Options";
 
-const lbOptions = new OptionsController();
+const lbOptions = new Options();
 
 export { lbOptions };
