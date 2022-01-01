@@ -27,6 +27,11 @@ describe("ClientInputVerification", () => {
          expect(clientVerification.isDataStructureValid(failData)).toBe(false);
       });
 
+      it("Should fail - data not provided", () => {
+         const dataUndefined = undefined as unknown as PreParsedLeaderboardData[];
+         expect(clientVerification.isDataStructureValid(dataUndefined)).toBe(false);
+      });
+
       it("Should work - correct data structure", () => {
          const correctData = [
             {
