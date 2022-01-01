@@ -10,7 +10,10 @@
     "start:dev": "tsc -w",
     "prepublish": "tsc",
     "prepare": "husky install",
-    "test": "jest"
+    "test": "jest --verbose --coverage",
+    "test:update": "jest --verbose --coverage --updateSnapshot",
+    "test:watch": "jest --verbose --watch",
+    "coverage": "jest --verbose --coverage"
   },
   "repository": {
     "type": "git",
