@@ -31,7 +31,7 @@ class Options {
       this._logger = lbLogger;
    }
 
-   public setOptions(options: Partial<LeaderboardOptions>): void {
+   public setOptions(options: LeaderboardOptions): void {
       if (!options) return;
       const { sortByPlaces, contentForEmptyCells, sortByPoints, headerTags, logs } =
          options;
@@ -48,7 +48,7 @@ class Options {
       if (this._options.logs) this._logOptions();
    }
 
-   public getOptions(): Partial<LeaderboardOptions> {
+   public getOptions(): LeaderboardOptions {
       return this._options;
    }
 
