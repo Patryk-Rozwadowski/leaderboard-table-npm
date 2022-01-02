@@ -1,5 +1,5 @@
 import ClientInputVerification from "../ClientInputVerification";
-import { PreParsedLeaderboardData } from "../../../index";
+import { LeaderboardData } from "../../../Leaderboard";
 
 describe("ClientInputVerification", () => {
    let clientVerification: ClientInputVerification;
@@ -23,12 +23,12 @@ describe("ClientInputVerification", () => {
 
    describe("isDataStructureValid", () => {
       it("Should fail - data not array", () => {
-         const failData = {} as unknown as PreParsedLeaderboardData[];
+         const failData = {} as unknown as LeaderboardData[];
          expect(clientVerification.isDataStructureValid(failData)).toBe(false);
       });
 
       it("Should fail - data not provided", () => {
-         const dataUndefined = undefined as unknown as PreParsedLeaderboardData[];
+         const dataUndefined = undefined as unknown as LeaderboardData[];
          expect(clientVerification.isDataStructureValid(dataUndefined)).toBe(false);
       });
 
@@ -38,7 +38,7 @@ describe("ClientInputVerification", () => {
                name: "Bob",
                points: 20
             }
-         ] as unknown as PreParsedLeaderboardData[];
+         ] as unknown as LeaderboardData[];
          expect(clientVerification.isDataStructureValid(correctData)).toBe(true);
       });
    });

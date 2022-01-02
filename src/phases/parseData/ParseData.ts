@@ -1,7 +1,7 @@
 import PhasesState from "../PhasesState";
 import Logger from "../../common/Logger/Logger";
 import { ColumnProperties, SingleCellProperties } from "../../common/common.types";
-import { PreParsedLeaderboardData } from "../../index";
+import { LeaderboardData } from "../../Leaderboard";
 import PlaceSorter from "../../sorters/PlaceSorter";
 import ClientInputVerification from "../../common/ClientInputVerificator/ClientInputVerification";
 import DataParsingUtils from "./utils/DataParsingUtils";
@@ -29,7 +29,7 @@ type ColumnsToFillWithCell = {
 type ColumnsToParse = {
    clientHeaders: string[];
    columnsAccumulator: ColumnProperties[];
-   currentColumn: Partial<PreParsedLeaderboardData>;
+   currentColumn: Partial<LeaderboardData>;
    iteration: number;
 };
 
@@ -37,9 +37,9 @@ class ParseData extends PhasesState {
    private readonly _logger: Logger;
    private _sorter: PlaceSorter;
    private _clientInputVerification: ClientInputVerification;
-   private _lbData: PreParsedLeaderboardData[];
+   private _lbData: LeaderboardData[];
 
-   constructor(private _rootContainer: HTMLElement, data: PreParsedLeaderboardData[]) {
+   constructor(private _rootContainer: HTMLElement, data: LeaderboardData[]) {
       super();
       this._lbData = data;
       this._logger = lbLogger;
@@ -60,7 +60,7 @@ class ParseData extends PhasesState {
       return this._lbData.reduce(
          (
             columnsAccumulator: ColumnProperties[],
-            currentColumn: Partial<PreParsedLeaderboardData>,
+            currentColumn: Partial<LeaderboardData>,
             index: number
          ): ColumnProperties[] => {
             const clientHeaders: string[] = Object.keys(currentColumn);
@@ -210,7 +210,6 @@ class ParseData extends PhasesState {
 
    private _userInputValidation() {
       this._clientInputVerification = new ClientInputVerification(this._logger);
-      this._logger?.log(`User's input validation.`);
       if (this._clientInputVerification.isRootContainerValid(this._rootContainer)) {
          this._checkData();
       }

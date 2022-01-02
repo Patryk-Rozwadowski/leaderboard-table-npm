@@ -13,7 +13,7 @@
     "forceConsistentCasingInFileNames": true,
     "strictPropertyInitialization": false
   },
-  "baseUrl": "./src/index.ts",
+  "baseUrl": "./src/Leaderboard.ts",
   "include": [
     "./src/*",
     "./tests/**/*"

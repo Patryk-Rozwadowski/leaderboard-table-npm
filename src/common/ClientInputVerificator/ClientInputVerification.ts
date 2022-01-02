@@ -1,10 +1,11 @@
 import Logger from "../Logger/Logger";
-import { PreParsedLeaderboardData } from "../../index";
+import { LeaderboardData } from "../../Leaderboard";
 
 class ClientInputVerification {
    constructor(private _logger?: Logger | null) {}
 
    public isRootContainerValid(element: HTMLElement): boolean {
+      this._logger?.log(`User's input validation.`);
       const isRootUndefined = typeof element === "undefined";
       const isNotInstanceOfHtmlElement = !(element instanceof HTMLElement);
       if (isRootUndefined || isNotInstanceOfHtmlElement) {
@@ -16,7 +17,7 @@ class ClientInputVerification {
       return true;
    }
 
-   public isDataStructureValid(data: PreParsedLeaderboardData[]): boolean {
+   public isDataStructureValid(data: LeaderboardData[]): boolean {
       if (!Array.isArray(data) || !data) {
          this._logger?.error("Data is not defined. Pass leaderboard information.");
          return false;
