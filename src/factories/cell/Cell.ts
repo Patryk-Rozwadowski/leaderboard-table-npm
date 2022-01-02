@@ -12,7 +12,7 @@ class Cell implements ComponentFactory<Cell> {
 
    constructor(
       private _rootContainer: HTMLElement,
-      private _rowData: SingleCellProperties
+      private _cellData: SingleCellProperties
    ) {
       this._elementCreator = new ElementCreator();
       this.DOMController = new DOMController();
@@ -32,20 +32,20 @@ class Cell implements ComponentFactory<Cell> {
    }
 
    private _createCell() {
-      const contentContainer = this._createRowContentContainer();
-      const textContent = this._rowContentText();
+      const contentContainer = this._createCellContentContainer();
+      const textContent = this._cellContentText();
       DOMController.appendChildrenToContainer(contentContainer, textContent);
       this._rowListContainer.appendChild(contentContainer);
    }
 
-   private _rowContentText(): HTMLElement {
+   private _cellContentText(): HTMLElement {
       return this._elementCreator.createText(
          SEMANTIC_TAGS.PRIMARY_TEXT,
-         this._rowData.toString()
+         this._cellData.toString()
       );
    }
 
-   private _createRowContentContainer(): HTMLElement {
+   private _createCellContentContainer(): HTMLElement {
       return this._elementCreator.createContainer(
          SEMANTIC_TAGS.CELL_CONTAINER,
          COMPONENT_STYLES.CELL

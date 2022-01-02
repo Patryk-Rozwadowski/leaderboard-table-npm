@@ -24,7 +24,7 @@ class DataParsingUtils {
       return !source.includes(header);
    }
 
-   public static insertValuesToColumnRows(
+   public static insertValuesToColumnCells(
       column: ColumnProperties,
       value: SingleCellProperties
    ): void {

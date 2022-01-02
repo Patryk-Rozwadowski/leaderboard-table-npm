@@ -10,17 +10,17 @@ import { lbOptions } from "../../common/options/lbOptions";
 
 type ValuesToSaveOrAppend = {
    columnsAccumulator: ColumnProperties[];
-   singleRowValuesForHeader: SingleCellProperties;
+   singleCellValuesForHeader: SingleCellProperties;
    header: string;
 };
 
-type MissingRow = {
+type MissingCell = {
    columns: ColumnProperties[];
    index: number;
    content: string;
 };
 
-type ColumnsToFillWithRows = {
+type ColumnsToFillWithCell = {
    allColumns: ColumnProperties[];
    columnsToCheck: string[];
    indexForEmptyArray: number;
@@ -73,13 +73,13 @@ class ParseData extends PhasesState {
             };
             this._parseClientColumns(columnsToParse);
 
-            const columnsToFillWithRows: ColumnsToFillWithRows = {
+            const columnsToFillWithCells: ColumnsToFillWithCell = {
                allColumns: columnsAccumulator,
                columnsToCheck: clientHeaders,
                indexForEmptyArray: index
             };
 
-            this._fillMissingCellsWithIndex(columnsToFillWithRows);
+            this._fillMissingCellsWithIndex(columnsToFillWithCells);
             this._logger?.groupEnd();
             return columnsAccumulator;
          },
@@ -98,20 +98,20 @@ class ParseData extends PhasesState {
          );
 
          const headerAlreadyExists = isHeaderAlreadyExistsInAcc !== -1;
-         const singleRowValuesForHeader = currentColumn[
+         const singleCellValuesPerHeader = currentColumn[
             clientHeader
          ] as unknown as SingleCellProperties;
 
          const valuesToSaveOrAppend: ValuesToSaveOrAppend = {
             columnsAccumulator,
             header: clientHeader,
-            singleRowValuesForHeader
+            singleCellValuesForHeader: singleCellValuesPerHeader
          };
 
          if (headerAlreadyExists) {
             this._appendNewCellToExistingHeader(valuesToSaveOrAppend);
          } else {
-            this._appendNewHeaderAndRowToAcc(valuesToSaveOrAppend, iteration);
+            this._appendNewHeaderAndCellToAcc(valuesToSaveOrAppend, iteration);
          }
       });
    }
@@ -124,47 +124,47 @@ class ParseData extends PhasesState {
    }
 
    private _appendNewCellToExistingHeader(val: ValuesToSaveOrAppend): void {
-      const { columnsAccumulator, header, singleRowValuesForHeader } = val;
+      const { columnsAccumulator, header, singleCellValuesForHeader } = val;
 
       const headerIndexInAcc = columnsAccumulator.findIndex(
          (column: ColumnProperties) => column.header === header
       );
 
       const existingHeaderInAcc = columnsAccumulator[headerIndexInAcc];
-      existingHeaderInAcc.cells.push(singleRowValuesForHeader);
+      existingHeaderInAcc.cells.push(singleCellValuesForHeader);
    }
 
    /**
     * Method for filling AFTER whole parsing process. It's the last step of
     * preparing data before rendering.
     * @private
-    * @param columnsToFillWithRows
+    * @param columnsToFillWithCells
     */
    private _fillMissingCellsWithIndex(
-      columnsToFillWithRows: ColumnsToFillWithRows
+      columnsToFillWithCells: ColumnsToFillWithCell
    ): void {
-      const { allColumns, indexForEmptyArray, columnsToCheck } = columnsToFillWithRows;
+      const { allColumns, indexForEmptyArray, columnsToCheck } = columnsToFillWithCells;
       const columnsNotInCurrentIteration = DataParsingUtils.columnsNotInCurrentIteration(
          allColumns,
          columnsToCheck
       );
 
-      const missingRow = {
+      const missingCell = {
          columns: columnsNotInCurrentIteration,
          index: indexForEmptyArray,
          content: lbOptions.getOptions().contentForEmptyCells
       };
 
-      this._insertColumnsWithMissingRows(missingRow);
+      this._insertColumnsWithMissingCells(missingCell);
    }
 
    /**
-    * Inserting rows for columns which weren't in iteration.
-    * @param missingRow {MissingRow}
+    * Inserting cells for columns which weren't in iteration.
+    * @param missingCell {MissingCell}
     * @private
     */
-   private _insertColumnsWithMissingRows(missingRow: MissingRow): void {
-      const { columns, index, content } = missingRow;
+   private _insertColumnsWithMissingCells(missingCell: MissingCell): void {
+      const { columns, index, content } = missingCell;
       columns.forEach((column) => column.cells.splice(index, 0, content));
    }
 
@@ -173,12 +173,12 @@ class ParseData extends PhasesState {
     * for rendering.
     * @param headersAccumulator
     * @param header
-    * @param singleRowValuesForHeader
+    * @param singleCellValuesForHeader
     * @param nOfArrays
     * @private
     */
-   private _appendNewHeaderAndRowToAcc(
-      { columnsAccumulator, header, singleRowValuesForHeader }: ValuesToSaveOrAppend,
+   private _appendNewHeaderAndCellToAcc(
+      { columnsAccumulator, header, singleCellValuesForHeader }: ValuesToSaveOrAppend,
       nOfArrays: number
    ) {
       const columnToSave = {
@@ -187,7 +187,7 @@ class ParseData extends PhasesState {
       } as ColumnProperties;
 
       this._addEmptyCells(columnToSave, nOfArrays);
-      DataParsingUtils.insertValuesToColumnRows(columnToSave, singleRowValuesForHeader);
+      DataParsingUtils.insertValuesToColumnCells(columnToSave, singleCellValuesForHeader);
       columnsAccumulator.push(columnToSave);
    }
 
@@ -200,12 +200,12 @@ class ParseData extends PhasesState {
     */
    private _addEmptyCells(column: ColumnProperties, nOfArrays: number) {
       const emptyCells = DataParsingUtils.createNOfEmptyArrays(nOfArrays);
-      const arraysToFillWithContent = this._insertContentIntoRows(emptyCells);
+      const arraysToFillWithContent = this._insertContentIntoCells(emptyCells);
       column.cells.push(...arraysToFillWithContent);
    }
 
-   private _insertContentIntoRows(rows: string[] | unknown[]) {
-      return rows.map(() => lbOptions.getOptions().contentForEmptyCells);
+   private _insertContentIntoCells(cells: string[] | unknown[]) {
+      return cells.map(() => lbOptions.getOptions().contentForEmptyCells);
    }
 
    private _userInputValidation() {
