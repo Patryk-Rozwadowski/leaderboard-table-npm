@@ -8,7 +8,9 @@
 
 node_modules
 dist
-package-lock.json
+
+# eslint
+.eslintcache
 
 # User-specific stuff
 .idea
