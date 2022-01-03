@@ -1,5 +1,5 @@
 import Logger from "../common/Logger/Logger";
-import { LeaderboardData, SortableByProps } from "../Leaderboard";
+import { LeaderboardData, SortableByProps } from "../leaderboard/Leaderboard";
 
 class PlaceSorter {
    constructor(private dataToSort: LeaderboardData[], private _logger: Logger | null) {}

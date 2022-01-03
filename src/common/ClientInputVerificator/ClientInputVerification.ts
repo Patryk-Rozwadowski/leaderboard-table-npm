@@ -1,5 +1,5 @@
 import Logger from "../Logger/Logger";
-import { LeaderboardData } from "../../Leaderboard";
+import { LeaderboardData } from "../../leaderboard/Leaderboard";
 
 class ClientInputVerification {
    constructor(private _logger?: Logger | null) {}

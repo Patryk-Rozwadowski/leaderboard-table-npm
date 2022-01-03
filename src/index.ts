@@ -1,3 +1,3 @@
-import leaderboard from "./Leaderboard";
+import leaderboard from "./leaderboard/Leaderboard";
 
 export default leaderboard;

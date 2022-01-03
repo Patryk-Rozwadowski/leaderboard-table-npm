@@ -2,7 +2,7 @@
   "name": "@patryk.rozwadowski/leaderboard",
   "version": "1.0.0",
   "description": "Simple leaderboard",
-  "main": "src/Leaderboard.ts",
+  "main": "src/index.ts",
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "webpack",

@@ -1,13 +1,13 @@
-import Creation from "./phases/creation/Creation";
-import ParseData from "./phases/parseData/ParseData";
-import PhasesContext from "./phases/context/phases/PhasesContext";
-import "./style/style.scss";
-import { LeaderboardOptions } from "./common/options/Options";
-import { CONTAINER_STYLE_CLASS } from "./style/styleClasses/container.enum";
-import { lbLogger } from "./common/Logger/lbLogger";
-import Logger from "./common/Logger/Logger";
-import { ColumnProperties } from "./common/common.types";
-import { lbOptions } from "./common/options/lbOptions";
+import Creation from "../phases/creation/Creation";
+import ParseData from "../phases/parseData/ParseData";
+import PhasesContext from "../phases/context/phases/PhasesContext";
+import "../style/style.scss";
+import { LeaderboardOptions } from "../common/options/Options";
+import { CONTAINER_STYLE_CLASS } from "../style/styleClasses/container.enum";
+import { lbLogger } from "../common/Logger/lbLogger";
+import Logger from "../common/Logger/Logger";
+import { ColumnProperties } from "../common/common.types";
+import { lbOptions } from "../common/options/lbOptions";
 
 export type SortableByProps = {
    /**

@@ -1,7 +1,7 @@
 import PhasesState from "../PhasesState";
 import Logger from "../../common/Logger/Logger";
 import { ColumnProperties, SingleCellProperties } from "../../common/common.types";
-import { LeaderboardData } from "../../Leaderboard";
+import { LeaderboardData } from "../../leaderboard/Leaderboard";
 import PlaceSorter from "../../sorters/PlaceSorter";
 import ClientInputVerification from "../../common/ClientInputVerificator/ClientInputVerification";
 import DataParsingUtils from "./utils/DataParsingUtils";

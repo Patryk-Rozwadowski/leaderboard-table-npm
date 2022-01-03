@@ -3,7 +3,7 @@ const path = require("path");
 module.exports = {
    mode: "development",
    devtool: false,
-   entry: "./src/Leaderboard.ts",
+   entry: "./src/index.ts",
    module: {
       rules: [
          {
