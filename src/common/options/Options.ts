@@ -1,8 +1,10 @@
 import Logger from "../Logger/Logger";
 import { lbLogger } from "../Logger/lbLogger";
+import { SemanticHeaderTags } from "../../style/semanticTags/typography.enum";
+import { SEMANTIC_TAGS } from "../../style/semanticTags";
 
 interface LeaderboardOptions {
-   headerTags: string;
+   headerTags: SemanticHeaderTags;
    logs: boolean;
    contentForEmptyCells: string;
    sortByPlaces: boolean;
@@ -10,7 +12,7 @@ interface LeaderboardOptions {
 }
 
 const OptionsDefaults = {
-   HEADERS_TAGS: "h5",
+   HEADERS_TAGS: SEMANTIC_TAGS.HEADER_PRIMARY_TEXT as unknown as SemanticHeaderTags,
    CONTENT_FOR_EMPTY_CELLS: "",
    LOGS: false,
    SORT_BY_PLACES: true,

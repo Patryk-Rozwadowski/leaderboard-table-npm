@@ -58,9 +58,10 @@ class Column implements ComponentFactory<Column> {
    private _generateColumn(): HTMLElement {
       const { header, cells } = this._columnData;
       const headerTag = lbOptions.getOptions().headerTags;
+
       const columnDOMElement = {
          container: this._generateColumnContainer(),
-         header: this._elementCreator.createText(headerTag as SEMANTIC_TAGS, header),
+         header: this._elementCreator.createHeader(headerTag, header as string),
          cells: this._generateCellElementsArray(cells)
       };
 

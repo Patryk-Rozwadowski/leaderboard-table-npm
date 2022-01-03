@@ -4,6 +4,11 @@ import { SEMANTIC_TAGS } from "../../style/semanticTags";
 import ContainerFactory from "../container/ContainerFactory";
 import { CONTAINER_STYLE_CLASS } from "../../style/styleClasses/container.enum";
 import { COMPONENT_STYLES } from "../../style/styleClasses";
+import {
+   SEMANTIC_TYPOGRAPHY_TYPES,
+   SemanticHeaderTags,
+   SemanticTextTags
+} from "../../style/semanticTags/typography.enum";
 
 interface ElementCreatorActions {
    DOMController: DOMController;
@@ -13,12 +18,16 @@ interface ElementCreatorActions {
       tag: SEMANTIC_TAGS,
       containerStyle: CONTAINER_STYLE_CLASS
    ): HTMLElement;
-   createText(tag: SEMANTIC_TAGS, text: string): HTMLElement;
+   createText(
+      tag: SemanticTextTags,
+      text: string,
+      type: SEMANTIC_TYPOGRAPHY_TYPES
+   ): HTMLElement;
 }
 
 type ComponentFactory<T> = {
    DOMController: DOMController;
-   create(tag: SEMANTIC_TAGS, ...options: any): HTMLElement;
+   create(tag: any, ...options: any): HTMLElement;
 } & T;
 
 /**
@@ -28,8 +37,7 @@ type ComponentFactory<T> = {
 class ElementCreator implements ElementCreatorActions {
    DOMController: DOMController;
    containerFactory: ComponentFactory<ContainerFactory>;
-   typographyFactory: ComponentFactory<TypographyFactory>;
-   private _element: HTMLElement;
+   typographyFactory: TypographyFactory;
 
    constructor() {
       this.DOMController = new DOMController();
@@ -37,16 +45,20 @@ class ElementCreator implements ElementCreatorActions {
       this.containerFactory = new ContainerFactory(this.DOMController);
    }
 
-   get getElement(): HTMLElement {
-      return this._element;
-   }
-
    createContainer(tag: SEMANTIC_TAGS, containerStyle: COMPONENT_STYLES): HTMLElement {
       return this.containerFactory.create(tag, containerStyle);
    }
 
-   createText(tag: SEMANTIC_TAGS, text: string): HTMLElement {
-      return this.typographyFactory.create(tag, text);
+   createText(
+      tag: SemanticTextTags,
+      text: string,
+      type: SEMANTIC_TYPOGRAPHY_TYPES
+   ): HTMLElement {
+      return this.typographyFactory.createText(tag, text, type);
+   }
+
+   createHeader(tag: SemanticHeaderTags, text: string): HTMLElement {
+      return this.typographyFactory.creatHeaderHeader(tag, text);
    }
 }
 

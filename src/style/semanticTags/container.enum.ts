@@ -3,10 +3,4 @@ enum SEMANTIC_CONTAINER_TAGS {
    CONTAINER_PRIMARY = "div"
 }
 
-enum COMPONENT_TYPES {
-   CONTAINER = "container",
-   TYPOGRAPHY = "typography",
-   ROW = "row"
-}
-
-export { SEMANTIC_CONTAINER_TAGS, COMPONENT_TYPES };
+export { SEMANTIC_CONTAINER_TAGS };
