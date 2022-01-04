@@ -45,8 +45,6 @@ class Creation extends PhasesState {
 
    private _addComponentToMountQueue(component: HTMLElement): void {
       this._columnsToCreate.push(component);
-
-      // TODO nice to have better logger with better component's name instead of nodeName
       this._logger?.log(`Add ${component.nodeName} to mount queue.`);
    }
 }

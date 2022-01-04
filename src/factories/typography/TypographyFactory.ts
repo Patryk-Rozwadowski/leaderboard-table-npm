@@ -13,8 +13,8 @@ class TypographyFactory {
    private _componentStyleController: ComponentStyleController;
    private _logger: Logger;
 
-   constructor(public DOMController: DOMController) {
-      this._componentStyleController = new ComponentStyleController(this.DOMController);
+   constructor(private _domController: DOMController) {
+      this._componentStyleController = new ComponentStyleController(this._domController);
       this._logger = lbLogger;
    }
 
@@ -57,7 +57,7 @@ class TypographyFactory {
    }
 
    private _createTextDomElement(tag: SemanticTextTags | SemanticHeaderTags) {
-      return this.DOMController.createDOMElementWithTag(tag as unknown as string);
+      return this._domController.createDOMElementWithTag(tag as unknown as string);
    }
 
    private _fillTextWithContent(textElement: HTMLElement, text: string): HTMLElement {

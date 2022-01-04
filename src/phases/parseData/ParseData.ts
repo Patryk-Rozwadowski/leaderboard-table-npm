@@ -90,7 +90,6 @@ class ParseData extends PhasesState {
    private _parseClientColumns(data: ColumnsToParse) {
       const { clientHeaders, columnsAccumulator, currentColumn, iteration } = data;
       clientHeaders.forEach((clientHeader: string): void => {
-         // TODO: extract to method
          const isHeaderAlreadyExistsInAcc = columnsAccumulator.findIndex(
             (column: ColumnProperties) => {
                return column.header === clientHeader;
