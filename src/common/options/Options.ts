@@ -29,12 +29,22 @@ const OptionsDefaults = {
       SEMANTIC_TYPOGRAPHY_TAGS.HEADER_PRIMARY_TEXT as unknown as SemanticHeaderTags,
    HEADER_SUB_TAG:
       SEMANTIC_TYPOGRAPHY_TAGS.SUB_HEADER_TEXT as unknown as SemanticHeaderTags,
-   TEXT_PRIMARY_TAG: SEMANTIC_TYPOGRAPHY_TAGS.PRIMARY_TEXT,
-   TEXT_SECONDARY_TAG: SEMANTIC_TYPOGRAPHY_TAGS.SECONDARY_TEXT
+   TEXT_PRIMARY_TAG: SEMANTIC_TYPOGRAPHY_TAGS.PRIMARY_TEXT as unknown as SemanticTextTags,
+   TEXT_SECONDARY_TAG:
+      SEMANTIC_TYPOGRAPHY_TAGS.SECONDARY_TEXT as unknown as SemanticTextTags
 };
 
 class Options {
-   private _options: LeaderboardOptions;
+   private _options: LeaderboardOptions = {
+      contentForEmptyCells: OptionsDefaults.CONTENT_FOR_EMPTY_CELLS,
+      sortByPlaces: OptionsDefaults.SORT_BY_PLACES,
+      sortByPoints: OptionsDefaults.SORT_BY_POINTS,
+      logs: OptionsDefaults.LOGS,
+      HEADER_PRIMARY_TAG: OptionsDefaults.HEADER_PRIMARY_TAG,
+      HEADER_SUB_TAG: OptionsDefaults.HEADER_SUB_TAG,
+      TEXT_PRIMARY_TAG: OptionsDefaults.TEXT_PRIMARY_TAG,
+      TEXT_SECONDARY_TAG: OptionsDefaults.TEXT_SECONDARY_TAG
+   };
    private _logger: Logger;
 
    constructor() {
@@ -42,29 +52,14 @@ class Options {
    }
 
    public setOptions(options: LeaderboardOptions): void {
-      if (!options) return;
-      const {
-         sortByPlaces,
-         contentForEmptyCells,
-         sortByPoints,
-         logs,
-         HEADER_PRIMARY_TAG,
-         TEXT_PRIMARY_TAG,
-         TEXT_SECONDARY_TAG,
-         HEADER_SUB_TAG
-      } = options;
+      for (const [key, value] of Object.entries(options)) {
+         const optionKey = key as keyof LeaderboardOptions;
 
-      this._options = {
-         contentForEmptyCells:
-            contentForEmptyCells || OptionsDefaults.CONTENT_FOR_EMPTY_CELLS,
-         sortByPlaces: sortByPlaces || OptionsDefaults.SORT_BY_PLACES,
-         sortByPoints: sortByPoints || OptionsDefaults.SORT_BY_POINTS,
-         logs: logs || OptionsDefaults.LOGS,
-         HEADER_PRIMARY_TAG: HEADER_PRIMARY_TAG || OptionsDefaults.HEADER_PRIMARY_TAG,
-         HEADER_SUB_TAG: HEADER_SUB_TAG || OptionsDefaults.HEADER_SUB_TAG,
-         TEXT_PRIMARY_TAG: TEXT_PRIMARY_TAG || OptionsDefaults.TEXT_PRIMARY_TAG,
-         TEXT_SECONDARY_TAG: TEXT_SECONDARY_TAG || OptionsDefaults.TEXT_SECONDARY_TAG
-      };
+         // Typescript issue
+         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+         // @ts-ignore
+         this._options[optionKey] = value;
+      }
 
       if (this._options.logs) this._logOptions();
    }
