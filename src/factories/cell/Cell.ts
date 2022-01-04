@@ -1,10 +1,10 @@
-import ElementCreator, { ComponentFactory } from "../creators/ElementCreator";
+import ElementCreator from "../creators/ElementCreator";
 import { SingleCellProperties } from "../../common/common.types";
 import DOMController from "../../controllers/DOMController";
-import { SEMANTIC_TAGS } from "../../style/semanticTags";
-import { COMPONENT_STYLES } from "../../style/styleClasses";
+import { CONTAINER_STYLE_CLASS } from "../../style/styleClasses/container.enum";
+import { SEMANTIC_CONTAINER_TAGS } from "../../style/semanticTags/container.enum";
 
-class Cell implements ComponentFactory<Cell> {
+class Cell {
    DOMController: DOMController;
 
    private _elementCreator: ElementCreator;
@@ -26,8 +26,8 @@ class Cell implements ComponentFactory<Cell> {
 
    private _createCellContainer() {
       return this._elementCreator.createContainer(
-         SEMANTIC_TAGS.CELL_CONTAINER,
-         COMPONENT_STYLES.CELL_CONTAINER
+         SEMANTIC_CONTAINER_TAGS.CONTAINER_PRIMARY,
+         CONTAINER_STYLE_CLASS.CELL_CONTAINER
       );
    }
 
@@ -44,8 +44,8 @@ class Cell implements ComponentFactory<Cell> {
 
    private _createCellContentContainer(): HTMLElement {
       return this._elementCreator.createContainer(
-         SEMANTIC_TAGS.CELL_CONTAINER,
-         COMPONENT_STYLES.CELL
+         SEMANTIC_CONTAINER_TAGS.CONTAINER_PRIMARY,
+         CONTAINER_STYLE_CLASS.CELL
       );
    }
 }

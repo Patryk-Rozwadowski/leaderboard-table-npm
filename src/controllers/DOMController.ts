@@ -1,5 +1,3 @@
-import { SEMANTIC_TAGS } from "../style/semanticTags";
-
 class DOMController {
    _element: HTMLElement;
 
@@ -11,7 +9,7 @@ class DOMController {
       this._element = elementToCreate;
    }
 
-   createDOMElementWithTag(tag: SEMANTIC_TAGS): HTMLElement {
+   createDOMElementWithTag(tag: string): HTMLElement {
       this._element = document.createElement(tag);
       return this._element;
    }

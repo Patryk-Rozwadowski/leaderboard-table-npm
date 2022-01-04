@@ -1,5 +1,0 @@
-enum SEMANTIC_CELL_TAGS {
-   CELL_CONTAINER = "div"
-}
-
-export { SEMANTIC_CELL_TAGS };

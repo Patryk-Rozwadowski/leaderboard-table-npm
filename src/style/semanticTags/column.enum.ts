@@ -1,5 +1,0 @@
-enum SEMANTIC_COLUMN_TAGS {
-   COLUMN = "div"
-}
-
-export { SEMANTIC_COLUMN_TAGS };

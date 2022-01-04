@@ -1,12 +1,12 @@
 import { ColumnProperties, SingleCellProperties } from "../../common/common.types";
 import Cell from "../cell/Cell";
-import ElementCreator, { ComponentFactory } from "../creators/ElementCreator";
+import ElementCreator from "../creators/ElementCreator";
 import DOMController from "../../controllers/DOMController";
 import ColumnController from "../../controllers/column/ColumnController";
-import { SEMANTIC_TAGS } from "../../style/semanticTags";
 import { CONTAINER_STYLE_CLASS } from "../../style/styleClasses/container.enum";
+import { SEMANTIC_CONTAINER_TAGS } from "../../style/semanticTags/container.enum";
 
-class Column implements ComponentFactory<Column> {
+class Column {
    DOMController: DOMController;
    private _elementCreator: ElementCreator;
    private _columnController: ColumnController;
@@ -27,7 +27,7 @@ class Column implements ComponentFactory<Column> {
     */
    private _generateColumnContainer(): HTMLElement {
       return this._elementCreator.createContainer(
-         SEMANTIC_TAGS.COLUMN,
+         SEMANTIC_CONTAINER_TAGS.CONTAINER_PRIMARY,
          CONTAINER_STYLE_CLASS.COLUMN_CONTAINER
       );
    }

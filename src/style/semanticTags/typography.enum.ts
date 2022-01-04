@@ -1,5 +1,3 @@
-import { SEMANTIC_TAGS } from "./index";
-
 enum SEMANTIC_TYPOGRAPHY_TYPES {
    PRIMARY = "primary",
    SECONDARY = "secondary"
@@ -18,15 +16,13 @@ type SemanticHeaderTags = Pick<
    typeof SEMANTIC_TYPOGRAPHY_TAGS,
    "HEADER_PRIMARY_TEXT" | "SUB_HEADER_TEXT"
 > &
-   SemanticTypographyTags &
-   SEMANTIC_TAGS;
+   SemanticTypographyTags;
 
 type SemanticTextTags = Pick<
    typeof SEMANTIC_TYPOGRAPHY_TAGS,
    "PRIMARY_TEXT" | "SECONDARY_TEXT"
 > &
-   SemanticTypographyTags &
-   SEMANTIC_TAGS;
+   SemanticTypographyTags;
 
 export {
    SEMANTIC_TYPOGRAPHY_TAGS,

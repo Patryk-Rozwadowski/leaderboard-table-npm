@@ -5,10 +5,8 @@ import {
    SemanticHeaderTags,
    SemanticTextTags
 } from "../../style/semanticTags/typography.enum";
-import { SEMANTIC_TAGS } from "../../style/semanticTags";
 
 interface LeaderboardOptions {
-   headerTags: string;
    logs: boolean;
    contentForEmptyCells: string;
    sortByPlaces: boolean;
@@ -27,10 +25,12 @@ const OptionsDefaults = {
    SORT_BY_PLACES: true,
    SORT_BY_POINTS: false,
 
-   HEADER_PRIMARY_TAG: SEMANTIC_TAGS.HEADER_PRIMARY_TEXT as unknown as SemanticHeaderTags,
-   HEADER_SUB_TAG: SEMANTIC_TAGS.SUB_HEADER_TEXT as unknown as SemanticHeaderTags,
-   TEXT_PRIMARY_TAG: SEMANTIC_TYPOGRAPHY_TAGS.PRIMARY_TEXT as SemanticTextTags,
-   TEXT_SECONDARY_TAG: SEMANTIC_TYPOGRAPHY_TAGS.SECONDARY_TEXT as SemanticTextTags
+   HEADER_PRIMARY_TAG:
+      SEMANTIC_TYPOGRAPHY_TAGS.HEADER_PRIMARY_TEXT as unknown as SemanticHeaderTags,
+   HEADER_SUB_TAG:
+      SEMANTIC_TYPOGRAPHY_TAGS.SUB_HEADER_TEXT as unknown as SemanticHeaderTags,
+   TEXT_PRIMARY_TAG: SEMANTIC_TYPOGRAPHY_TAGS.PRIMARY_TEXT,
+   TEXT_SECONDARY_TAG: SEMANTIC_TYPOGRAPHY_TAGS.SECONDARY_TEXT
 };
 
 class Options {
@@ -47,7 +47,6 @@ class Options {
          sortByPlaces,
          contentForEmptyCells,
          sortByPoints,
-         headerTags,
          logs,
          HEADER_PRIMARY_TAG,
          TEXT_PRIMARY_TAG,
@@ -56,7 +55,6 @@ class Options {
       } = options;
 
       this._options = {
-         headerTags: headerTags || OptionsDefaults.HEADER_PRIMARY_TAG,
          contentForEmptyCells:
             contentForEmptyCells || OptionsDefaults.CONTENT_FOR_EMPTY_CELLS,
          sortByPlaces: sortByPlaces || OptionsDefaults.SORT_BY_PLACES,

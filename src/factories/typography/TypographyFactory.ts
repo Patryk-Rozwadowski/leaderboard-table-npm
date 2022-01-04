@@ -57,7 +57,7 @@ class TypographyFactory {
    }
 
    private _createTextDomElement(tag: SemanticTextTags | SemanticHeaderTags) {
-      return this.DOMController.createDOMElementWithTag(tag);
+      return this.DOMController.createDOMElementWithTag(tag as unknown as string);
    }
 
    private _fillTextWithContent(textElement: HTMLElement, text: string): HTMLElement {
