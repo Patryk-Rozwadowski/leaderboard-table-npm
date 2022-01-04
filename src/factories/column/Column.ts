@@ -5,7 +5,6 @@ import DOMController from "../../controllers/DOMController";
 import ColumnController from "../../controllers/column/ColumnController";
 import { SEMANTIC_TAGS } from "../../style/semanticTags";
 import { CONTAINER_STYLE_CLASS } from "../../style/styleClasses/container.enum";
-import { lbOptions } from "../../common/options/lbOptions";
 
 class Column implements ComponentFactory<Column> {
    DOMController: DOMController;
@@ -57,11 +56,9 @@ class Column implements ComponentFactory<Column> {
     */
    private _generateColumn(): HTMLElement {
       const { header, cells } = this._columnData;
-      const headerTag = lbOptions.getOptions().headerTags;
-
       const columnDOMElement = {
          container: this._generateColumnContainer(),
-         header: this._elementCreator.createHeader(headerTag, header as string),
+         header: this._elementCreator.createHeaderPrimary(header),
          cells: this._generateCellElementsArray(cells)
       };
 

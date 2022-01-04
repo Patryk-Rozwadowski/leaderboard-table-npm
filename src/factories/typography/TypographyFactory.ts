@@ -4,11 +4,10 @@ import ComponentStyleController from "../../controllers/ComponentStyleController
 import { TYPOGRAPHY_STYLE_CLASS } from "../../style/styleClasses/typography.enum";
 import { lbLogger } from "../../common/Logger/lbLogger";
 import {
-   SEMANTIC_TYPOGRAPHY_TAGS,
-   SEMANTIC_TYPOGRAPHY_TYPES,
    SemanticHeaderTags,
    SemanticTextTags
 } from "../../style/semanticTags/typography.enum";
+import { lbOptions } from "../../common/options/lbOptions";
 
 class TypographyFactory {
    private _componentStyleController: ComponentStyleController;
@@ -19,47 +18,41 @@ class TypographyFactory {
       this._logger = lbLogger;
    }
 
-   createText(
-      tag: SemanticTextTags,
-      text: string,
-      type: SEMANTIC_TYPOGRAPHY_TYPES
-   ): HTMLElement {
-      const textElement = this._createTextDomElement(tag);
+   createTextPrimary(text: string): HTMLElement {
+      const textElement = this._createTextDomElement(
+         lbOptions.getOptions().TEXT_PRIMARY_TAG
+      );
       const textElementWithContent = this._fillTextWithContent(textElement, text);
-      switch (type) {
-         case SEMANTIC_TYPOGRAPHY_TYPES.PRIMARY: {
-            this._componentStyleController.appendStyles(
-               TYPOGRAPHY_STYLE_CLASS.TEXT_PRIMARY
-            );
-            break;
-         }
-         case SEMANTIC_TYPOGRAPHY_TYPES.SECONDARY: {
-            this._componentStyleController.appendStyles(
-               TYPOGRAPHY_STYLE_CLASS.TEXT_SECONDARY
-            );
-            break;
-         }
-      }
+      this._componentStyleController.appendStyles(TYPOGRAPHY_STYLE_CLASS.TEXT_PRIMARY);
+
       return textElementWithContent;
    }
 
-   creatHeaderHeader(tag: SemanticHeaderTags, text: string): HTMLElement {
-      const textElement = this._createTextDomElement(tag);
+   createTextSecondary(text: string): HTMLElement {
+      const textElement = this._createTextDomElement(
+         lbOptions.getOptions().TEXT_SECONDARY_TAG
+      );
       const textElementWithContent = this._fillTextWithContent(textElement, text);
-      switch (tag as SEMANTIC_TYPOGRAPHY_TAGS) {
-         case SEMANTIC_TYPOGRAPHY_TAGS.HEADER_PRIMARY_TEXT: {
-            this._componentStyleController.appendStyles(
-               TYPOGRAPHY_STYLE_CLASS.HEADER_PRIMARY
-            );
-            break;
-         }
-         case SEMANTIC_TYPOGRAPHY_TAGS.SUB_HEADER_TEXT: {
-            this._componentStyleController.appendStyles(
-               TYPOGRAPHY_STYLE_CLASS.SUB_HEADER
-            );
-            break;
-         }
-      }
+      this._componentStyleController.appendStyles(TYPOGRAPHY_STYLE_CLASS.TEXT_SECONDARY);
+
+      return textElementWithContent;
+   }
+
+   creatHeaderPrimary(text: string): HTMLElement {
+      const textElement = this._createTextDomElement(
+         lbOptions.getOptions().HEADER_PRIMARY_TAG
+      );
+      const textElementWithContent = this._fillTextWithContent(textElement, text);
+      this._componentStyleController.appendStyles(TYPOGRAPHY_STYLE_CLASS.HEADER_PRIMARY);
+      return textElementWithContent;
+   }
+
+   creatHeaderSub(text: string): HTMLElement {
+      const textElement = this._createTextDomElement(
+         lbOptions.getOptions().HEADER_SUB_TAG
+      );
+      const textElementWithContent = this._fillTextWithContent(textElement, text);
+      this._componentStyleController.appendStyles(TYPOGRAPHY_STYLE_CLASS.SUB_HEADER);
       return textElementWithContent;
    }
 

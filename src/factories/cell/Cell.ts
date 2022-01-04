@@ -3,10 +3,6 @@ import { SingleCellProperties } from "../../common/common.types";
 import DOMController from "../../controllers/DOMController";
 import { SEMANTIC_TAGS } from "../../style/semanticTags";
 import { COMPONENT_STYLES } from "../../style/styleClasses";
-import {
-   SEMANTIC_TYPOGRAPHY_TYPES,
-   SemanticTextTags
-} from "../../style/semanticTags/typography.enum";
 
 class Cell implements ComponentFactory<Cell> {
    DOMController: DOMController;
@@ -43,11 +39,7 @@ class Cell implements ComponentFactory<Cell> {
    }
 
    private _cellContentText(): HTMLElement {
-      return this._elementCreator.createText(
-         SEMANTIC_TAGS.SECONDARY_TEXT as SemanticTextTags,
-         this._cellData.toString(),
-         SEMANTIC_TYPOGRAPHY_TYPES.SECONDARY
-      );
+      return this._elementCreator.createTextPrimary(this._cellData.toString());
    }
 
    private _createCellContentContainer(): HTMLElement {

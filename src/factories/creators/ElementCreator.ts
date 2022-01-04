@@ -6,7 +6,6 @@ import { CONTAINER_STYLE_CLASS } from "../../style/styleClasses/container.enum";
 import { COMPONENT_STYLES } from "../../style/styleClasses";
 import {
    SEMANTIC_TYPOGRAPHY_TYPES,
-   SemanticHeaderTags,
    SemanticTextTags
 } from "../../style/semanticTags/typography.enum";
 
@@ -18,7 +17,7 @@ interface ElementCreatorActions {
       tag: SEMANTIC_TAGS,
       containerStyle: CONTAINER_STYLE_CLASS
    ): HTMLElement;
-   createText(
+   createTextPrimary(
       tag: SemanticTextTags,
       text: string,
       type: SEMANTIC_TYPOGRAPHY_TYPES
@@ -49,16 +48,20 @@ class ElementCreator implements ElementCreatorActions {
       return this.containerFactory.create(tag, containerStyle);
    }
 
-   createText(
-      tag: SemanticTextTags,
-      text: string,
-      type: SEMANTIC_TYPOGRAPHY_TYPES
-   ): HTMLElement {
-      return this.typographyFactory.createText(tag, text, type);
+   createTextPrimary(text: string): HTMLElement {
+      return this.typographyFactory.createTextPrimary(text);
    }
 
-   createHeader(tag: SemanticHeaderTags, text: string): HTMLElement {
-      return this.typographyFactory.creatHeaderHeader(tag, text);
+   createTextSecondary(text: string): HTMLElement {
+      return this.typographyFactory.createTextSecondary(text);
+   }
+
+   createHeaderPrimary(text: string): HTMLElement {
+      return this.typographyFactory.creatHeaderPrimary(text);
+   }
+
+   createHeaderSub(text: string): HTMLElement {
+      return this.typographyFactory.creatHeaderSub(text);
    }
 }
 
