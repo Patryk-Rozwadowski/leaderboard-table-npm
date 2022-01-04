@@ -1,8 +1,3 @@
-enum SEMANTIC_TYPOGRAPHY_TYPES {
-   PRIMARY = "primary",
-   SECONDARY = "secondary"
-}
-
 enum SEMANTIC_TYPOGRAPHY_TAGS {
    HEADER_PRIMARY_TEXT = "h3",
    SUB_HEADER_TEXT = "h5",
@@ -26,7 +21,6 @@ type SemanticTextTags = Pick<
 
 export {
    SEMANTIC_TYPOGRAPHY_TAGS,
-   SEMANTIC_TYPOGRAPHY_TYPES,
    SemanticHeaderTags,
    SemanticTextTags,
    SemanticTypographyTags

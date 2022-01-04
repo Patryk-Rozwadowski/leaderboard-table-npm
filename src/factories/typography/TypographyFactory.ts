@@ -20,7 +20,7 @@ class TypographyFactory {
 
    createTextPrimary(text: string): HTMLElement {
       const textElement = this._createTextDomElement(
-         lbOptions.getOptions().TEXT_PRIMARY_TAG
+         lbOptions.getOptions().textPrimaryTag
       );
       const textElementWithContent = this._fillTextWithContent(textElement, text);
       this._componentStyleController.appendStyles(TYPOGRAPHY_STYLE_CLASS.TEXT_PRIMARY);
@@ -30,7 +30,7 @@ class TypographyFactory {
 
    createTextSecondary(text: string): HTMLElement {
       const textElement = this._createTextDomElement(
-         lbOptions.getOptions().TEXT_SECONDARY_TAG
+         lbOptions.getOptions().textSecondaryTag
       );
       const textElementWithContent = this._fillTextWithContent(textElement, text);
       this._componentStyleController.appendStyles(TYPOGRAPHY_STYLE_CLASS.TEXT_SECONDARY);
@@ -40,7 +40,7 @@ class TypographyFactory {
 
    creatHeaderPrimary(text: string): HTMLElement {
       const textElement = this._createTextDomElement(
-         lbOptions.getOptions().HEADER_PRIMARY_TAG
+         lbOptions.getOptions().headerPrimaryTag
       );
       const textElementWithContent = this._fillTextWithContent(textElement, text);
       this._componentStyleController.appendStyles(TYPOGRAPHY_STYLE_CLASS.HEADER_PRIMARY);
@@ -48,9 +48,7 @@ class TypographyFactory {
    }
 
    creatHeaderSub(text: string): HTMLElement {
-      const textElement = this._createTextDomElement(
-         lbOptions.getOptions().HEADER_SUB_TAG
-      );
+      const textElement = this._createTextDomElement(lbOptions.getOptions().headerSubTag);
       const textElementWithContent = this._fillTextWithContent(textElement, text);
       this._componentStyleController.appendStyles(TYPOGRAPHY_STYLE_CLASS.SUB_HEADER);
       return textElementWithContent;

@@ -12,10 +12,10 @@ interface LeaderboardOptions {
    sortByPlaces: boolean;
    sortByPoints: boolean;
 
-   HEADER_PRIMARY_TAG: SemanticHeaderTags;
-   HEADER_SUB_TAG: SemanticHeaderTags;
-   TEXT_PRIMARY_TAG: SemanticTextTags;
-   TEXT_SECONDARY_TAG: SemanticTextTags;
+   headerPrimaryTag: SemanticHeaderTags;
+   headerSubTag: SemanticHeaderTags;
+   textPrimaryTag: SemanticTextTags;
+   textSecondaryTag: SemanticTextTags;
 }
 
 const OptionsDefaults = {
@@ -25,12 +25,12 @@ const OptionsDefaults = {
    SORT_BY_PLACES: true,
    SORT_BY_POINTS: false,
 
-   HEADER_PRIMARY_TAG:
+   headerPrimaryTag:
       SEMANTIC_TYPOGRAPHY_TAGS.HEADER_PRIMARY_TEXT as unknown as SemanticHeaderTags,
-   HEADER_SUB_TAG:
+   headerSubTag:
       SEMANTIC_TYPOGRAPHY_TAGS.SUB_HEADER_TEXT as unknown as SemanticHeaderTags,
-   TEXT_PRIMARY_TAG: SEMANTIC_TYPOGRAPHY_TAGS.PRIMARY_TEXT as unknown as SemanticTextTags,
-   TEXT_SECONDARY_TAG:
+   textPrimaryTag: SEMANTIC_TYPOGRAPHY_TAGS.PRIMARY_TEXT as unknown as SemanticTextTags,
+   textSecondaryTag:
       SEMANTIC_TYPOGRAPHY_TAGS.SECONDARY_TEXT as unknown as SemanticTextTags
 };
 
@@ -40,10 +40,11 @@ class Options {
       sortByPlaces: OptionsDefaults.SORT_BY_PLACES,
       sortByPoints: OptionsDefaults.SORT_BY_POINTS,
       logs: OptionsDefaults.LOGS,
-      HEADER_PRIMARY_TAG: OptionsDefaults.HEADER_PRIMARY_TAG,
-      HEADER_SUB_TAG: OptionsDefaults.HEADER_SUB_TAG,
-      TEXT_PRIMARY_TAG: OptionsDefaults.TEXT_PRIMARY_TAG,
-      TEXT_SECONDARY_TAG: OptionsDefaults.TEXT_SECONDARY_TAG
+
+      headerPrimaryTag: OptionsDefaults.headerPrimaryTag,
+      headerSubTag: OptionsDefaults.headerSubTag,
+      textPrimaryTag: OptionsDefaults.textPrimaryTag,
+      textSecondaryTag: OptionsDefaults.textSecondaryTag
    };
    private _logger: Logger;
 
@@ -53,12 +54,7 @@ class Options {
 
    public setOptions(options: LeaderboardOptions): void {
       for (const [key, value] of Object.entries(options)) {
-         const optionKey = key as keyof LeaderboardOptions;
-
-         // Typescript issue
-         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-         // @ts-ignore
-         this._options[optionKey] = value;
+         this._setOption(key, value);
       }
 
       if (this._options.logs) this._logOptions();
@@ -66,6 +62,17 @@ class Options {
 
    public getOptions(): LeaderboardOptions {
       return this._options;
+   }
+
+   private _setOption(
+      option: string,
+      value: { [k in keyof LeaderboardOptions]: LeaderboardOptions[k] }
+   ) {
+      console.log(value);
+      // Typescript issue
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      this._options[option] = value;
    }
 
    private _logOption(option: string[]) {
