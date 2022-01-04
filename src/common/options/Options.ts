@@ -80,7 +80,6 @@ class Options {
    }
 
    private _logOptions() {
-      console.log(Object.entries(this._options).join("\n"));
       Object.entries(this._options).map(this._logOption);
    }
 }
