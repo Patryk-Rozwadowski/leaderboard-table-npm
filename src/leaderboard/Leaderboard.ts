@@ -14,12 +14,12 @@ export type SortableByProps = {
     * @type place is OPTIONAL  - if user doesn't want to use sorters, data in leaderboard
     *                           is not going to be sorted in anyway without this type.
     */
-   place: number;
+   place?: number;
 
    /**
     * @type points is OPTIONAL - points can be used for sorting of entities based on its points.
     */
-   points: number;
+   points?: number;
 };
 
 type LeaderboardData = {
@@ -38,11 +38,11 @@ class Leaderboard {
    constructor(
       rootContainer: HTMLElement,
       leaderboardData: LeaderboardData[],
-      options: LeaderboardOptions
+      options: Partial<LeaderboardOptions> = lbOptions.getOptions()
    ) {
       this._rootContainer = rootContainer;
       this._leaderboardData = leaderboardData;
-      lbOptions.setOptions(options);
+      lbOptions.setOptions(leaderboardData, options);
 
       this._logger = lbOptions.getOptions().logs
          ? lbLogger.setState(true)

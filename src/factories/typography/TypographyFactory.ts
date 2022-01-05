@@ -3,10 +3,6 @@ import Logger from "../../common/Logger/Logger";
 import ComponentStyleController from "../../controllers/ComponentStyleController";
 import { TYPOGRAPHY_STYLE_CLASS } from "../../style/styleClasses/typography.enum";
 import { lbLogger } from "../../common/Logger/lbLogger";
-import {
-   SemanticHeaderTags,
-   SemanticTextTags
-} from "../../style/semanticTags/typography.enum";
 import { lbOptions } from "../../common/options/lbOptions";
 
 class TypographyFactory {
@@ -54,8 +50,8 @@ class TypographyFactory {
       return textElementWithContent;
    }
 
-   private _createTextDomElement(tag: SemanticTextTags | SemanticHeaderTags) {
-      return this._domController.createDOMElementWithTag(tag as unknown as string);
+   private _createTextDomElement(tag: string) {
+      return this._domController.createDOMElementWithTag(tag);
    }
 
    private _fillTextWithContent(textElement: HTMLElement, text: string): HTMLElement {

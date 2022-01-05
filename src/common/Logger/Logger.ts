@@ -32,6 +32,11 @@ class Logger {
       console.groupEnd();
    }
 
+   public warning(msg: string) {
+      if (!this._isOn) return;
+      console.warn(msg);
+   }
+
    public error(msg: string): void {
       if (!this._isOn) return;
       console.trace(msg);

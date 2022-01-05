@@ -1,5 +1,5 @@
 import Logger from "../common/Logger/Logger";
-import { LeaderboardData, SortableByProps } from "../leaderboard/Leaderboard";
+import { LeaderboardData } from "../leaderboard/Leaderboard";
 
 class PlaceSorter {
    constructor(private dataToSort: LeaderboardData[], private _logger: Logger | null) {}
@@ -9,9 +9,14 @@ class PlaceSorter {
       return PlaceSorter.sortByPlacesAsc(this.dataToSort);
    }
 
-   private static sortByPlacesAsc(data: SortableByProps[]): LeaderboardData[] {
-      const dataToSort = data;
+   private static sortByPlacesAsc(data: LeaderboardData[]): LeaderboardData[] {
+      const dataToSort = data.map((entity) => {
+         return { ...entity };
+      });
       return dataToSort.sort((a, b) => {
+         // place property is controlled by sortByPlaces option
+         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+         // @ts-ignore
          return a.place - b.place;
       });
    }

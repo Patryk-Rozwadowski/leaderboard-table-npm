@@ -1,10 +1,7 @@
 import Logger from "../Logger/Logger";
 import { lbLogger } from "../Logger/lbLogger";
-import {
-   SEMANTIC_TYPOGRAPHY_TAGS,
-   SemanticHeaderTags,
-   SemanticTextTags
-} from "../../style/semanticTags/typography.enum";
+import { SEMANTIC_TYPOGRAPHY_TAGS } from "../../style/semanticTags/typography.enum";
+import { LeaderboardData } from "../../leaderboard/Leaderboard";
 
 interface LeaderboardOptions {
    logs: boolean;
@@ -12,26 +9,23 @@ interface LeaderboardOptions {
    sortByPlaces: boolean;
    sortByPoints: boolean;
 
-   headerPrimaryTag: SemanticHeaderTags;
-   headerSubTag: SemanticHeaderTags;
-   textPrimaryTag: SemanticTextTags;
-   textSecondaryTag: SemanticTextTags;
+   headerPrimaryTag: string;
+   headerSubTag: string;
+   textPrimaryTag: string;
+   textSecondaryTag: string;
 }
 
 const OptionsDefaults = {
    CONTENT_FOR_EMPTY_CELLS: "",
    LOGS: false,
 
-   SORT_BY_PLACES: true,
+   SORT_BY_PLACES: false,
    SORT_BY_POINTS: false,
 
-   headerPrimaryTag:
-      SEMANTIC_TYPOGRAPHY_TAGS.HEADER_PRIMARY_TEXT as unknown as SemanticHeaderTags,
-   headerSubTag:
-      SEMANTIC_TYPOGRAPHY_TAGS.SUB_HEADER_TEXT as unknown as SemanticHeaderTags,
-   textPrimaryTag: SEMANTIC_TYPOGRAPHY_TAGS.PRIMARY_TEXT as unknown as SemanticTextTags,
-   textSecondaryTag:
-      SEMANTIC_TYPOGRAPHY_TAGS.SECONDARY_TEXT as unknown as SemanticTextTags
+   headerPrimaryTag: SEMANTIC_TYPOGRAPHY_TAGS.HEADER_PRIMARY_TEXT,
+   headerSubTag: SEMANTIC_TYPOGRAPHY_TAGS.SUB_HEADER_TEXT,
+   textPrimaryTag: SEMANTIC_TYPOGRAPHY_TAGS.PRIMARY_TEXT,
+   textSecondaryTag: SEMANTIC_TYPOGRAPHY_TAGS.SECONDARY_TEXT
 };
 
 class Options {
@@ -52,8 +46,21 @@ class Options {
       this._logger = lbLogger;
    }
 
-   public setOptions(options: LeaderboardOptions): void {
+   public setOptions(
+      data: LeaderboardData[],
+      options?: Partial<LeaderboardOptions>
+   ): void {
+      if (!options) {
+         return;
+      }
+
+      if (options.sortByPlaces) this._setSortableOptions(data);
+
       for (const [key, value] of Object.entries(options)) {
+         if (!value) {
+            this._setOption(key, this._options[key as keyof LeaderboardOptions]);
+            return;
+         }
          this._setOption(key, value);
       }
 
@@ -64,15 +71,18 @@ class Options {
       return this._options;
    }
 
-   private _setOption(
-      option: string,
-      value: { [k in keyof LeaderboardOptions]: LeaderboardOptions[k] }
-   ) {
-      console.log(value);
+   private _setOption(option: string, value: string | boolean) {
       // Typescript issue
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       this._options[option] = value;
+   }
+
+   private _setSortableOptions(data: LeaderboardData[]) {
+      const isPlaceProp = data.every((entity) => !!entity.place);
+      if (isPlaceProp) {
+         this._setOption("sortByPlace", true);
+      } else this._logger.warning("Place properties have not been found!");
    }
 
    private _logOption(option: string[]) {
