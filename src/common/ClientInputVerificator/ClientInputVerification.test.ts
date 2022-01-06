@@ -1,5 +1,5 @@
-import ClientInputVerification from "../ClientInputVerification";
-import { LeaderboardData } from "../../../leaderboard/Leaderboard";
+import ClientInputVerification from "./ClientInputVerification";
+import { LeaderboardData } from "../../leaderboard/Leaderboard";
 
 describe("ClientInputVerification", () => {
    let clientVerification: ClientInputVerification;
