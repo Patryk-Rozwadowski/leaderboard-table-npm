@@ -29,9 +29,9 @@ type LeaderboardData = {
 };
 
 class Leaderboard {
-   private readonly _rootContainer;
    private readonly _leaderboardData: LeaderboardData[];
    private readonly _logger: Logger | undefined;
+   private _rootContainer;
    private _phasesContext: PhasesContext;
    private _parsedData: ColumnProperties[];
 
@@ -56,7 +56,10 @@ class Leaderboard {
    }
 
    private _addCssStylesToRootContainer() {
-      this._rootContainer.classList.add(CONTAINER_STYLE_CLASS.ROOT_CONTAINER);
+      const lbRootContainer = document.createElement("div");
+      this._rootContainer.appendChild(lbRootContainer);
+      lbRootContainer.classList.add(CONTAINER_STYLE_CLASS.ROOT_CONTAINER);
+      this._rootContainer = lbRootContainer;
    }
 
    private _parseData() {
