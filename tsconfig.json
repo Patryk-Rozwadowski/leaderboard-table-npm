@@ -13,8 +13,9 @@
     "forceConsistentCasingInFileNames": true,
     "strictPropertyInitialization": false
   },
-  "baseUrl": "./src/index.ts",
+  "types": ["node", "jest", "@testing-library/jest-dom"],
   "include": [
+    "./setupTests.ts",
     "./src/*",
     "./tests/**/*"
   ]
