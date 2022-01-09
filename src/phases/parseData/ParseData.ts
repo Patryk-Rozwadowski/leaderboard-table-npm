@@ -3,7 +3,6 @@ import Logger from "../../common/Logger/Logger";
 import { ColumnProperties, SingleCellProperties } from "../../common/common.types";
 import { LeaderboardData } from "../../leaderboard/Leaderboard";
 import PlaceSorter from "../../sorters/PlaceSorter";
-import ClientInputVerification from "../../common/ClientInputVerificator/ClientInputVerification";
 import DataParsingUtils from "./utils/DataParsingUtils";
 import { lbLogger } from "../../common/Logger/lbLogger";
 import { lbOptions } from "../../common/options/lbOptions";
@@ -36,7 +35,6 @@ type ColumnsToParse = {
 class ParseData extends PhasesState {
    private readonly _logger: Logger;
    private _sorter: PlaceSorter;
-   private _clientInputVerification: ClientInputVerification;
    private _lbData: LeaderboardData[];
 
    constructor(private _rootContainer: HTMLElement, data: LeaderboardData[]) {
@@ -46,7 +44,6 @@ class ParseData extends PhasesState {
    }
 
    public execute(): ColumnProperties[] {
-      this._userInputValidation();
       this._sort();
       return this._getParsedData();
    }
@@ -205,23 +202,6 @@ class ParseData extends PhasesState {
 
    private _insertContentIntoCells(cells: string[] | unknown[]) {
       return cells.map(() => lbOptions.getOptions().contentForEmptyCells);
-   }
-
-   private _userInputValidation() {
-      this._clientInputVerification = new ClientInputVerification(this._logger);
-      if (this._clientInputVerification.isRootContainerValid(this._rootContainer)) {
-         this._checkData();
-      }
-   }
-
-   private _checkData() {
-      this._logger?.log("Checking data types.");
-      const isInvalidData = !this._clientInputVerification.isDataStructureValid(
-         this._lbData
-      );
-
-      if (isInvalidData) return;
-      this._logger?.log(`Data is valid.`);
    }
 }
 
