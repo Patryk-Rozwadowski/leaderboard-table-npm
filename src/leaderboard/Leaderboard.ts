@@ -8,6 +8,7 @@ import { lbLogger } from "../common/Logger/lbLogger";
 import Logger from "../common/Logger/Logger";
 import { ColumnProperties } from "../common/common.types";
 import { lbOptions } from "../common/options/lbOptions";
+import ClientInputVerification from "../common/ClientInputVerificator/ClientInputVerification";
 
 export type SortableByProps = {
    /**
@@ -50,6 +51,7 @@ class Leaderboard {
    }
 
    public init(): void {
+      this._verifyInputs();
       this._addCssStylesToRootContainer();
       this._parseData();
       this._mountElements();
@@ -60,6 +62,16 @@ class Leaderboard {
       this._rootContainer.appendChild(lbRootContainer);
       lbRootContainer.classList.add(CONTAINER_STYLE_CLASS.ROOT_CONTAINER);
       this._rootContainer = lbRootContainer;
+   }
+
+   private _verifyInputs() {
+      const clientInputVerification = new ClientInputVerification(
+         this._rootContainer,
+         this._leaderboardData,
+         this._logger
+      );
+      this._phasesContext = new PhasesContext(clientInputVerification, this._logger);
+      this._phasesContext.execute();
    }
 
    private _parseData() {
