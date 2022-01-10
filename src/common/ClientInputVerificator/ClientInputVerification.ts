@@ -14,10 +14,11 @@ class ClientInputVerification extends PhasesState {
    }
 
    public execute(): void | HTMLElement | HTMLElement[] | ColumnProperties[] {
-      this.isRootContainerValid();
+      this._isRootContainerValid();
+      this._isDataStructureValid();
    }
 
-   public isRootContainerValid(): boolean {
+   private _isRootContainerValid(): boolean {
       this._logger?.log(`User's input validation.`);
       const isRootUndefined = typeof this._root === "undefined";
       const isNotInstanceOfHtmlElement = !(this._root instanceof HTMLElement);
@@ -30,7 +31,7 @@ class ClientInputVerification extends PhasesState {
       return true;
    }
 
-   public isDataStructureValid(): boolean {
+   private _isDataStructureValid(): boolean {
       if (!Array.isArray(this._lbData) || !this._lbData) {
          this._logger?.error("Data is not defined. Pass leaderboard information.");
          return false;

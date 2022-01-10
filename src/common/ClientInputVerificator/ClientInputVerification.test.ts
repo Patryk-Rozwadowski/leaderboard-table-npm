@@ -14,14 +14,14 @@ describe("ClientInputVerification", () => {
          const wrongData = "" as unknown as HTMLElement;
          clientVerification = new ClientInputVerification(wrongData, lbDefaultData);
 
-         expect(() => clientVerification.isRootContainerValid()).toThrow(
+         expect(() => clientVerification["_isRootContainerValid"]()).toThrow(
             "Expected root element to be an HTMLElement, was string."
          );
       });
 
       it("Should work", () => {
          clientVerification = new ClientInputVerification(root, lbDefaultData);
-         expect(clientVerification.isRootContainerValid()).toBe(true);
+         expect(clientVerification["_isRootContainerValid"]()).toBe(true);
       });
    });
 
@@ -29,11 +29,11 @@ describe("ClientInputVerification", () => {
       it("Should fail - data not array", () => {
          const failData = {} as unknown as LeaderboardData[];
          clientVerification = new ClientInputVerification(root, failData);
-         expect(clientVerification.isDataStructureValid()).toBe(false);
+         expect(clientVerification["_isDataStructureValid"]()).toBe(false);
       });
 
       it("Should fail - data not provided", () => {
-         expect(clientVerification.isDataStructureValid()).toBe(false);
+         expect(clientVerification["_isDataStructureValid"]()).toBe(false);
       });
 
       it("Should work - correct data structure", () => {
@@ -44,7 +44,7 @@ describe("ClientInputVerification", () => {
             }
          ] as unknown as LeaderboardData[];
          clientVerification = new ClientInputVerification(root, correctData);
-         expect(clientVerification.isDataStructureValid()).toBe(true);
+         expect(clientVerification["_isDataStructureValid"]()).toBe(true);
       });
    });
 });
