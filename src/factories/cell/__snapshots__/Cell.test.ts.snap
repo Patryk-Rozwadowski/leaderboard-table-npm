@@ -1,0 +1,37 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Cell component container should be created 1`] = `
+<div
+  class="lb_cell_container"
+/>
+`;
+
+exports[`Cell component content container should be created 1`] = `
+<div
+  class="lb_cell_container"
+/>
+`;
+
+exports[`Cell component should be created and appended to it's container 1`] = `
+<div
+  class="lb_cell_container"
+>
+  <div
+    class="lb_cell"
+  >
+    <p
+      class="lb_text_primary"
+    >
+      name
+    </p>
+  </div>
+</div>
+`;
+
+exports[`Cell component text content element should be created 1`] = `
+<p
+  class="lb_text_primary"
+>
+  name
+</p>
+`;
