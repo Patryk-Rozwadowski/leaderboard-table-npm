@@ -1,7 +1,6 @@
 import Logger from "../Logger/Logger";
 import { LeaderboardData } from "../../leaderboard/Leaderboard";
 import PhasesState from "../../phases/PhasesState";
-import { ColumnProperties } from "../common.types";
 import { ErrorMessage } from "../Logger/messages/error";
 
 class ClientInputVerification extends PhasesState {
@@ -13,7 +12,7 @@ class ClientInputVerification extends PhasesState {
       super();
    }
 
-   public execute(): void | HTMLElement | HTMLElement[] | ColumnProperties[] {
+   public execute(): void {
       this._isRootContainerValid();
       this._isDataStructureValid();
    }
