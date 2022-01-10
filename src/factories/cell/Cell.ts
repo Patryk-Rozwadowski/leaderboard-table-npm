@@ -5,23 +5,22 @@ import { CONTAINER_STYLE_CLASS } from "../../style/styleClasses/container.enum";
 import { SEMANTIC_CONTAINER_TAGS } from "../../style/semanticTags/container.enum";
 
 class Cell {
-   DOMController: DOMController;
-
+   private _DOMController: DOMController;
    private _elementCreator: ElementCreator;
-   private _rowListContainer: HTMLElement;
+   private _cellContainer: HTMLElement;
 
    constructor(
       private _rootContainer: HTMLElement,
       private _cellData: SingleCellProperties
    ) {
       this._elementCreator = new ElementCreator();
-      this.DOMController = new DOMController();
+      this._DOMController = new DOMController();
    }
 
    public create(): HTMLElement {
-      this._rowListContainer = this._createCellContainer();
+      this._cellContainer = this._createCellContainer();
       this._createCell();
-      return this._rowListContainer;
+      return this._cellContainer;
    }
 
    private _createCellContainer() {
@@ -35,7 +34,7 @@ class Cell {
       const contentContainer = this._createCellContentContainer();
       const textContent = this._cellContentText();
       DOMController.appendChildrenToContainer(contentContainer, textContent);
-      this._rowListContainer.appendChild(contentContainer);
+      this._cellContainer.appendChild(contentContainer);
    }
 
    private _cellContentText(): HTMLElement {
