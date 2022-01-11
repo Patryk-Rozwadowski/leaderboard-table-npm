@@ -4,6 +4,7 @@
   "description": "Simple leaderboard",
   "main": "src/index.ts",
   "types": "dist/index.d.ts",
+  "files": ["dist/*"],
   "scripts": {
     "build": "webpack",
     "build:watch": "webpack --watch",
@@ -21,6 +22,7 @@
   },
   "keywords": [
     "leaderboard",
+    "scoreboard",
     "ranking",
     "javascript",
     "es6"
