@@ -1,8 +1,8 @@
 import TypographyFactory from "../typography/TypographyFactory";
 import DOMController from "../../controllers/DOMController";
 import ContainerFactory from "../container/ContainerFactory";
-import { CONTAINER_STYLE_CLASS } from "../../style/styleClasses/container.enum";
-import { SEMANTIC_CONTAINER_TAGS } from "../../style/semanticTags/container.enum";
+import { CONTAINER_STYLE_CLASS } from "../../common/styleClasses/container.enum";
+import { SEMANTIC_CONTAINER_TAGS } from "../../common/semanticTags/container.enum";
 
 /**
  * @class ElementCreator is facade and it's used whenever is need to create

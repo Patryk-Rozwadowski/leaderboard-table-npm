@@ -3,8 +3,8 @@ import Cell from "../cell/Cell";
 import ElementCreator from "../creators/ElementCreator";
 import DOMController from "../../controllers/DOMController";
 import ColumnController from "../../controllers/column/ColumnController";
-import { CONTAINER_STYLE_CLASS } from "../../style/styleClasses/container.enum";
-import { SEMANTIC_CONTAINER_TAGS } from "../../style/semanticTags/container.enum";
+import { CONTAINER_STYLE_CLASS } from "../../common/styleClasses/container.enum";
+import { SEMANTIC_CONTAINER_TAGS } from "../../common/semanticTags/container.enum";
 
 class Column {
    DOMController: DOMController;

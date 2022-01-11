@@ -1,6 +1,6 @@
 import Logger from "../Logger/Logger";
 import { lbLogger } from "../Logger/lbLogger";
-import { SEMANTIC_TYPOGRAPHY_TAGS } from "../../style/semanticTags/typography.enum";
+import { SEMANTIC_TYPOGRAPHY_TAGS } from "../semanticTags/typography.enum";
 import { LeaderboardData } from "../../leaderboard/Leaderboard";
 
 interface LeaderboardOptions {

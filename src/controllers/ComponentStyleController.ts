@@ -1,5 +1,5 @@
 import DOMController from "./DOMController";
-import { TYPOGRAPHY_STYLE_CLASS } from "../style/styleClasses/typography.enum";
+import { TYPOGRAPHY_STYLE_CLASS } from "../common/styleClasses/typography.enum";
 
 class ComponentStyleController {
    constructor(private _DOMController: DOMController) {}

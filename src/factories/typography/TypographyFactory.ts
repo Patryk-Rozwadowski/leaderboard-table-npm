@@ -1,7 +1,7 @@
 import DOMController from "../../controllers/DOMController";
 import Logger from "../../common/Logger/Logger";
 import ComponentStyleController from "../../controllers/ComponentStyleController";
-import { TYPOGRAPHY_STYLE_CLASS } from "../../style/styleClasses/typography.enum";
+import { TYPOGRAPHY_STYLE_CLASS } from "../../common/styleClasses/typography.enum";
 import { lbLogger } from "../../common/Logger/lbLogger";
 import { lbOptions } from "../../common/options/lbOptions";
 

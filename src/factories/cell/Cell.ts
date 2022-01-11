@@ -1,8 +1,8 @@
 import ElementCreator from "../creators/ElementCreator";
 import { SingleCellProperties } from "../../common/common.types";
 import DOMController from "../../controllers/DOMController";
-import { CONTAINER_STYLE_CLASS } from "../../style/styleClasses/container.enum";
-import { SEMANTIC_CONTAINER_TAGS } from "../../style/semanticTags/container.enum";
+import { CONTAINER_STYLE_CLASS } from "../../common/styleClasses/container.enum";
+import { SEMANTIC_CONTAINER_TAGS } from "../../common/semanticTags/container.enum";
 
 class Cell {
    private _DOMController: DOMController;
