@@ -1,0 +1,18 @@
+@mixin flex {
+   display: flex;
+}
+
+@mixin flex-center {
+   @include flex();
+   justify-content: center;
+   align-items: center;
+}
+
+@mixin reset-mg-pd {
+   margin: 0;
+   padding: 0;
+}
+
+@mixin text_primary {
+   font-size: 1.5em;
+}

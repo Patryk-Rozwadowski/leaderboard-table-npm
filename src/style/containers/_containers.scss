@@ -1,0 +1,12 @@
+@import "../mixins/index";
+
+.lb {
+   &_cell_container {
+      width: 100%;
+      @include reset-mg-pd();
+      @include flex-center();
+      padding: 0;
+      margin: 0;
+      border: 1px solid red;
+   }
+}
