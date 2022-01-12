@@ -1,6 +1,6 @@
 {
-  "name": "@patryk.rozwadowski/leaderboard",
-  "version": "1.0.0",
+  "name": "leaderboard-generic-table",
+  "version": "0.0.0",
   "description": "Simple leaderboard",
   "main": "src/index.ts",
   "types": "dist/index.d.ts",
