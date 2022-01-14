@@ -1,9 +1,18 @@
 const path = require("path");
+const TerserPlugin = require("terser-webpack-plugin");
 
 module.exports = {
    mode: "development",
    devtool: false,
-   entry: "./src/index.ts",
+   entry: path.resolve(__dirname, "src/index.ts"),
+   optimization: {
+      minimize: true,
+      minimizer: [
+         new TerserPlugin({
+            exclude: "setupTest.*s"
+         })
+      ]
+   },
    module: {
       rules: [
          {
