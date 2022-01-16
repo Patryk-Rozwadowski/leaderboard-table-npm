@@ -1,19 +1,19 @@
 {
   "name": "leaderboard-generic-table",
-  "version": "0.0.0",
+  "version": "0.0.82",
   "description": "Simple leaderboard",
   "main": "dist/index.js",
-  "types": "dist/index.d.ts",
-  "files": [
-    "dist/*"
-  ],
+  "module": "dist/index.js",
+  "types": "index.d.ts",
+  "files": ["dist/*"],
   "scripts": {
     "build": "webpack",
     "build:watch": "webpack --watch",
     "test": "jest --verbose --coverage",
     "test:update": "jest --verbose --coverage --updateSnapshot",
     "test:watch": "jest --verbose --watch",
-    "coverage": "jest --verbose --coverage"
+    "coverage": "jest --verbose --coverage",
+    "prepublish": "webpack"
   },
   "repository": {
     "type": "git",
@@ -41,17 +41,21 @@
     "@types/testing-library__jest-dom": "^5.14.2",
     "@typescript-eslint/eslint-plugin": "^4.30.0",
     "@typescript-eslint/parser": "^4.30.0",
-    "css-loader": "^6.2.0",
+    "awesome-typescript-loader": "^5.2.1",
+    "css-loader": "^6.5.1",
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-import": "^2.24.2",
     "eslint-plugin-jest-dom": "^4.0.1",
+    "extract-loader": "^5.1.0",
+    "file-loader": "^6.2.0",
     "husky": "^7.0.0",
     "jest": "^27.4.7",
     "jest-scss-transform": "^1.0.1",
     "jsdom": "^17.0.0",
     "lint-staged": "^12.1.4",
     "node-sass": "^6.0.1",
+    "postcss-loader": "^6.2.1",
     "prettier": "^2.3.2",
     "sass": "^1.39.0",
     "sass-loader": "^12.1.0",
