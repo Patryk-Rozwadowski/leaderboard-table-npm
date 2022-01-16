@@ -3,7 +3,7 @@ const TerserPlugin = require("terser-webpack-plugin");
 
 module.exports = {
    mode: "production",
-   devtool: "source-map",
+   target: "web",
    entry: path.resolve(__dirname, "src/index.ts"),
    optimization: {
       minimize: true,
@@ -26,36 +26,39 @@ module.exports = {
                {
                   loader: "file-loader",
                   options: {
-                     name: "/index.css"
+                     name: "dist/leaderboard.min.css"
                   }
                },
                {
                   loader: "extract-loader"
                },
                {
-                  loader: "css-loader",
-                  options: {
-                     sourceMap: true
-                  }
+                  loader: "css-loader"
                },
                {
                   loader: "postcss-loader"
                },
                {
-                  loader: "sass-loader"
+                  loader: "sass-loader",
+                  options: {
+                     sassOptions: {
+                        includePaths: [path.resolve(__dirname, "src/style/*")]
+                     }
+                  }
                }
             ]
          }
       ]
    },
    resolve: {
-      extensions: [".ts", ".js"]
+      extensions: [".ts", ".js", ".css"]
    },
    output: {
-      filename: "index.js",
-      path: path.resolve(__dirname, "dist"),
+      filename: "dist/leaderboard.min.js",
+      path: path.resolve(__dirname, "."),
       libraryTarget: "umd",
       library: "Leaderboard",
+      globalObject: "this",
       umdNamedDefine: true
    }
 };

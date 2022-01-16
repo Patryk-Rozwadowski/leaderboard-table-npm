@@ -1,13 +1,12 @@
 {
   "name": "leaderboard-generic-table",
-  "version": "0.0.82",
+  "version": "0.0.0",
   "description": "Simple leaderboard",
-  "main": "dist/index.js",
-  "module": "dist/index.js",
-  "types": "index.d.ts",
+  "main": "src/index.ts",
+  "types": "src/index.d.ts",
   "files": ["dist/*"],
   "scripts": {
-    "build": "webpack",
+    "build": "rmdir /s dist && webpack",
     "build:watch": "webpack --watch",
     "test": "jest --verbose --coverage",
     "test:update": "jest --verbose --coverage --updateSnapshot",

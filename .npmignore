@@ -1,6 +1,7 @@
 .idea
 .husky
-.husky
+.assets
+.src
 .prettierrc
 .eslintrc.json
 tsconfig
