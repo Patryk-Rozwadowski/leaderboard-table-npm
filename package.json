@@ -1,5 +1,5 @@
 {
-  "name": "leaderboard-generic-table",
+  "name": "leaderboard-table",
   "version": "0.0.0",
   "description": "Simple leaderboard",
   "main": "src/index.ts",
