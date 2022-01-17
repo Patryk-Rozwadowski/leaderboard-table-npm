@@ -2,7 +2,7 @@
   "name": "leaderboard-table",
   "version": "1.0.0",
   "description": "Simple leaderboard",
-  "main": "src/index.ts",
+  "main": "src/index.js",
   "types": "src/index.d.ts",
   "files": [
     "dist/*"
