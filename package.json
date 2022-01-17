@@ -6,7 +6,8 @@
   "types": "src/index.d.ts",
   "files": ["dist/*"],
   "scripts": {
-    "build": "rmdir /s dist && webpack",
+    "build": "webpack",
+    "build:clear": "rmdir /s dist && webpack",
     "build:watch": "webpack --watch",
     "test": "jest --verbose --coverage",
     "test:update": "jest --verbose --coverage --updateSnapshot",
