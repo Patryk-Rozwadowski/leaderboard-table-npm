@@ -19,7 +19,10 @@ Leaderboard will take size of its parent size (width and height). To be able use
 1. import leaderboard package:
    `import { Leaderboard } from "leaderboard-table";`
 
-2. Create root div element with class in your HTML file:
+2. import leaderboard styles:
+   `import "leaderboard-table/dist/leaderboard.min.css";`
+
+3. Create root div element with class in your HTML file:
    `<div class="root"></div>`
 
 ---
