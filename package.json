@@ -2,8 +2,8 @@
   "name": "leaderboard-table",
   "version": "1.0.2",
   "description": "Simple leaderboard",
-  "main": "dist/index.js",
-  "types": "dist/src/index.d.ts",
+  "main": "./dist/leaderboard.min.js",
+  "types": "./dist/src/index.d.ts",
   "files": [
     "dist/*"
   ],
@@ -19,11 +19,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Patryk-Rozwadowski/Leaderboard.git"
+    "url": "git+https://github.com/Patryk-Rozwadowski/npm-leaderboard"
   },
   "keywords": [
     "leaderboard",
     "scoreboard",
+    "table",
     "ranking",
     "javascript",
     "es6"
@@ -32,9 +33,9 @@
   "email": "pm.rozwadowski@gmail.com",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/Patryk-Rozwadowski/Leaderboard/issues"
+    "url": "https://github.com/Patryk-Rozwadowski/npm-leaderboard/issues"
   },
-  "homepage": "https://github.com/Patryk-Rozwadowski/Leaderboard#readme",
+  "homepage": "https://github.com/Patryk-Rozwadowski/npm-leaderboard#readme",
   "devDependencies": {
     "@testing-library/jest-dom": "^5.16.1",
     "@types/jest": "^27.0.1",
