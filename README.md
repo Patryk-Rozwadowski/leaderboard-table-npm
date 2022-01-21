@@ -2,6 +2,9 @@
 
 ##### Lightweight, generic and easy to use leaderboard module. With this package you can create easy scoreboard for your products, users or for whatever you want!
 
+##### Demo: https://patryk-rozwadowski.github.io/npm-leaderboard-doc/
+
+
 ## Installation:
 
 ### NPM:
