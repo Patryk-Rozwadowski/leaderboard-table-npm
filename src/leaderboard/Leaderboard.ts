@@ -4,11 +4,11 @@ import PhasesContext from "../phases/context/phases/PhasesContext";
 import "../style/style.scss";
 import { LeaderboardOptions } from "../common/options/Options";
 import { CONTAINER_STYLE_CLASS } from "../common/styleClasses/container.enum";
-import { lbLogger } from "../common/Logger/lbLogger";
-import Logger from "../common/Logger/Logger";
+import { lbLogger } from "../common/logger/lbLogger";
+import Logger from "../common/logger/Logger";
 import { ColumnProperties } from "../common/common.types";
 import { lbOptions } from "../common/options/lbOptions";
-import ClientInputVerification from "../common/ClientInputVerificator/ClientInputVerification";
+import ClientInputVerification from "../common/clientInputVerificator/ClientInputVerification";
 
 export type SortableByProps = {
    /**

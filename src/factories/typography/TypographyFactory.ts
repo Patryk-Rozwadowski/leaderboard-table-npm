@@ -1,8 +1,8 @@
 import DOMController from "../../controllers/DOMController";
-import Logger from "../../common/Logger/Logger";
+import Logger from "../../common/logger/Logger";
 import ComponentStyleController from "../../controllers/ComponentStyleController";
 import { TYPOGRAPHY_STYLE_CLASS } from "../../common/styleClasses/typography.enum";
-import { lbLogger } from "../../common/Logger/lbLogger";
+import { lbLogger } from "../../common/logger/lbLogger";
 import { lbOptions } from "../../common/options/lbOptions";
 
 class TypographyFactory {

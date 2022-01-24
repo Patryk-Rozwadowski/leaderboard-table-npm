@@ -1,4 +1,4 @@
-import Logger from "../common/Logger/Logger";
+import Logger from "../common/logger/Logger";
 import { LeaderboardData } from "../leaderboard/Leaderboard";
 
 class PlaceSorter {

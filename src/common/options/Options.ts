@@ -1,5 +1,5 @@
-import Logger from "../Logger/Logger";
-import { lbLogger } from "../Logger/lbLogger";
+import Logger from "../logger/Logger";
+import { lbLogger } from "../logger/lbLogger";
 import { SEMANTIC_TYPOGRAPHY_TAGS } from "../semanticTags/typography.enum";
 import { LeaderboardData } from "../../leaderboard/Leaderboard";
 

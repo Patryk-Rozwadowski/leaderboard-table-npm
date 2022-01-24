@@ -1,7 +1,7 @@
-import Logger from "../Logger/Logger";
+import Logger from "../logger/Logger";
 import { LeaderboardData } from "../../leaderboard/Leaderboard";
 import PhasesState from "../../phases/PhasesState";
-import { ErrorMessage } from "../Logger/messages/error";
+import { ErrorMessage } from "../logger/messages/error";
 
 class ClientInputVerification extends PhasesState {
    constructor(

@@ -1,8 +1,8 @@
 import { ColumnProperties } from "../../common/common.types";
 import ElementCreator from "./ElementCreator";
-import Logger from "../../common/Logger/Logger";
+import Logger from "../../common/logger/Logger";
 import Column from "../column/Column";
-import { lbLogger } from "../../common/Logger/lbLogger";
+import { lbLogger } from "../../common/logger/lbLogger";
 
 /**
  * Type used for defining column component which is ready to creation.

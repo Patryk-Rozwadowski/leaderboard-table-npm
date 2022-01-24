@@ -1,6 +1,6 @@
 import PhasesState from "../../PhasesState";
 import { PhaseContextActions } from "./types";
-import Logger from "../../../common/Logger/Logger";
+import Logger from "../../../common/logger/Logger";
 
 class PhasesContext extends PhasesState implements PhaseContextActions {
    private _state: PhasesState;

@@ -1,10 +1,10 @@
 import PhasesState from "../PhasesState";
-import Logger from "../../common/Logger/Logger";
+import Logger from "../../common/logger/Logger";
 import { ColumnProperties, SingleCellProperties } from "../../common/common.types";
 import { LeaderboardData } from "../../leaderboard/Leaderboard";
 import PlaceSorter from "../../sorters/PlaceSorter";
 import DataParsingUtils from "./utils/DataParsingUtils";
-import { lbLogger } from "../../common/Logger/lbLogger";
+import { lbLogger } from "../../common/logger/lbLogger";
 import { lbOptions } from "../../common/options/lbOptions";
 
 type ValuesToSaveOrAppend = {

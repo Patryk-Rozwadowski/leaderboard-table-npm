@@ -9,7 +9,7 @@ class Logger {
    }
 
    /**
-    * @param _context   - Context where Logger is suppose to Log messages.
+    * @param _context   - Context where logger is suppose to Log messages.
     */
    public setContext(context: any): void {
       if (!this._isOn) return;
