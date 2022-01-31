@@ -17,9 +17,9 @@
 
 ### CDN
 
-`https://unpkg.com/browse/leaderboard-table@1.0.3/dist/leaderboard.min.css`
+`https://unpkg.com/browse/leaderboard-table@[VERSION]/dist/leaderboard.min.css`
 
-`https://unpkg.com/browse/leaderboard-table@1.0.3/dist/leaderboard.min.js`
+`https://unpkg.com/browse/leaderboard-table@[VERSION]/dist/leaderboard.min.js`
 
 #### CDN usage:
 
