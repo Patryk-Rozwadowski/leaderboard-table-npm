@@ -127,7 +127,9 @@ class ParseData extends PhasesState {
       );
 
       const existingHeaderInAcc = columnsAccumulator[headerIndexInAcc];
-      existingHeaderInAcc.cells.push(singleCellValuesForHeader);
+      existingHeaderInAcc.cells.push(
+         singleCellValuesForHeader || lbOptions.getOptions().contentForEmptyCells
+      );
    }
 
    /**
